@@ -47,7 +47,7 @@ Public Function fSQLEstadoDeCuenta(ByVal valsqlTipoDeCxP As String, _
                                         ByVal ValCodigoProveedor As String, _
                                          ByVal gMonedaLocalActual As Object, _
                                           ByVal gUltimaTasaDeCambio As Object) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlTipoDeCxP As String
    Dim sqlTipoDeAnticipo As String
    Dim sqlDateDiffCxP As String
@@ -92,56 +92,56 @@ Public Function fSQLEstadoDeCuenta(ByVal valsqlTipoDeCxP As String, _
    sqlStatusAnticipo = gUtilSQL.fSQLSimpleValueForEnum(enum_StatusAnticipo.eSDA_PARCIALMENTE_DEVUELTO) & ", " & _
                   gUtilSQL.fSQLSimpleValueForEnum(enum_StatusAnticipo.eSDA_PARCIALMENTE_USADO) & ", " & _
                   gUtilSQL.fSQLSimpleValueForEnum(enum_StatusAnticipo.eSDA_VIGENTE)
-   SQL = "SELECT "
-   SQL = SQL & "Proveedor.CodigoProveedor AS Codigo, "
-   SQL = SQL & "Proveedor.NombreProveedor AS Nombre, "
-   SQL = SQL & "Proveedor.Direccion AS Direccion, "
-   SQL = SQL & sqlMonedaCxP & " AS Moneda, "
-   SQL = SQL & sqlCambioBsCxP & " AS CambioBs, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("0") & " AS TipoReporte, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("Cuentas por Pagar") & " AS TituloTipoReporte, "
-   SQL = SQL & sqlTipoDeCxP & " AS TipoDocumento, "
-   SQL = SQL & "CxP.Numero AS Numero, "
-   SQL = SQL & "CxP.Fecha AS Fecha, "
-   SQL = SQL & "CxP.FechaVencimiento AS FechaVencimiento, "
-   SQL = SQL & gUtilSQL.getIIF(sqlDateDiffCxP & " > 0 ", sqlDateDiffCxP, "0", True) & " AS DiasVencidos, "
-   SQL = SQL & gUtilSQL.getIIF(sqlDateDiffCxP & " > 0 ", sqlMontoCxP, "0", True) & " AS MontoVencido, "
-   SQL = SQL & gUtilSQL.getIIF(sqlDateDiffCxP & " <=0 ", sqlMontoCxP, "0", True) & " AS MontoNoVencido "
-   SQL = SQL & " FROM Proveedor INNER JOIN CxP ON "
-   SQL = SQL & "Proveedor.ConsecutivoCompania = CxP.ConsecutivoCompania"
-   SQL = SQL & " AND Proveedor.CodigoProveedor = CxP.CodigoProveedor"
-   SQL = SQL & " WHERE Proveedor.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND CxP.Status IN (" & sqlStatusCxP & ")"
+   Sql = "SELECT "
+   Sql = Sql & "Proveedor.CodigoProveedor AS Codigo, "
+   Sql = Sql & "Proveedor.NombreProveedor AS Nombre, "
+   Sql = Sql & "Proveedor.Direccion AS Direccion, "
+   Sql = Sql & sqlMonedaCxP & " AS Moneda, "
+   Sql = Sql & sqlCambioBsCxP & " AS CambioBs, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("0") & " AS TipoReporte, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("Cuentas por Pagar") & " AS TituloTipoReporte, "
+   Sql = Sql & sqlTipoDeCxP & " AS TipoDocumento, "
+   Sql = Sql & "CxP.Numero AS Numero, "
+   Sql = Sql & "CxP.Fecha AS Fecha, "
+   Sql = Sql & "CxP.FechaVencimiento AS FechaVencimiento, "
+   Sql = Sql & gUtilSQL.getIIF(sqlDateDiffCxP & " > 0 ", sqlDateDiffCxP, "0", True) & " AS DiasVencidos, "
+   Sql = Sql & gUtilSQL.getIIF(sqlDateDiffCxP & " > 0 ", sqlMontoCxP, "0", True) & " AS MontoVencido, "
+   Sql = Sql & gUtilSQL.getIIF(sqlDateDiffCxP & " <=0 ", sqlMontoCxP, "0", True) & " AS MontoNoVencido "
+   Sql = Sql & " FROM Proveedor INNER JOIN CxP ON "
+   Sql = Sql & "Proveedor.ConsecutivoCompania = CxP.ConsecutivoCompania"
+   Sql = Sql & " AND Proveedor.CodigoProveedor = CxP.CodigoProveedor"
+   Sql = Sql & " WHERE Proveedor.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND CxP.Status IN (" & sqlStatusCxP & ")"
    If ValImprimirProveedorUnico Then
-      SQL = SQL & " AND Proveedor.CodigoProveedor = " & gUtilSQL.fSimpleSqlValue(ValCodigoProveedor)
+      Sql = Sql & " AND Proveedor.CodigoProveedor = " & gUtilSQL.fSimpleSqlValue(ValCodigoProveedor)
    End If
-   SQL = SQL & "UNION SELECT "
-   SQL = SQL & "Proveedor.CodigoProveedor AS Codigo, "
-   SQL = SQL & "Proveedor.NombreProveedor AS Nombre, "
-   SQL = SQL & "Proveedor.Direccion AS Direccion, "
-   SQL = SQL & sqlMonedaAnticipo & " AS Moneda, "
-   SQL = SQL & sqlCambioBsAnticipo & " AS CambioBs, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("1") & " AS TipoReporte, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("Anticipos") & " AS TituloTipoReporte, "
-   SQL = SQL & sqlTipoDeAnticipo & " AS TipoDocumento, "
-   SQL = SQL & "Anticipo.Numero AS Numero, "
-   SQL = SQL & "Anticipo.Fecha AS Fecha, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("") & " AS FechaVencimiento, "
-   SQL = SQL & "0 AS DiasVencidos, "
-   SQL = SQL & "0 AS MontoVencido, "
-   SQL = SQL & sqlMontoAnticipo & " AS MontoNoVencido "
-   SQL = SQL & " FROM Proveedor INNER JOIN Anticipo ON "
-   SQL = SQL & "Proveedor.ConsecutivoCompania = Anticipo.ConsecutivoCompania"
-   SQL = SQL & " AND Proveedor.CodigoProveedor = Anticipo.CodigoProveedor"
-   SQL = SQL & " WHERE Proveedor.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND Anticipo.Status IN (" & sqlStatusAnticipo & ")"
-   SQL = SQL & " AND Anticipo.Tipo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAnticipo.eTDA_PAGADO)
+   Sql = Sql & "UNION SELECT "
+   Sql = Sql & "Proveedor.CodigoProveedor AS Codigo, "
+   Sql = Sql & "Proveedor.NombreProveedor AS Nombre, "
+   Sql = Sql & "Proveedor.Direccion AS Direccion, "
+   Sql = Sql & sqlMonedaAnticipo & " AS Moneda, "
+   Sql = Sql & sqlCambioBsAnticipo & " AS CambioBs, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("1") & " AS TipoReporte, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("Anticipos") & " AS TituloTipoReporte, "
+   Sql = Sql & sqlTipoDeAnticipo & " AS TipoDocumento, "
+   Sql = Sql & "Anticipo.Numero AS Numero, "
+   Sql = Sql & "Anticipo.Fecha AS Fecha, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & " AS FechaVencimiento, "
+   Sql = Sql & "0 AS DiasVencidos, "
+   Sql = Sql & "0 AS MontoVencido, "
+   Sql = Sql & sqlMontoAnticipo & " AS MontoNoVencido "
+   Sql = Sql & " FROM Proveedor INNER JOIN Anticipo ON "
+   Sql = Sql & "Proveedor.ConsecutivoCompania = Anticipo.ConsecutivoCompania"
+   Sql = Sql & " AND Proveedor.CodigoProveedor = Anticipo.CodigoProveedor"
+   Sql = Sql & " WHERE Proveedor.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND Anticipo.Status IN (" & sqlStatusAnticipo & ")"
+   Sql = Sql & " AND Anticipo.Tipo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAnticipo.eTDA_PAGADO)
    If ValImprimirProveedorUnico Then
-      SQL = SQL & " AND Proveedor.CodigoProveedor = " & gUtilSQL.fSimpleSqlValue(ValCodigoProveedor)
+      Sql = Sql & " AND Proveedor.CodigoProveedor = " & gUtilSQL.fSimpleSqlValue(ValCodigoProveedor)
    End If
-   SQL = SQL & " AND Anticipo.EsUnaDevolucion = " & gUtilSQL.fBooleanToSqlValue(False)
-   SQL = SQL & " ORDER BY Codigo, Moneda, TipoReporte, Fecha"
-   fSQLEstadoDeCuenta = SQL
+   Sql = Sql & " AND Anticipo.EsUnaDevolucion = " & gUtilSQL.fBooleanToSqlValue(False)
+   Sql = Sql & " ORDER BY Codigo, Moneda, TipoReporte, Fecha"
+   fSQLEstadoDeCuenta = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -152,34 +152,34 @@ Public Function fConstruirSqlDeListarProveedores(ByVal UsaCodigoProveedorEnPanta
                                                   ByVal valcmbOrdenadoPor As String, _
                                                    ByVal ValFormaDeEscogerCompaniaToString As String, _
                                                     ByVal valConsecutivoCompania As String) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim gEnumTablaRetencion As clsEnumTablaRetencion
    On Error GoTo h_ERROR
    Set gEnumTablaRetencion = New clsEnumTablaRetencion
-   SQL = "SELECT "
+   Sql = "SELECT "
    If UsaCodigoProveedorEnPantalla Or valcmbOrdenadoPor = ValFormaDeEscogerCompaniaToString Then
-      SQL = SQL & "CodigoProveedor" & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(" - ") & gUtilSQL.CharConcat & "NombreProveedor AS Nombre, "
+      Sql = Sql & "CodigoProveedor" & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(" - ") & gUtilSQL.CharConcat & "NombreProveedor AS Nombre, "
    Else
-      SQL = SQL & "NombreProveedor AS Nombre, "
+      Sql = Sql & "NombreProveedor AS Nombre, "
    End If
-   SQL = SQL & "NumeroRif as NumeroRifProveedor, "
-   SQL = SQL & "Direccion AS DireccionProveedor, "
-   SQL = SQL & "Telefonos AS TelefonoProveedor, "
-   SQL = SQL & "Fax AS FaxProveedor, "
-   SQL = SQL & "Contacto AS ContactoProveedor, "
-   SQL = SQL & "Proveedor.PorcentajeRetencionIVA AS PorcentajeDeIva, "
-   SQL = SQL & "Proveedor.CodigoRetencionUsual AS CodigoRetencionUsual, "
-   SQL = SQL & gUtilSQL.DfSQLCaseIfForEnum("Proveedor.TipoDePersona", enum_TipodePersonaRetencion.eTP_PJ_DOMICILIADA, _
+   Sql = Sql & "NumeroRif as NumeroRifProveedor, "
+   Sql = Sql & "Direccion AS DireccionProveedor, "
+   Sql = Sql & "Telefonos AS TelefonoProveedor, "
+   Sql = Sql & "Fax AS FaxProveedor, "
+   Sql = Sql & "Contacto AS ContactoProveedor, "
+   Sql = Sql & "Proveedor.PorcentajeRetencionIVA AS PorcentajeDeIva, "
+   Sql = Sql & "Proveedor.CodigoRetencionUsual AS CodigoRetencionUsual, "
+   Sql = Sql & gUtilSQL.DfSQLCaseIfForEnum("Proveedor.TipoDePersona", enum_TipodePersonaRetencion.eTP_PJ_DOMICILIADA, _
                gEnumTablaRetencion.fEnumTipoDePersonaRetencionSiglasToStringInArray(True), "TipoDePersona")
-   SQL = SQL & " FROM Proveedor"
-   SQL = SQL & " WHERE Proveedor.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " ORDER BY "
+   Sql = Sql & " FROM Proveedor"
+   Sql = Sql & " WHERE Proveedor.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " ORDER BY "
    If valcmbOrdenadoPor = ValFormaDeEscogerCompaniaToString Then
-      SQL = SQL & "Proveedor.CodigoProveedor"
+      Sql = Sql & "Proveedor.CodigoProveedor"
    Else
-      SQL = SQL & "Proveedor.NombreProveedor"
+      Sql = Sql & "Proveedor.NombreProveedor"
    End If
-   fConstruirSqlDeListarProveedores = SQL
+   fConstruirSqlDeListarProveedores = Sql
    Set gEnumTablaRetencion = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -191,7 +191,7 @@ Private Function fSQLSaldoInicialAnalisisCxPHistoricoCxP(ByVal valDescontarAbono
                               ByVal valFechaInicial As Date, ByVal valConsecutivoCompania As String, _
                               ByVal ReporteEnMonedaLocal As Boolean, ByVal gUltimaTasaDeCambio As Object, _
                               ByVal gMonedaLocalActual As Object) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlCxPTableName As String
    Dim sqlMonto As String
    On Error GoTo h_ERROR
@@ -208,14 +208,14 @@ Private Function fSQLSaldoInicialAnalisisCxPHistoricoCxP(ByVal valDescontarAbono
    
       sqlMonto = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, sqlMonto, sqlCxPTableName & ".fecha")
    End If
-   SQL = "(SELECT SUM(" & sqlMonto & ") AS SaldoInicial"
-   SQL = SQL & " FROM CxP AS " & sqlCxPTableName
-   SQL = SQL & " WHERE " & sqlCxPTableName & ".ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND " & sqlCxPTableName & ".CodigoProveedor = CxP.CodigoProveedor"
-   SQL = SQL & " AND " & sqlCxPTableName & ".Moneda = CxP.Moneda"
-   SQL = SQL & " AND " & sqlCxPTableName & ".Status <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ANULADO)
-   SQL = SQL & " AND " & sqlCxPTableName & ".Fecha < " & gUtilSQL.fDateToSQLValue(valFechaInicial) & ")"
-   fSQLSaldoInicialAnalisisCxPHistoricoCxP = SQL
+   Sql = "(SELECT SUM(" & sqlMonto & ") AS SaldoInicial"
+   Sql = Sql & " FROM CxP AS " & sqlCxPTableName
+   Sql = Sql & " WHERE " & sqlCxPTableName & ".ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND " & sqlCxPTableName & ".CodigoProveedor = CxP.CodigoProveedor"
+   Sql = Sql & " AND " & sqlCxPTableName & ".Moneda = CxP.Moneda"
+   Sql = Sql & " AND " & sqlCxPTableName & ".Status <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ANULADO)
+   Sql = Sql & " AND " & sqlCxPTableName & ".Fecha < " & gUtilSQL.fDateToSQLValue(valFechaInicial) & ")"
+   fSQLSaldoInicialAnalisisCxPHistoricoCxP = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -232,7 +232,7 @@ Private Function fSQLSaldoInicialAnalisisCxPHistoricoAnticipos(ByVal valDesconta
                               ByVal valFechaInicial As Date, ByVal valConsecutivoCompania As String, _
                               ByVal ReporteEnMonedaLocal As Boolean, ByVal gUltimaTasaDeCambio As Object, _
                               ByVal gMonedaLocalActual As Object) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlAnticipoTableName As String
    Dim sqlMonto As String
    On Error GoTo h_ERROR
@@ -249,15 +249,15 @@ Private Function fSQLSaldoInicialAnalisisCxPHistoricoAnticipos(ByVal valDesconta
                sqlAnticipoTableName & ".Moneda", sqlMonto, True, "")
       sqlMonto = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, sqlMonto, sqlAnticipoTableName & ".fecha")
    End If
-   SQL = "(SELECT SUM(" & sqlMonto & ") AS SaldoInicial"
-   SQL = SQL & " FROM Anticipo AS " & sqlAnticipoTableName
-   SQL = SQL & " WHERE " & sqlAnticipoTableName & ".ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND " & sqlAnticipoTableName & ".Tipo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAnticipo.eTDA_PAGADO)
-   SQL = SQL & " AND " & sqlAnticipoTableName & ".CodigoProveedor = Anticipo.CodigoProveedor"
-   SQL = SQL & " AND " & sqlAnticipoTableName & ".Moneda = Anticipo.Moneda"
-   SQL = SQL & " AND " & sqlAnticipoTableName & ".Status <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusAnticipo.eSDA_ANULADO)
-   SQL = SQL & " AND " & sqlAnticipoTableName & ".Fecha < " & gUtilSQL.fDateToSQLValue(valFechaInicial) & ")"
-   fSQLSaldoInicialAnalisisCxPHistoricoAnticipos = SQL
+   Sql = "(SELECT SUM(" & sqlMonto & ") AS SaldoInicial"
+   Sql = Sql & " FROM Anticipo AS " & sqlAnticipoTableName
+   Sql = Sql & " WHERE " & sqlAnticipoTableName & ".ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND " & sqlAnticipoTableName & ".Tipo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAnticipo.eTDA_PAGADO)
+   Sql = Sql & " AND " & sqlAnticipoTableName & ".CodigoProveedor = Anticipo.CodigoProveedor"
+   Sql = Sql & " AND " & sqlAnticipoTableName & ".Moneda = Anticipo.Moneda"
+   Sql = Sql & " AND " & sqlAnticipoTableName & ".Status <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusAnticipo.eSDA_ANULADO)
+   Sql = Sql & " AND " & sqlAnticipoTableName & ".Fecha < " & gUtilSQL.fDateToSQLValue(valFechaInicial) & ")"
+   fSQLSaldoInicialAnalisisCxPHistoricoAnticipos = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -267,14 +267,14 @@ End Function
 Public Function fConstruirSQLDelReporteAnalisisDeVencimiento(ByVal valMonedaOriginal As Boolean, ByVal valPropAnalisisVencActual As Boolean, ByVal gUltimaTasaDeCambio As Object, _
                               ByVal gMonedaLocalActual As Object, ByVal NombreMonedaLocal As String, ByVal valPrimerVencimiento As Long, ByVal valSegundoVencimiento As Long, ByVal valTercerVencimiento As Long, _
                            ByVal ConsecutivoCompania As Long, ByVal EsReporteOrdenadoPorNombre As Boolean) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlDateDiff As String
    Dim sqlMtoRestante As String
    Dim sqlMtoAbonado As String
    Dim sqlMtoTotal As String
    Dim sqlMonedaReporte As String
    On Error GoTo h_ERROR
-   SQL = ""
+   Sql = ""
    sqlMtoTotal = "(cxP.MontoExento + " & "cxP.MontoGravado + " & "cxP.MontoIva)"
    sqlMtoAbonado = "cxP.MontoAbonado"
    sqlMtoRestante = "(" & sqlMtoTotal & " - " & sqlMtoAbonado & ")"
@@ -289,40 +289,40 @@ Public Function fConstruirSQLDelReporteAnalisisDeVencimiento(ByVal valMonedaOrig
          sqlMtoRestante = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.fCodigoMoneda(gUtilDate.getFechaDeHoy), sqlMtoRestante, "cxP.fecha")
       End If
       sqlDateDiff = gUtilSQL.getDateDiff("d", "cxP.FechaVencimiento", gUtilSQL.fDateToSQLValue(gUtilDate.getFechaDeHoy))
-      SQL = "SELECT "
-      SQL = SQL & "cxP.CodigoProveedor, "
-      SQL = SQL & "proveedor.NombreProveedor, "
-      SQL = SQL & "cxP.Moneda, "
-      SQL = SQL & sqlMonedaReporte & " AS MonedaReporte, "
-      SQL = SQL & gUtilSQL.getIIF(sqlDateDiff & " <= 0 ", sqlMtoRestante, "0", True) & " AS MtoNoVencido, "
-      SQL = SQL & gUtilSQL.getIIF(sqlDateDiff & " > 0 AND " & sqlDateDiff & " <= " & valPrimerVencimiento, sqlMtoRestante, "0", True) & " AS Mto1Vto, "
-      SQL = SQL & gUtilSQL.getIIF(sqlDateDiff & " > " & valPrimerVencimiento & " AND " & sqlDateDiff & " <= " & valSegundoVencimiento, sqlMtoRestante, "0", True) & " AS Mto2Vto, "
-      SQL = SQL & gUtilSQL.getIIF(sqlDateDiff & " > " & valSegundoVencimiento & " AND " & sqlDateDiff & " <= " & valTercerVencimiento, sqlMtoRestante, "0", True) & " AS Mto3Vto, "
-      SQL = SQL & gUtilSQL.getIIF(sqlDateDiff & " > " & valTercerVencimiento, sqlMtoRestante, "0", True) & " AS Mto4Vto, "
-      SQL = SQL & valPrimerVencimiento & " AS Vto1, "
-      SQL = SQL & valSegundoVencimiento & " AS Vto2, "
-      SQL = SQL & valTercerVencimiento & " AS Vto3, "
-      SQL = SQL & sqlDateDiff & " AS DiasVencidos, "
-      SQL = SQL & sqlMtoRestante & " AS MtoRestante, "
-      SQL = SQL & "cxP.FechaVencimiento, "
-      SQL = SQL & "cxP.Numero, "
-      SQL = SQL & "cxP.Fecha, "
-      SQL = SQL & sqlMtoTotal & " AS MtoTotal"
-      SQL = SQL & " FROM cxP INNER JOIN proveedor ON "
-      SQL = SQL & "cxP.ConsecutivoCompania = proveedor.ConsecutivoCompania"
-      SQL = SQL & " AND cxP.CodigoProveedor = proveedor.CodigoProveedor"
-      SQL = SQL & " WHERE cxP.ConsecutivoCompania = " & ConsecutivoCompania
-      SQL = SQL & " AND cxP.Status IN (" & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO) & ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_PORCANCELAR) & ")"
-      SQL = SQL & " ORDER BY "
-      SQL = SQL & "cxP.Moneda, "
+      Sql = "SELECT "
+      Sql = Sql & "cxP.CodigoProveedor, "
+      Sql = Sql & "proveedor.NombreProveedor, "
+      Sql = Sql & "cxP.Moneda, "
+      Sql = Sql & sqlMonedaReporte & " AS MonedaReporte, "
+      Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " <= 0 ", sqlMtoRestante, "0", True) & " AS MtoNoVencido, "
+      Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " > 0 AND " & sqlDateDiff & " <= " & valPrimerVencimiento, sqlMtoRestante, "0", True) & " AS Mto1Vto, "
+      Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " > " & valPrimerVencimiento & " AND " & sqlDateDiff & " <= " & valSegundoVencimiento, sqlMtoRestante, "0", True) & " AS Mto2Vto, "
+      Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " > " & valSegundoVencimiento & " AND " & sqlDateDiff & " <= " & valTercerVencimiento, sqlMtoRestante, "0", True) & " AS Mto3Vto, "
+      Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " > " & valTercerVencimiento, sqlMtoRestante, "0", True) & " AS Mto4Vto, "
+      Sql = Sql & valPrimerVencimiento & " AS Vto1, "
+      Sql = Sql & valSegundoVencimiento & " AS Vto2, "
+      Sql = Sql & valTercerVencimiento & " AS Vto3, "
+      Sql = Sql & sqlDateDiff & " AS DiasVencidos, "
+      Sql = Sql & sqlMtoRestante & " AS MtoRestante, "
+      Sql = Sql & "cxP.FechaVencimiento, "
+      Sql = Sql & "cxP.Numero, "
+      Sql = Sql & "cxP.Fecha, "
+      Sql = Sql & sqlMtoTotal & " AS MtoTotal"
+      Sql = Sql & " FROM cxP INNER JOIN proveedor ON "
+      Sql = Sql & "cxP.ConsecutivoCompania = proveedor.ConsecutivoCompania"
+      Sql = Sql & " AND cxP.CodigoProveedor = proveedor.CodigoProveedor"
+      Sql = Sql & " WHERE cxP.ConsecutivoCompania = " & ConsecutivoCompania
+      Sql = Sql & " AND cxP.Status IN (" & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO) & ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_PORCANCELAR) & ")"
+      Sql = Sql & " ORDER BY "
+      Sql = Sql & "cxP.Moneda, "
       If EsReporteOrdenadoPorNombre Then
-         SQL = SQL & "proveedor.NombreProveedor, "
+         Sql = Sql & "proveedor.NombreProveedor, "
       Else
-         SQL = SQL & "cxP.CodigoProveedor, "
+         Sql = Sql & "cxP.CodigoProveedor, "
       End If
-      SQL = SQL & "cxP.FechaVencimiento"
+      Sql = Sql & "cxP.FechaVencimiento"
    End If
-   fConstruirSQLDelReporteAnalisisDeVencimiento = SQL
+   fConstruirSQLDelReporteAnalisisDeVencimiento = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -350,52 +350,52 @@ Public Function fSQLDelAnalisisDeCxPAUnaFecha(ByVal valTableName As String, ByVa
         sqlMtoAbonado = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.fCodigoMoneda(gUtilDate.getFechaDeHoy), sqlMtoAbonado, valTableName & ".fecha")
         sqlMtoRestante = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.fCodigoMoneda(gUtilDate.getFechaDeHoy), sqlMtoRestante, valTableName & ".fecha")
       End If
-      SQL = "SELECT "
-      SQL = SQL & valTableName & ".CodigoCliProv AS CodigoProveedor, "
-      SQL = SQL & "proveedor.NombreProveedor, "
-      SQL = SQL & valTableName & ".Moneda, "
-      SQL = SQL & gUtilSQL.getIIF(sqlDateDiff & " <= 0 ", sqlMtoRestante, "0", True) & " AS MtoNoVencido, "
-      SQL = SQL & gUtilSQL.getIIF(sqlDateDiff & " > 0 AND " & sqlDateDiff & " <= " & valPrimerVencimiento, sqlMtoRestante, "0", True) & " AS Mto1Vto, "
-      SQL = SQL & gUtilSQL.getIIF(sqlDateDiff & " > " & valPrimerVencimiento & " AND " & sqlDateDiff & " <= " & valSegundoVencimiento, sqlMtoRestante, "0", True) & " AS Mto2Vto, "
-      SQL = SQL & gUtilSQL.getIIF(sqlDateDiff & " > " & valSegundoVencimiento & " AND " & sqlDateDiff & " <= " & valTercerVencimiento, sqlMtoRestante, "0", True) & " AS Mto3Vto, "
-      SQL = SQL & gUtilSQL.getIIF(sqlDateDiff & " > " & valTercerVencimiento, sqlMtoRestante, "0", True) & " AS Mto4Vto, "
-      SQL = SQL & valPrimerVencimiento & " AS Vto1, "
-      SQL = SQL & valSegundoVencimiento & " AS Vto2, "
-      SQL = SQL & valTercerVencimiento & " AS Vto3, "
-      SQL = SQL & sqlDateDiff & " AS DiasVencidos, "
-      SQL = SQL & sqlMtoRestante & " AS MtoRestante, "
-      SQL = SQL & valTableName & ".FechaVencimiento, "
-      SQL = SQL & valTableName & ".Numero, "
-      SQL = SQL & valTableName & ".Fecha, "
-      SQL = SQL & sqlMtoTotal & " AS MtoTotal"
-      SQL = SQL & " FROM " & valTableName & " INNER JOIN "
-      SQL = SQL & "proveedor ON "
-      SQL = SQL & valTableName & ".ConsecutivoCompania" & " = proveedor.ConsecutivoCompania"
-      SQL = SQL & " AND " & valTableName & ".CodigoCliProv" & " = proveedor.CodigoProveedor "
-      SQL = SQL & " WHERE " & valTableName & ".ConsecutivoCompania" & " = " & ConsecutivoCompania
-      SQL = SQL & " AND " & valTableName & ".Status" & " IN (" & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO) & ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_PORCANCELAR) & ")"
-      SQL = SQL & " AND " & valTableName & ".Idusuario" & " = " & gUtilSQL.fSimpleSqlValue(valnombreParaTabla)
-      SQL = SQL & " AND " & valTableName & ".Idmodulo = " & gUtilSQL.fSimpleSqlValue(CM_MODULO_CxP)
-      SQL = SQL & " AND " & valTableName & ".Fecha <= " & gUtilSQL.fDateToSQLValue(valFecha)
+      Sql = "SELECT "
+      Sql = Sql & valTableName & ".CodigoCliProv AS CodigoProveedor, "
+      Sql = Sql & "proveedor.NombreProveedor, "
+      Sql = Sql & valTableName & ".Moneda, "
+      Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " <= 0 ", sqlMtoRestante, "0", True) & " AS MtoNoVencido, "
+      Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " > 0 AND " & sqlDateDiff & " <= " & valPrimerVencimiento, sqlMtoRestante, "0", True) & " AS Mto1Vto, "
+      Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " > " & valPrimerVencimiento & " AND " & sqlDateDiff & " <= " & valSegundoVencimiento, sqlMtoRestante, "0", True) & " AS Mto2Vto, "
+      Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " > " & valSegundoVencimiento & " AND " & sqlDateDiff & " <= " & valTercerVencimiento, sqlMtoRestante, "0", True) & " AS Mto3Vto, "
+      Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " > " & valTercerVencimiento, sqlMtoRestante, "0", True) & " AS Mto4Vto, "
+      Sql = Sql & valPrimerVencimiento & " AS Vto1, "
+      Sql = Sql & valSegundoVencimiento & " AS Vto2, "
+      Sql = Sql & valTercerVencimiento & " AS Vto3, "
+      Sql = Sql & sqlDateDiff & " AS DiasVencidos, "
+      Sql = Sql & sqlMtoRestante & " AS MtoRestante, "
+      Sql = Sql & valTableName & ".FechaVencimiento, "
+      Sql = Sql & valTableName & ".Numero, "
+      Sql = Sql & valTableName & ".Fecha, "
+      Sql = Sql & sqlMtoTotal & " AS MtoTotal"
+      Sql = Sql & " FROM " & valTableName & " INNER JOIN "
+      Sql = Sql & "proveedor ON "
+      Sql = Sql & valTableName & ".ConsecutivoCompania" & " = proveedor.ConsecutivoCompania"
+      Sql = Sql & " AND " & valTableName & ".CodigoCliProv" & " = proveedor.CodigoProveedor "
+      Sql = Sql & " WHERE " & valTableName & ".ConsecutivoCompania" & " = " & ConsecutivoCompania
+      Sql = Sql & " AND " & valTableName & ".Status" & " IN (" & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO) & ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_PORCANCELAR) & ")"
+      Sql = Sql & " AND " & valTableName & ".Idusuario" & " = " & gUtilSQL.fSimpleSqlValue(valnombreParaTabla)
+      Sql = Sql & " AND " & valTableName & ".Idmodulo = " & gUtilSQL.fSimpleSqlValue(CM_MODULO_CxP)
+      Sql = Sql & " AND " & valTableName & ".Fecha <= " & gUtilSQL.fDateToSQLValue(valFecha)
 '      Sql = Sql & " AND " & valTableName & ".Fecha >= " & gUtilSQL.fDateToSQLValue(valFecha)
-      SQL = SQL & " ORDER BY "
-      SQL = SQL & valTableName & ".Moneda, "
+      Sql = Sql & " ORDER BY "
+      Sql = Sql & valTableName & ".Moneda, "
       If valOrdenadoPorNombre Then
-         SQL = SQL & "proveedor.NombreProveedor, "
+         Sql = Sql & "proveedor.NombreProveedor, "
       Else
-         SQL = SQL & valTableName & ".CodigoCliProv, "
+         Sql = Sql & valTableName & ".CodigoCliProv, "
       End If
-      SQL = SQL & valTableName & ".FechaVencimiento"
+      Sql = Sql & valTableName & ".FechaVencimiento"
    End If
 h_EXIT: On Error GoTo 0
-   fSQLDelAnalisisDeCxPAUnaFecha = SQL
+   fSQLDelAnalisisDeCxPAUnaFecha = Sql
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSQLDelAnalisisDeCxPAUnaFecha", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLCxPEntreFechasCxPPendientesEntreFechas(ByVal valMonedaOriginal As Boolean, ByVal usaCambioOriginal As Boolean, ByVal valElementInComboBoxToString As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valInformeSeleccionado As Integer, ByVal valConsecutivoCompania As String, ByVal gMonedaLocalActual As Object, ByVal gUltimaTasaDeCambio As Object, ByVal valImprimeUno As Boolean, ByVal ValCodigoProveedor As String) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlStatusCxP As String
    Dim sqlMtoTotal As String
    Dim sqlMtoRestante As String
@@ -437,37 +437,37 @@ Public Function fSQLCxPEntreFechasCxPPendientesEntreFechas(ByVal valMonedaOrigin
       unSoloStatus = True
       statusABuscarChr = gUtilSQL.fSQLSimpleValueForEnum(gEnumProyecto.strStatusDocumentoToNum(valElementInComboBoxToString))
    End If
-   SQL = "SELECT "
-   SQL = SQL & "CxP.Numero, "
-   SQL = SQL & "CxP.CodigoProveedor, "
-   SQL = SQL & "Proveedor.NombreProveedor, "
-   SQL = SQL & "CxP.Fecha, "
-   SQL = SQL & "CxP.FechaVencimiento, "
-   SQL = SQL & sqlStatusCxP & " AS StatusStr, "
-   SQL = SQL & sqlMtoTotal & " AS MontoTotal, "
-   SQL = SQL & sqlMtoRestante & " AS MontoRestante, "
-   SQL = SQL & sqlMonedaReporte & " AS MonedaReporte, "
-   SQL = SQL & "CxP.Moneda AS MonedaDocumento, "
-   SQL = SQL & sqlCambio & " AS Cambio"
-   SQL = SQL & " FROM CxP INNER JOIN Proveedor ON "
-   SQL = SQL & "CxP.CodigoProveedor = Proveedor.CodigoProveedor"
-   SQL = SQL & " AND CxP.ConsecutivoCompania = Proveedor.ConsecutivoCompania"
-   SQL = SQL & " WHERE " & gUtilSQL.DfSQLDateValueBetween("CxP.Fecha", valFechaInicial, valFechaFinal)
+   Sql = "SELECT "
+   Sql = Sql & "CxP.Numero, "
+   Sql = Sql & "CxP.CodigoProveedor, "
+   Sql = Sql & "Proveedor.NombreProveedor, "
+   Sql = Sql & "CxP.Fecha, "
+   Sql = Sql & "CxP.FechaVencimiento, "
+   Sql = Sql & sqlStatusCxP & " AS StatusStr, "
+   Sql = Sql & sqlMtoTotal & " AS MontoTotal, "
+   Sql = Sql & sqlMtoRestante & " AS MontoRestante, "
+   Sql = Sql & sqlMonedaReporte & " AS MonedaReporte, "
+   Sql = Sql & "CxP.Moneda AS MonedaDocumento, "
+   Sql = Sql & sqlCambio & " AS Cambio"
+   Sql = Sql & " FROM CxP INNER JOIN Proveedor ON "
+   Sql = Sql & "CxP.CodigoProveedor = Proveedor.CodigoProveedor"
+   Sql = Sql & " AND CxP.ConsecutivoCompania = Proveedor.ConsecutivoCompania"
+   Sql = Sql & " WHERE " & gUtilSQL.DfSQLDateValueBetween("CxP.Fecha", valFechaInicial, valFechaFinal)
    If valImprimeUno Then
-      SQL = SQL & " AND CxP.CodigoProveedor = " & ValCodigoProveedor
+      Sql = Sql & " AND CxP.CodigoProveedor = " & ValCodigoProveedor
    End If
    If unSoloStatus Then
-      SQL = SQL & " AND CxP.Status = " & statusABuscarChr
+      Sql = Sql & " AND CxP.Status = " & statusABuscarChr
    End If
-   SQL = SQL & " AND CxP.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " ORDER BY "
-   SQL = SQL & "CxP.Status, "
-   SQL = SQL & "MonedaReporte, "
-   SQL = SQL & "CxP.Fecha, "
-   SQL = SQL & "CxP.Numero, "
-   SQL = SQL & "CxP.CodigoProveedor"
+   Sql = Sql & " AND CxP.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " ORDER BY "
+   Sql = Sql & "CxP.Status, "
+   Sql = Sql & "MonedaReporte, "
+   Sql = Sql & "CxP.Fecha, "
+   Sql = Sql & "CxP.Numero, "
+   Sql = Sql & "CxP.CodigoProveedor"
    Set gEnumProyecto = Nothing
-   fSQLCxPEntreFechasCxPPendientesEntreFechas = SQL
+   fSQLCxPEntreFechasCxPPendientesEntreFechas = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -477,7 +477,7 @@ End Function
 Public Function fSQLAnalisisCxPHistorico(ByVal valUsaCambioOriginal As Boolean, ByVal gUltimaTasaDeCambio As Object, ByVal gMonedaLocalActual As Object, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
                                  ByVal valConsecutivoCompania As String, ByVal valReporteEnMonedaLocal As Boolean, ByVal valImprimeUno As Boolean, ByVal ValCodigoProveedor As String, _
                                  ByVal valTipoDeAnticipo As String, ByVal valDocOrigenContabilizacionCxP As String, ByVal valDocOrigenContabilizacionAnticipo As String) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim SQLCXP As String
    Dim SqlAnticipos As String
    Dim SqlPagos As String
@@ -489,12 +489,12 @@ Public Function fSQLAnalisisCxPHistorico(ByVal valUsaCambioOriginal As Boolean, 
    SqlPagos = fSQLAnalisisCxPHistoricoPagos(valUsaCambioOriginal, gUltimaTasaDeCambio, gMonedaLocalActual, valFechaInicial, valFechaFinal, valConsecutivoCompania, valReporteEnMonedaLocal, valImprimeUno, ValCodigoProveedor)
    SqlReposiciones = fSQLAnalisisCxPHistoricoReposiciones(valUsaCambioOriginal, gUltimaTasaDeCambio, gMonedaLocalActual, valFechaInicial, valFechaFinal, valConsecutivoCompania, valReporteEnMonedaLocal, valImprimeUno, ValCodigoProveedor)
    sqlOrderBy = " ORDER BY Codigo, MonedaReporte, ColumnaParaGrupoTipoReporte, Fecha, ColumnaParaGrupoDetalle"
-   SQL = SQLCXP
-   SQL = SQL & " UNION " & SqlAnticipos
-   SQL = SQL & " UNION " & SqlPagos
-   SQL = SQL & " UNION " & SqlReposiciones
-   SQL = SQL & sqlOrderBy
-   fSQLAnalisisCxPHistorico = SQL
+   Sql = SQLCXP
+   Sql = Sql & " UNION " & SqlAnticipos
+   Sql = Sql & " UNION " & SqlPagos
+   Sql = Sql & " UNION " & SqlReposiciones
+   Sql = Sql & sqlOrderBy
+   fSQLAnalisisCxPHistorico = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -503,7 +503,7 @@ End Function
 
 Private Function fSQLAnalisisCxPHistoricoCxP(ByVal valUsaCambioOriginal As Boolean, ByVal gUltimaTasaDeCambio As Object, ByVal gMonedaLocalActual As Object, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
                                        ByVal valConsecutivoCompania As String, ByVal valReporteEnMonedaLocal As Boolean, ByVal valDocOrigenContabilizacion As String, ByVal valImprimeUno As Boolean, ByVal ValCodigoProveedor As String) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlTipoDeCxP As String
    Dim sqlStatusCxP As String
    Dim sqlMontoTotalCxP As String
@@ -550,37 +550,37 @@ Private Function fSQLAnalisisCxPHistoricoCxP(ByVal valUsaCambioOriginal As Boole
                                     gUltimaTasaDeCambio, gMonedaLocalActual)
    SqlSaldoInicialConAbonos = fSQLSaldoInicialAnalisisCxPHistoricoCxP(True, valFechaInicial, valConsecutivoCompania, valReporteEnMonedaLocal, _
                                     gUltimaTasaDeCambio, gMonedaLocalActual)
-   SQL = "SELECT "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("0") & " AS ColumnaParaGrupoTipoReporte, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("Cuentas por Pagar") & " AS TituloDelGrupo, "
-   SQL = SQL & "cxP.CodigoProveedor AS Codigo, "
-   SQL = SQL & sqlMoneda & " AS Moneda, "
-   SQL = SQL & sqlMonedaReporte & " AS MonedaReporte, "
-   SQL = SQL & sqlTipoDeCxP & " AS TipoDocumento, "
-   SQL = SQL & gUtilSQL.fCast(valDocOrigenContabilizacion, eTDSS_VARCHAR, "") & " AS ColumnaParaGrupoDetalle, "
-   SQL = SQL & SqlSaldoInicialSinAbonos & " AS SaldoInicialSinAbonos, "
-   SQL = SQL & SqlSaldoInicialConAbonos & " AS SaldoInicialConAbonos, "
-   SQL = SQL & "cxP.Numero AS Numero, "
-   SQL = SQL & gUtilSQL.DfSQLFormat("cxP.fecha", "dd/MM/yyyy", "") & " AS Fecha, "
-   SQL = SQL & gUtilSQL.DfSQLFormat("cxP.FechaVencimiento", "dd/MM/yyyy", "") & " AS FechaVencimiento, "
-   SQL = SQL & sqlStatusCxP & " AS Status, "
-   SQL = SQL & sqlMontoActualCxP & " AS MontoActual, "
-   SQL = SQL & sqlMontoTotalCxP & " AS MontoTotal, "
-   SQL = SQL & "proveedor.NombreProveedor AS Nombre, "
-   SQL = SQL & sqlCambio & " AS CambioBs, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("") & " AS TipoDocPagado, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("") & " AS NumeroDocPagado, "
-   SQL = SQL & gUtilSQL.getIIF("Cxp.EstaAsociadoARendicion = 'S'", "cxP.MontoAbonado", "0") & " AS MontoAbonado "
-   SQL = SQL & " FROM cxP INNER JOIN proveedor ON "
-   SQL = SQL & "cxP.ConsecutivoCompania = proveedor.ConsecutivoCompania"
-   SQL = SQL & " AND cxP.CodigoProveedor = proveedor.CodigoProveedor"
-   SQL = SQL & " WHERE cxP.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = "SELECT "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("0") & " AS ColumnaParaGrupoTipoReporte, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("Cuentas por Pagar") & " AS TituloDelGrupo, "
+   Sql = Sql & "cxP.CodigoProveedor AS Codigo, "
+   Sql = Sql & sqlMoneda & " AS Moneda, "
+   Sql = Sql & sqlMonedaReporte & " AS MonedaReporte, "
+   Sql = Sql & sqlTipoDeCxP & " AS TipoDocumento, "
+   Sql = Sql & gUtilSQL.fCast(valDocOrigenContabilizacion, eTDSS_VARCHAR, "") & " AS ColumnaParaGrupoDetalle, "
+   Sql = Sql & SqlSaldoInicialSinAbonos & " AS SaldoInicialSinAbonos, "
+   Sql = Sql & SqlSaldoInicialConAbonos & " AS SaldoInicialConAbonos, "
+   Sql = Sql & "cxP.Numero AS Numero, "
+   Sql = Sql & gUtilSQL.DfSQLFormat("cxP.fecha", "dd/MM/yyyy", "") & " AS Fecha, "
+   Sql = Sql & gUtilSQL.DfSQLFormat("cxP.FechaVencimiento", "dd/MM/yyyy", "") & " AS FechaVencimiento, "
+   Sql = Sql & sqlStatusCxP & " AS Status, "
+   Sql = Sql & sqlMontoActualCxP & " AS MontoActual, "
+   Sql = Sql & sqlMontoTotalCxP & " AS MontoTotal, "
+   Sql = Sql & "proveedor.NombreProveedor AS Nombre, "
+   Sql = Sql & sqlCambio & " AS CambioBs, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & " AS TipoDocPagado, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & " AS NumeroDocPagado, "
+   Sql = Sql & gUtilSQL.getIIF("Cxp.EstaAsociadoARendicion = 'S'", "cxP.MontoAbonado", "0") & " AS MontoAbonado "
+   Sql = Sql & " FROM cxP INNER JOIN proveedor ON "
+   Sql = Sql & "cxP.ConsecutivoCompania = proveedor.ConsecutivoCompania"
+   Sql = Sql & " AND cxP.CodigoProveedor = proveedor.CodigoProveedor"
+   Sql = Sql & " WHERE cxP.ConsecutivoCompania = " & valConsecutivoCompania
    If valImprimeUno Then
-      SQL = SQL & " AND cxP.CodigoProveedor = " & ValCodigoProveedor
+      Sql = Sql & " AND cxP.CodigoProveedor = " & ValCodigoProveedor
    End If
-   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("cxP.Fecha", valFechaInicial, valFechaFinal)
+   Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween("cxP.Fecha", valFechaInicial, valFechaFinal)
 h_EXIT: On Error GoTo 0
-   fSQLAnalisisCxPHistoricoCxP = SQL
+   fSQLAnalisisCxPHistoricoCxP = Sql
    Set gEnumProyecto = Nothing
    Set gEnumReport = Nothing
    Exit Function
@@ -590,7 +590,7 @@ End Function
 
 Private Function fSQLAnalisisCxPHistoricoAnticipos(ByVal valTipoDeAnticipo As String, ByVal valUsaCambioOriginal As Boolean, ByVal gUltimaTasaDeCambio As Object, ByVal gMonedaLocalActual As Object, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
                                        ByVal valConsecutivoCompania As String, ByVal valReporteEnMonedaLocal As Boolean, ByVal valDocOrigenContabilizacion As String, ByVal valImprimeUno As Boolean, ByVal ValCodigoProveedor As String) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlTipoDeAnticipo As String
    Dim sqlStatusDeAnticipo As String
    Dim sqlMontoTotal As String
@@ -635,39 +635,39 @@ Private Function fSQLAnalisisCxPHistoricoAnticipos(ByVal valTipoDeAnticipo As St
                                     gUltimaTasaDeCambio, gMonedaLocalActual)
    SqlSaldoInicialConAbonos = fSQLSaldoInicialAnalisisCxPHistoricoAnticipos(True, valFechaInicial, valConsecutivoCompania, valReporteEnMonedaLocal, _
                                     gUltimaTasaDeCambio, gMonedaLocalActual)
-   SQL = "SELECT "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("1") & " AS ColumnaParaGrupoTipoReporte, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("Anticipos") & " AS TituloDelGrupo, "
-   SQL = SQL & "anticipo.CodigoProveedor AS Codigo, "
-   SQL = SQL & sqlMoneda & " AS Moneda, "
-   SQL = SQL & sqlMonedaReporte & " AS MonedaReporte, "
-   SQL = SQL & sqlTipoDeAnticipo & " AS TipoDocumento, "
-   SQL = SQL & gUtilSQL.fCast(valDocOrigenContabilizacion, eTDSS_VARCHAR, "") & " AS ColumnaParaGrupoDetalle, "
-   SQL = SQL & SqlSaldoInicialSinAbonos & " AS SaldoInicialSinAbonos, "
-   SQL = SQL & SqlSaldoInicialConAbonos & " AS SaldoInicialConAbonos, "
-   SQL = SQL & "anticipo.Numero AS Numero, "
-   SQL = SQL & gUtilSQL.DfCDateSQL(gUtilSQL.DfSQLFormat("anticipo.fecha", "dd/MM/yyyy", "")) & " AS Fecha, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("") & " AS FechaVencimiento, "
-   SQL = SQL & sqlStatusDeAnticipo & " AS Status, "
-   SQL = SQL & sqlMontoActual & " AS MontoActual, "
-   SQL = SQL & sqlMontoTotal & " AS MontoTotal, "
-   SQL = SQL & "proveedor.NombreProveedor AS Nombre, "
-   SQL = SQL & sqlCambio & " AS CambioBs, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("") & " AS TipoDocPagado, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("") & " AS NumeroDocPagado, "
-   SQL = SQL & "0 AS MontoAbonado "
-   SQL = SQL & " FROM anticipo INNER JOIN proveedor ON "
-   SQL = SQL & "anticipo.ConsecutivoCompania = proveedor.ConsecutivoCompania"
-   SQL = SQL & " AND anticipo.CodigoProveedor = proveedor.CodigoProveedor"
-   SQL = SQL & " WHERE anticipo.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = "SELECT "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("1") & " AS ColumnaParaGrupoTipoReporte, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("Anticipos") & " AS TituloDelGrupo, "
+   Sql = Sql & "anticipo.CodigoProveedor AS Codigo, "
+   Sql = Sql & sqlMoneda & " AS Moneda, "
+   Sql = Sql & sqlMonedaReporte & " AS MonedaReporte, "
+   Sql = Sql & sqlTipoDeAnticipo & " AS TipoDocumento, "
+   Sql = Sql & gUtilSQL.fCast(valDocOrigenContabilizacion, eTDSS_VARCHAR, "") & " AS ColumnaParaGrupoDetalle, "
+   Sql = Sql & SqlSaldoInicialSinAbonos & " AS SaldoInicialSinAbonos, "
+   Sql = Sql & SqlSaldoInicialConAbonos & " AS SaldoInicialConAbonos, "
+   Sql = Sql & "anticipo.Numero AS Numero, "
+   Sql = Sql & gUtilSQL.DfCDateSQL(gUtilSQL.DfSQLFormat("anticipo.fecha", "dd/MM/yyyy", "")) & " AS Fecha, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & " AS FechaVencimiento, "
+   Sql = Sql & sqlStatusDeAnticipo & " AS Status, "
+   Sql = Sql & sqlMontoActual & " AS MontoActual, "
+   Sql = Sql & sqlMontoTotal & " AS MontoTotal, "
+   Sql = Sql & "proveedor.NombreProveedor AS Nombre, "
+   Sql = Sql & sqlCambio & " AS CambioBs, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & " AS TipoDocPagado, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & " AS NumeroDocPagado, "
+   Sql = Sql & "0 AS MontoAbonado "
+   Sql = Sql & " FROM anticipo INNER JOIN proveedor ON "
+   Sql = Sql & "anticipo.ConsecutivoCompania = proveedor.ConsecutivoCompania"
+   Sql = Sql & " AND anticipo.CodigoProveedor = proveedor.CodigoProveedor"
+   Sql = Sql & " WHERE anticipo.ConsecutivoCompania = " & valConsecutivoCompania
    If valImprimeUno Then
-      SQL = SQL & " AND anticipo.CodigoProveedor = " & ValCodigoProveedor
+      Sql = Sql & " AND anticipo.CodigoProveedor = " & ValCodigoProveedor
    End If
-   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("anticipo.Fecha", valFechaInicial, valFechaFinal)
-   SQL = SQL & " AND anticipo.Tipo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAnticipo.eTDA_PAGADO)
-   SQL = SQL & " AND anticipo.EsUnaDevolucion = " & gUtilSQL.fBooleanToSqlValue(False)
+   Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween("anticipo.Fecha", valFechaInicial, valFechaFinal)
+   Sql = Sql & " AND anticipo.Tipo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAnticipo.eTDA_PAGADO)
+   Sql = Sql & " AND anticipo.EsUnaDevolucion = " & gUtilSQL.fBooleanToSqlValue(False)
 h_EXIT: On Error GoTo 0
-   fSQLAnalisisCxPHistoricoAnticipos = SQL
+   fSQLAnalisisCxPHistoricoAnticipos = Sql
    Set gEnumProyecto = Nothing
    Set gEnumReport = Nothing
    Exit Function
@@ -678,7 +678,7 @@ End Function
 Private Function fSQLAnalisisCxPHistoricoPagos(ByVal valUsaCambioOriginal As Boolean, ByVal gUltimaTasaDeCambio As Object, ByVal gMonedaLocalActual As Object, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
                                        ByVal valConsecutivoCompania As String, ByVal valReporteEnMonedaLocal As Boolean, ByVal valImprimeUno As Boolean, ByVal ValCodigoProveedor As String) As String
 
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlStatusPago As String
    Dim sqlMontoPago As String
    Dim sqlMontoCheque As String
@@ -736,104 +736,104 @@ Private Function fSQLAnalisisCxPHistoricoPagos(ByVal valUsaCambioOriginal As Boo
    sqlColumnaParaGrupoDetalle = gUtilSQL.fCast("pago.NumeroComprobante", eTDSS_VARCHAR, "") & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(" ") & gUtilSQL.CharConcat & gUtilSQL.fCast(gUtilSQL.fSimpleSqlValue("0"), eTDSS_VARCHAR, "")
    SqlSaldoInicialSinAbonos = "0"
    SqlSaldoInicialConAbonos = fSQLSaldoInicialAnalisisCxPHistoricoPagos(valUsaCambioOriginal, gUltimaTasaDeCambio, gMonedaLocalActual, valConsecutivoCompania, valFechaInicial, valReporteEnMonedaLocal)
-   SQL = "SELECT "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("2") & " AS ColumnaParaGrupoTipoReporte, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("Pagos") & " AS TituloDelGrupo, "
-   SQL = SQL & "pago.CodigoProveedor AS Codigo, "
-   SQL = SQL & sqlMonedaDocs & " AS Moneda, "
-   SQL = SQL & sqlMonedaReporte & " AS MonedaReporte, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("Pagos") & " AS TipoDocumento, "
-   SQL = SQL & sqlColumnaParaGrupoDetalle & " AS ColumnaParaGrupoDetalle, "
-   SQL = SQL & SqlSaldoInicialSinAbonos & " AS SaldoInicialSinAbonos, "
-   SQL = SQL & SqlSaldoInicialConAbonos & " AS SaldoInicialConAbonos, "
-   SQL = SQL & "pago.NumeroCheque AS Numero, "
-   SQL = SQL & gUtilSQL.DfCDateSQL(gUtilSQL.DfSQLFormat("pago.fecha", "dd/MM/yyyy", "")) & " AS Fecha, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("") & " AS FechaVencimiento, "
-   SQL = SQL & sqlStatusPago & " AS Status, "
-   SQL = SQL & sqlMontoPago & " AS MontoActual, "
-   SQL = SQL & sqlMontoCheque & " AS MontoTotal, "
-   SQL = SQL & "proveedor.NombreProveedor AS Nombre, "
-   SQL = SQL & sqlCambio & " AS CambioBs, "
-   SQL = SQL & sqlTipoDeDocPagado & " AS TipoDocCobrado, "
-   SQL = SQL & sqlNumeroDocumentoPagado & " AS NumeroDocCobrado, "
-   SQL = SQL & sqlMontoAbonado & " AS MontoAbonado "
-   SQL = SQL & " FROM proveedor INNER JOIN (("
-   SQL = SQL & "cuentaBancaria INNER JOIN (pago"
-   SQL = SQL & " INNER JOIN documentoPagado ON ("
-   SQL = SQL & "pago.NumeroComprobante = documentoPagado.NumeroComprobante"
-   SQL = SQL & ") AND (pago.ConsecutivoCompania = documentoPagado.ConsecutivoCompania"
-   SQL = SQL & ")) ON (cuentaBancaria.Codigo = pago.CodigoCuentaBancaria"
-   SQL = SQL & ") AND (cuentaBancaria.ConsecutivoCompania = pago.ConsecutivoCompania"
-   SQL = SQL & ")) INNER JOIN cxP ON ("
-   SQL = SQL & "cxP.Numero = documentoPagado.NumeroDelDocumentoPagado"
-   SQL = SQL & ") AND (documentoPagado.ConsecutivoCompania = cxP.ConsecutivoCompania"
-   SQL = SQL & ")) ON (proveedor.CodigoProveedor = pago.CodigoProveedor"
-   SQL = SQL & ") AND (proveedor.ConsecutivoCompania = pago.ConsecutivoCompania"
-   SQL = SQL & ") AND (proveedor.CodigoProveedor = cxP.CodigoProveedor"
-   SQL = SQL & ") AND (proveedor.ConsecutivoCompania = cxP.ConsecutivoCompania)"
-   SQL = SQL & "   INNER JOIN Moneda ON DocumentoPagado.CodigoMonedaDeCxP = Moneda.Codigo"
-   SQL = SQL & " INNER JOIN IGV_DocPagadosPorMoneda  On"
-   SQL = SQL & " (Pago.ConsecutivoCompania = IGV_DocPagadosPorMoneda.ConsecutivoCompania)"
-   SQL = SQL & " AND (Pago.NumeroComprobante = IGV_DocPagadosPorMoneda.NumeroPago) "
-   SQL = SQL & " AND (Moneda.Codigo = IGV_DocPagadosPorMoneda.CodigoMonedaDeCxP) "
-   SQL = SQL & " WHERE pago.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = "SELECT "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("2") & " AS ColumnaParaGrupoTipoReporte, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("Pagos") & " AS TituloDelGrupo, "
+   Sql = Sql & "pago.CodigoProveedor AS Codigo, "
+   Sql = Sql & sqlMonedaDocs & " AS Moneda, "
+   Sql = Sql & sqlMonedaReporte & " AS MonedaReporte, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("Pagos") & " AS TipoDocumento, "
+   Sql = Sql & sqlColumnaParaGrupoDetalle & " AS ColumnaParaGrupoDetalle, "
+   Sql = Sql & SqlSaldoInicialSinAbonos & " AS SaldoInicialSinAbonos, "
+   Sql = Sql & SqlSaldoInicialConAbonos & " AS SaldoInicialConAbonos, "
+   Sql = Sql & "pago.NumeroCheque AS Numero, "
+   Sql = Sql & gUtilSQL.DfCDateSQL(gUtilSQL.DfSQLFormat("pago.fecha", "dd/MM/yyyy", "")) & " AS Fecha, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & " AS FechaVencimiento, "
+   Sql = Sql & sqlStatusPago & " AS Status, "
+   Sql = Sql & sqlMontoPago & " AS MontoActual, "
+   Sql = Sql & sqlMontoCheque & " AS MontoTotal, "
+   Sql = Sql & "proveedor.NombreProveedor AS Nombre, "
+   Sql = Sql & sqlCambio & " AS CambioBs, "
+   Sql = Sql & sqlTipoDeDocPagado & " AS TipoDocCobrado, "
+   Sql = Sql & sqlNumeroDocumentoPagado & " AS NumeroDocCobrado, "
+   Sql = Sql & sqlMontoAbonado & " AS MontoAbonado "
+   Sql = Sql & " FROM proveedor INNER JOIN (("
+   Sql = Sql & "cuentaBancaria INNER JOIN (pago"
+   Sql = Sql & " INNER JOIN documentoPagado ON ("
+   Sql = Sql & "pago.NumeroComprobante = documentoPagado.NumeroComprobante"
+   Sql = Sql & ") AND (pago.ConsecutivoCompania = documentoPagado.ConsecutivoCompania"
+   Sql = Sql & ")) ON (cuentaBancaria.Codigo = pago.CodigoCuentaBancaria"
+   Sql = Sql & ") AND (cuentaBancaria.ConsecutivoCompania = pago.ConsecutivoCompania"
+   Sql = Sql & ")) INNER JOIN cxP ON ("
+   Sql = Sql & "cxP.Numero = documentoPagado.NumeroDelDocumentoPagado"
+   Sql = Sql & ") AND (documentoPagado.ConsecutivoCompania = cxP.ConsecutivoCompania"
+   Sql = Sql & ")) ON (proveedor.CodigoProveedor = pago.CodigoProveedor"
+   Sql = Sql & ") AND (proveedor.ConsecutivoCompania = pago.ConsecutivoCompania"
+   Sql = Sql & ") AND (proveedor.CodigoProveedor = cxP.CodigoProveedor"
+   Sql = Sql & ") AND (proveedor.ConsecutivoCompania = cxP.ConsecutivoCompania)"
+   Sql = Sql & "   INNER JOIN Moneda ON DocumentoPagado.CodigoMonedaDeCxP = Moneda.Codigo"
+   Sql = Sql & " INNER JOIN IGV_DocPagadosPorMoneda  On"
+   Sql = Sql & " (Pago.ConsecutivoCompania = IGV_DocPagadosPorMoneda.ConsecutivoCompania)"
+   Sql = Sql & " AND (Pago.NumeroComprobante = IGV_DocPagadosPorMoneda.NumeroPago) "
+   Sql = Sql & " AND (Moneda.Codigo = IGV_DocPagadosPorMoneda.CodigoMonedaDeCxP) "
+   Sql = Sql & " WHERE pago.ConsecutivoCompania = " & valConsecutivoCompania
    If valImprimeUno Then
-      SQL = SQL & " AND pago.CodigoProveedor = " & ValCodigoProveedor
+      Sql = Sql & " AND pago.CodigoProveedor = " & ValCodigoProveedor
    End If
-   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("pago.Fecha", valFechaInicial, valFechaFinal)
+   Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween("pago.Fecha", valFechaInicial, valFechaFinal)
    sqlTipoDeDocPagado = gUtilSQL.getIIF(sqlStatusPagoAnulado, gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue("Anticipo"), True)
    sqlNumeroDocumentoPagado = gUtilSQL.getIIF(sqlStatusPagoAnulado, gUtilSQL.fSimpleSqlValue(""), "anticipoPagado.NumeroAnticipo", True)
    sqlMontoAbonado = gUtilSQL.getIIF(sqlStatusPagoAnulado, "0", "anticipoPagado.MontoAplicado", True)
    sqlColumnaParaGrupoDetalle = gUtilSQL.fCast("pago.NumeroComprobante", eTDSS_VARCHAR, "") & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(" ") & gUtilSQL.CharConcat & gUtilSQL.fCast(gUtilSQL.fSimpleSqlValue("1"), eTDSS_VARCHAR, "")
-   SQL = SQL & " UNION "
-   SQL = SQL & "SELECT "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("2") & " AS ColumnaParaGrupoTipoReporte, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("Pagos") & " AS TituloDelGrupo, "
-   SQL = SQL & "pago.CodigoProveedor AS Codigo, "
-   SQL = SQL & sqlMonedaPago & " AS Moneda, "
-   SQL = SQL & sqlMonedaReporte & " AS MonedaReporte, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("Pago") & " AS TipoDocumento, "
-   SQL = SQL & sqlColumnaParaGrupoDetalle & " AS ColumnaParaGrupoDetalle, "
-   SQL = SQL & SqlSaldoInicialSinAbonos & " AS SaldoInicialSinAbonos, "
-   SQL = SQL & SqlSaldoInicialConAbonos & " AS SaldoInicialConAbonos, "
-   SQL = SQL & "pago.NumeroCheque AS Numero, "
-   SQL = SQL & gUtilSQL.DfCDateSQL(gUtilSQL.DfSQLFormat("pago.fecha", "dd/MM/yyyy", "")) & " AS Fecha, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("") & " AS FechaVencimiento, "
-   SQL = SQL & sqlStatusPago & " AS Status, "
-   SQL = SQL & sqlMontoCheque & " AS MontoActual, "
-   SQL = SQL & sqlMontoPago & " AS MontoTotal, "
-   SQL = SQL & "proveedor.NombreProveedor AS Nombre, "
-   SQL = SQL & sqlCambio & " AS CambioBs, "
-   SQL = SQL & sqlTipoDeDocPagado & " AS TipoDocCobrado, "
-   SQL = SQL & sqlNumeroDocumentoPagado & " AS NumeroDocCobrado, "
-   SQL = SQL & sqlMontoAbonado & " AS MontoAbonado "
-   SQL = SQL & " FROM anticipo INNER JOIN (("
-   SQL = SQL & "proveedor INNER JOIN ("
-   SQL = SQL & "cuentaBancaria INNER JOIN pago ON ("
-   SQL = SQL & "cuentaBancaria.Codigo = pago.CodigoCuentaBancaria"
-   SQL = SQL & ") AND (cuentaBancaria.ConsecutivoCompania = pago.ConsecutivoCompania"
-   SQL = SQL & ")) ON (proveedor.CodigoProveedor = pago.CodigoProveedor"
-   SQL = SQL & ") AND (proveedor.ConsecutivoCompania = pago.ConsecutivoCompania"
-   SQL = SQL & ")) INNER JOIN anticipoPagado ON ("
-   SQL = SQL & "pago.NumeroComprobante = anticipoPagado.NumeroComprobante"
-   SQL = SQL & ") AND (pago.ConsecutivoCompania = anticipoPagado.ConsecutivoCompania"
-   SQL = SQL & ")) ON (anticipoPagado.ConsecutivoAnticipoUsado = anticipo.ConsecutivoAnticipo"
-   SQL = SQL & ") AND (anticipoPagado.ConsecutivoCompania = anticipo.ConsecutivoCompania"
-   SQL = SQL & ") AND (anticipo.CodigoProveedor = proveedor.CodigoProveedor"
-   SQL = SQL & ") AND (anticipo.ConsecutivoCompania = proveedor.ConsecutivoCompania)"
-   SQL = SQL & "   INNER JOIN Moneda ON AnticipoPagado.CodigoMoneda = Moneda.Codigo"
-   SQL = SQL & " INNER JOIN IGV_DocPagadosPorMoneda  On"
-   SQL = SQL & " (Pago.ConsecutivoCompania = IGV_DocPagadosPorMoneda.ConsecutivoCompania)"
-   SQL = SQL & " AND (Pago.NumeroComprobante = IGV_DocPagadosPorMoneda.NumeroPago) "
-   SQL = SQL & " AND (Moneda.Codigo = IGV_DocPagadosPorMoneda.CodigoMonedaDeCxP) "
-   SQL = SQL & " WHERE pago.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " UNION "
+   Sql = Sql & "SELECT "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("2") & " AS ColumnaParaGrupoTipoReporte, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("Pagos") & " AS TituloDelGrupo, "
+   Sql = Sql & "pago.CodigoProveedor AS Codigo, "
+   Sql = Sql & sqlMonedaPago & " AS Moneda, "
+   Sql = Sql & sqlMonedaReporte & " AS MonedaReporte, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("Pago") & " AS TipoDocumento, "
+   Sql = Sql & sqlColumnaParaGrupoDetalle & " AS ColumnaParaGrupoDetalle, "
+   Sql = Sql & SqlSaldoInicialSinAbonos & " AS SaldoInicialSinAbonos, "
+   Sql = Sql & SqlSaldoInicialConAbonos & " AS SaldoInicialConAbonos, "
+   Sql = Sql & "pago.NumeroCheque AS Numero, "
+   Sql = Sql & gUtilSQL.DfCDateSQL(gUtilSQL.DfSQLFormat("pago.fecha", "dd/MM/yyyy", "")) & " AS Fecha, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & " AS FechaVencimiento, "
+   Sql = Sql & sqlStatusPago & " AS Status, "
+   Sql = Sql & sqlMontoCheque & " AS MontoActual, "
+   Sql = Sql & sqlMontoPago & " AS MontoTotal, "
+   Sql = Sql & "proveedor.NombreProveedor AS Nombre, "
+   Sql = Sql & sqlCambio & " AS CambioBs, "
+   Sql = Sql & sqlTipoDeDocPagado & " AS TipoDocCobrado, "
+   Sql = Sql & sqlNumeroDocumentoPagado & " AS NumeroDocCobrado, "
+   Sql = Sql & sqlMontoAbonado & " AS MontoAbonado "
+   Sql = Sql & " FROM anticipo INNER JOIN (("
+   Sql = Sql & "proveedor INNER JOIN ("
+   Sql = Sql & "cuentaBancaria INNER JOIN pago ON ("
+   Sql = Sql & "cuentaBancaria.Codigo = pago.CodigoCuentaBancaria"
+   Sql = Sql & ") AND (cuentaBancaria.ConsecutivoCompania = pago.ConsecutivoCompania"
+   Sql = Sql & ")) ON (proveedor.CodigoProveedor = pago.CodigoProveedor"
+   Sql = Sql & ") AND (proveedor.ConsecutivoCompania = pago.ConsecutivoCompania"
+   Sql = Sql & ")) INNER JOIN anticipoPagado ON ("
+   Sql = Sql & "pago.NumeroComprobante = anticipoPagado.NumeroComprobante"
+   Sql = Sql & ") AND (pago.ConsecutivoCompania = anticipoPagado.ConsecutivoCompania"
+   Sql = Sql & ")) ON (anticipoPagado.ConsecutivoAnticipoUsado = anticipo.ConsecutivoAnticipo"
+   Sql = Sql & ") AND (anticipoPagado.ConsecutivoCompania = anticipo.ConsecutivoCompania"
+   Sql = Sql & ") AND (anticipo.CodigoProveedor = proveedor.CodigoProveedor"
+   Sql = Sql & ") AND (anticipo.ConsecutivoCompania = proveedor.ConsecutivoCompania)"
+   Sql = Sql & "   INNER JOIN Moneda ON AnticipoPagado.CodigoMoneda = Moneda.Codigo"
+   Sql = Sql & " INNER JOIN IGV_DocPagadosPorMoneda  On"
+   Sql = Sql & " (Pago.ConsecutivoCompania = IGV_DocPagadosPorMoneda.ConsecutivoCompania)"
+   Sql = Sql & " AND (Pago.NumeroComprobante = IGV_DocPagadosPorMoneda.NumeroPago) "
+   Sql = Sql & " AND (Moneda.Codigo = IGV_DocPagadosPorMoneda.CodigoMonedaDeCxP) "
+   Sql = Sql & " WHERE pago.ConsecutivoCompania = " & valConsecutivoCompania
    If valImprimeUno Then
-      SQL = SQL & " AND pago.CodigoProveedor = " & ValCodigoProveedor
+      Sql = Sql & " AND pago.CodigoProveedor = " & ValCodigoProveedor
    End If
-   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("pago.Fecha", valFechaInicial, valFechaFinal)
-   SQL = SQL & " AND anticipo.Tipo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAnticipo.eTDA_PAGADO)
+   Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween("pago.Fecha", valFechaInicial, valFechaFinal)
+   Sql = Sql & " AND anticipo.Tipo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAnticipo.eTDA_PAGADO)
 h_EXIT: On Error GoTo 0
-   fSQLAnalisisCxPHistoricoPagos = SQL
+   fSQLAnalisisCxPHistoricoPagos = Sql
    Set gEnumProyecto = Nothing
    Set gEnumReport = Nothing
    Exit Function
@@ -843,7 +843,7 @@ End Function
 
 Private Function fSQLSaldoInicialAnalisisCxPHistoricoPagos(ByVal valUsaCambioOriginal As Boolean, ByVal gUltimaTasaDeCambio As Object, ByVal gMonedaLocalActual As Object, ByVal valConsecutivoCompania As String, _
                                                    ByVal valFechaInicial As Date, ByVal valReporteEnMonedaLocal As Boolean) As String
-   Dim SQL  As String
+   Dim Sql  As String
    Dim sqlPagoTableName As String
    Dim sqlMonto As String
    On Error GoTo h_ERROR
@@ -856,14 +856,14 @@ Private Function fSQLSaldoInicialAnalisisCxPHistoricoPagos(ByVal valUsaCambioOri
       End If
    End If
    sqlMonto = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.fCodigoMoneda(gUtilDate.getFechaDeHoy), sqlMonto, sqlPagoTableName & ".fecha")
-   SQL = "(SELECT SUM(" & sqlMonto & ") AS SaldoInicial"
-   SQL = SQL & " FROM pago AS " & sqlPagoTableName
-   SQL = SQL & " WHERE " & sqlPagoTableName & ".ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND " & sqlPagoTableName & ".CodigoProveedor = pago.CodigoProveedor"
-   SQL = SQL & " AND " & sqlPagoTableName & ".Moneda = pago.Moneda"
-   SQL = SQL & " AND StatusOrdenDePago = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusPago.eSP_VIGENTE)
-   SQL = SQL & " AND Fecha < " & gUtilSQL.fDateToSQLValue(valFechaInicial) & ")"
-   fSQLSaldoInicialAnalisisCxPHistoricoPagos = SQL
+   Sql = "(SELECT SUM(" & sqlMonto & ") AS SaldoInicial"
+   Sql = Sql & " FROM pago AS " & sqlPagoTableName
+   Sql = Sql & " WHERE " & sqlPagoTableName & ".ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND " & sqlPagoTableName & ".CodigoProveedor = pago.CodigoProveedor"
+   Sql = Sql & " AND " & sqlPagoTableName & ".Moneda = pago.Moneda"
+   Sql = Sql & " AND StatusOrdenDePago = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusPago.eSP_VIGENTE)
+   Sql = Sql & " AND Fecha < " & gUtilSQL.fDateToSQLValue(valFechaInicial) & ")"
+   fSQLSaldoInicialAnalisisCxPHistoricoPagos = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -872,7 +872,7 @@ End Function
 
 Private Function fSQLAnalisisCxPHistoricoReposiciones(ByVal valUsaCambioOriginal As Boolean, ByVal gUltimaTasaDeCambio As Object, ByVal gMonedaLocalActual As Object, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
                                        ByVal valConsecutivoCompania As String, ByVal valReporteEnMonedaLocal As Boolean, ByVal valImprimeUno As Boolean, ByVal ValCodigoProveedor As String) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlStatusReposicion As String
    Dim sqlMontoReposicion As String
    Dim sqlMontoCheque As String
@@ -926,43 +926,43 @@ Private Function fSQLAnalisisCxPHistoricoReposiciones(ByVal valUsaCambioOriginal
    sqlColumnaParaGrupoDetalle = gUtilSQL.fCast("Adm.Rendicion.Consecutivo", eTDSS_VARCHAR, "") & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(" ") & gUtilSQL.CharConcat & gUtilSQL.fCast(gUtilSQL.fSimpleSqlValue("0"), eTDSS_VARCHAR, "")
    SqlSaldoInicialSinAbonos = "0"
    SqlSaldoInicialConAbonos = fSQLSaldoInicialAnalisisCxPHistoricoReposicion(valUsaCambioOriginal, gUltimaTasaDeCambio, gMonedaLocalActual, valConsecutivoCompania, valFechaInicial, valReporteEnMonedaLocal)
-   SQL = "SELECT "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("3") & " AS ColumnaParaGrupoTipoReporte, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("Reposiciones de Caja Chica") & " AS TituloDelGrupo, "
-   SQL = SQL & "Adm.DetalleDeRendicion.CodigoProveedor  AS Codigo, "
-   SQL = SQL & sqlMonedaDocs & " AS Moneda, "
-   SQL = SQL & sqlMonedaReporte & " AS MonedaReporte, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("Reposición") & " AS TipoDocumento, "
-   SQL = SQL & sqlColumnaParaGrupoDetalle & " AS ColumnaParaGrupoDetalle, "
-   SQL = SQL & SqlSaldoInicialSinAbonos & " AS SaldoInicialSinAbonos, "
-   SQL = SQL & SqlSaldoInicialConAbonos & " AS SaldoInicialConAbonos, "
-   SQL = SQL & "Adm.Rendicion.Numero AS Numero, "
-   SQL = SQL & gUtilSQL.DfCDateSQL(gUtilSQL.DfSQLFormat("Adm.Rendicion.FechaCierre", "dd/MM/yyyy", "")) & " AS Fecha, "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("") & " AS FechaVencimiento, "
-   SQL = SQL & sqlStatusReposicion & " AS Status, "
-   SQL = SQL & sqlMontoReposicion & " AS MontoActual, "
-   SQL = SQL & sqlMontoCheque & " AS MontoTotal, "
-   SQL = SQL & "proveedor.NombreProveedor AS Nombre, "
-   SQL = SQL & sqlCambio & " AS CambioBs, "
-   SQL = SQL & sqlTipoDeDocPagado & " AS TipoDocCobrado, "
-   SQL = SQL & sqlNumeroDocumentoPagado & " AS NumeroDocCobrado, "
-   SQL = SQL & sqlMontoAbonado & " AS MontoAbonado "
-   SQL = SQL & " FROM  Adm.DetalleDeRendicion INNER JOIN "
-   SQL = SQL & "Adm.Rendicion On (Adm.DetalleDeRendicion.ConsecutivoCompania=Adm.Rendicion.ConsecutivoCompania and Adm.DetalleDeRendicion.ConsecutivoRendicion=Adm.Rendicion.Consecutivo )"
-   SQL = SQL & " INNER JOIN proveedor ON ("
-   SQL = SQL & "proveedor.CodigoProveedor = Adm.DetalleDeRendicion.CodigoProveedor "
-   SQL = SQL & ") AND (proveedor.ConsecutivoCompania = Adm.DetalleDeRendicion.ConsecutivoCompania"
-   SQL = SQL & ") INNER JOIN  CuentaBancaria ON (cuentaBancaria.Codigo = Adm.Rendicion.CodigoCtaBancariaCajaChica "
-   SQL = SQL & ") AND (cuentaBancaria.ConsecutivoCompania = Adm.Rendicion.ConsecutivoCompania"
-   SQL = SQL & ") INNER JOIN Moneda ON cuentaBancaria.CodigoMoneda = Moneda.Codigo"
-   SQL = SQL & " WHERE Adm.DetalleDeRendicion .ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = "SELECT "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("3") & " AS ColumnaParaGrupoTipoReporte, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("Reposiciones de Caja Chica") & " AS TituloDelGrupo, "
+   Sql = Sql & "Adm.DetalleDeRendicion.CodigoProveedor  AS Codigo, "
+   Sql = Sql & sqlMonedaDocs & " AS Moneda, "
+   Sql = Sql & sqlMonedaReporte & " AS MonedaReporte, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("Reposición") & " AS TipoDocumento, "
+   Sql = Sql & sqlColumnaParaGrupoDetalle & " AS ColumnaParaGrupoDetalle, "
+   Sql = Sql & SqlSaldoInicialSinAbonos & " AS SaldoInicialSinAbonos, "
+   Sql = Sql & SqlSaldoInicialConAbonos & " AS SaldoInicialConAbonos, "
+   Sql = Sql & "Adm.Rendicion.Numero AS Numero, "
+   Sql = Sql & gUtilSQL.DfCDateSQL(gUtilSQL.DfSQLFormat("Adm.Rendicion.FechaCierre", "dd/MM/yyyy", "")) & " AS Fecha, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & " AS FechaVencimiento, "
+   Sql = Sql & sqlStatusReposicion & " AS Status, "
+   Sql = Sql & sqlMontoReposicion & " AS MontoActual, "
+   Sql = Sql & sqlMontoCheque & " AS MontoTotal, "
+   Sql = Sql & "proveedor.NombreProveedor AS Nombre, "
+   Sql = Sql & sqlCambio & " AS CambioBs, "
+   Sql = Sql & sqlTipoDeDocPagado & " AS TipoDocCobrado, "
+   Sql = Sql & sqlNumeroDocumentoPagado & " AS NumeroDocCobrado, "
+   Sql = Sql & sqlMontoAbonado & " AS MontoAbonado "
+   Sql = Sql & " FROM  Adm.DetalleDeRendicion INNER JOIN "
+   Sql = Sql & "Adm.Rendicion On (Adm.DetalleDeRendicion.ConsecutivoCompania=Adm.Rendicion.ConsecutivoCompania and Adm.DetalleDeRendicion.ConsecutivoRendicion=Adm.Rendicion.Consecutivo )"
+   Sql = Sql & " INNER JOIN proveedor ON ("
+   Sql = Sql & "proveedor.CodigoProveedor = Adm.DetalleDeRendicion.CodigoProveedor "
+   Sql = Sql & ") AND (proveedor.ConsecutivoCompania = Adm.DetalleDeRendicion.ConsecutivoCompania"
+   Sql = Sql & ") INNER JOIN  CuentaBancaria ON (cuentaBancaria.Codigo = Adm.Rendicion.CodigoCtaBancariaCajaChica "
+   Sql = Sql & ") AND (cuentaBancaria.ConsecutivoCompania = Adm.Rendicion.ConsecutivoCompania"
+   Sql = Sql & ") INNER JOIN Moneda ON cuentaBancaria.CodigoMoneda = Moneda.Codigo"
+   Sql = Sql & " WHERE Adm.DetalleDeRendicion .ConsecutivoCompania = " & valConsecutivoCompania
    If valImprimeUno Then
-      SQL = SQL & " AND Adm.DetalleDeRendicion.CodigoProveedor = " & ValCodigoProveedor
+      Sql = Sql & " AND Adm.DetalleDeRendicion.CodigoProveedor = " & ValCodigoProveedor
    End If
-   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("Adm.DetalleDeRendicion.Fecha", valFechaInicial, valFechaFinal)
-   SQL = SQL & " AND " & "Adm.Rendicion.StatusRendicion = " & gUtilSQL.fSimpleSqlValue(enum_StatusRendicion.eSRd_CERRADA)
+   Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween("Adm.DetalleDeRendicion.Fecha", valFechaInicial, valFechaFinal)
+   Sql = Sql & " AND " & "Adm.Rendicion.StatusRendicion = " & gUtilSQL.fSimpleSqlValue(enum_StatusRendicion.eSRd_CERRADA)
 h_EXIT: On Error GoTo 0
-   fSQLAnalisisCxPHistoricoReposiciones = SQL
+   fSQLAnalisisCxPHistoricoReposiciones = Sql
    Set gEnumProyecto = Nothing
    Set gEnumReport = Nothing
    Exit Function
@@ -971,45 +971,45 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 Private Function fSQLSaldoInicialAnalisisCxPHistoricoReposicion(ByVal valUsaCambioOriginal As Boolean, ByVal gUltimaTasaDeCambio As Object, ByVal gMonedaLocalActual As Object, ByVal valConsecutivoCompania As String, _
                                                    ByVal valFechaInicial As Date, ByVal valReporteEnMonedaLocal As Boolean) As String
-   Dim SQL  As String
+   Dim Sql  As String
    Dim sqlTableName As String
    Dim sqlMonto As String
    On Error GoTo h_ERROR
    sqlTableName = "Rendicion_1"
    sqlMonto = "Adm.DetalleDeRendicion.MontoExento + Adm.DetalleDeRendicion.MontoGravable + Adm.DetalleDeRendicion.MontoIVA"
    sqlMonto = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.fCodigoMoneda(gUtilDate.getFechaDeHoy), sqlMonto, sqlTableName & ".fechaCierre")
-   SQL = "(SELECT SUM(" & sqlMonto & ")"
-   SQL = SQL & " FROM Adm.Rendicion AS " & sqlTableName
-   SQL = SQL & " INNER JOIN Adm.DetalleDeRendicion On (Adm.DetalleDeRendicion.ConsecutivoCompania=Rendicion_1.ConsecutivoCompania and Adm.DetalleDeRendicion.ConsecutivoRendicion=Rendicion_1.Consecutivo )"
-   SQL = SQL & " WHERE " & sqlTableName & ".ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND " & "Adm.DetalleDeRendicion" & ".CodigoProveedor = Proveedor.CodigoProveedor"
-   SQL = SQL & " AND Rendicion_1.StatusRendicion = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusRendicion.eSRd_CERRADA)
-   SQL = SQL & " AND Rendicion_1.TipoDeDocumento = 1 "
-   SQL = SQL & " AND Rendicion_1.FechaCierre < " & gUtilSQL.fDateToSQLValue(valFechaInicial) & ") "
-   fSQLSaldoInicialAnalisisCxPHistoricoReposicion = SQL
+   Sql = "(SELECT SUM(" & sqlMonto & ")"
+   Sql = Sql & " FROM Adm.Rendicion AS " & sqlTableName
+   Sql = Sql & " INNER JOIN Adm.DetalleDeRendicion On (Adm.DetalleDeRendicion.ConsecutivoCompania=Rendicion_1.ConsecutivoCompania and Adm.DetalleDeRendicion.ConsecutivoRendicion=Rendicion_1.Consecutivo )"
+   Sql = Sql & " WHERE " & sqlTableName & ".ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND " & "Adm.DetalleDeRendicion" & ".CodigoProveedor = Proveedor.CodigoProveedor"
+   Sql = Sql & " AND Rendicion_1.StatusRendicion = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusRendicion.eSRd_CERRADA)
+   Sql = Sql & " AND Rendicion_1.TipoDeDocumento = 1 "
+   Sql = Sql & " AND Rendicion_1.FechaCierre < " & gUtilSQL.fDateToSQLValue(valFechaInicial) & ") "
+   fSQLSaldoInicialAnalisisCxPHistoricoReposicion = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSQLSaldoInicialAnalisisCxPHistoricoReposicion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fSQLActualizaAsientoComprobantesDeCxp() As String
-   Dim SQL  As String
+   Dim Sql  As String
    On Error GoTo h_ERROR
-   SQL = "Update Asiento"
-   SQL = SQL & " SET ASIENTO.MontoDebe=(CASE ASIENTO.MontoDebe WHEN 0 THEN 0 ELSE ASIENTO.MontoDebe/1000 END),"
-   SQL = SQL & "ASIENTO.MontoHaber= (CASE ASIENTO.MontoHaber WHEN 0 THEN 0 ELSE ASIENTO.MontoHaber/1000 END)"
-   SQL = SQL & " FROM COMPROBANTE INNER JOIN cxP"
-   SQL = SQL & " ON ((COMPROBANTE.NoDocumentoOrigen = cxP.CodigoProveedor + CHAR(9) + cxP.Numero)"
-   SQL = SQL & " AND COMPROBANTE.GeneradoPor = ';'"
-   SQL = SQL & " AND cxP.Fecha<'01/01/2008' AND cxP.AnoDeAplicacion >= '2008')"
-   SQL = SQL & " AND (cxP.Fecha<'01/01/2008' AND COMPROBANTE.Fecha >= '01/01/2008')"
-   SQL = SQL & " AND (COMPROBANTE.TotalDebe = CxP.MontoExento + MontoGravado + MontoIva)"
-   SQL = SQL & " INNER JOIN Asiento ON(Asiento.NumeroComprobante=COMPROBANTE.Numero)"
-   SQL = SQL & " INNER JOIN PERIODO ON"
-   SQL = SQL & " (Cxp.ConsecutivoCompania = PERIODO.consecutivoCompania)"
-   SQL = SQL & " AND (PERIODO.ConsecutivoPeriodo = COMPROBANTE.ConsecutivoPeriodo)"
-   SQL = SQL & " AND (PERIODO.ConsecutivoPeriodo = ASIENTO.ConsecutivoPeriodo)"
-   fSQLActualizaAsientoComprobantesDeCxp = SQL
+   Sql = "Update Asiento"
+   Sql = Sql & " SET ASIENTO.MontoDebe=(CASE ASIENTO.MontoDebe WHEN 0 THEN 0 ELSE ASIENTO.MontoDebe/1000 END),"
+   Sql = Sql & "ASIENTO.MontoHaber= (CASE ASIENTO.MontoHaber WHEN 0 THEN 0 ELSE ASIENTO.MontoHaber/1000 END)"
+   Sql = Sql & " FROM COMPROBANTE INNER JOIN cxP"
+   Sql = Sql & " ON ((COMPROBANTE.NoDocumentoOrigen = cxP.CodigoProveedor + CHAR(9) + cxP.Numero)"
+   Sql = Sql & " AND COMPROBANTE.GeneradoPor = ';'"
+   Sql = Sql & " AND cxP.Fecha<'01/01/2008' AND cxP.AnoDeAplicacion >= '2008')"
+   Sql = Sql & " AND (cxP.Fecha<'01/01/2008' AND COMPROBANTE.Fecha >= '01/01/2008')"
+   Sql = Sql & " AND (COMPROBANTE.TotalDebe = CxP.MontoExento + MontoGravado + MontoIva)"
+   Sql = Sql & " INNER JOIN Asiento ON(Asiento.NumeroComprobante=COMPROBANTE.Numero)"
+   Sql = Sql & " INNER JOIN PERIODO ON"
+   Sql = Sql & " (Cxp.ConsecutivoCompania = PERIODO.consecutivoCompania)"
+   Sql = Sql & " AND (PERIODO.ConsecutivoPeriodo = COMPROBANTE.ConsecutivoPeriodo)"
+   Sql = Sql & " AND (PERIODO.ConsecutivoPeriodo = ASIENTO.ConsecutivoPeriodo)"
+   fSQLActualizaAsientoComprobantesDeCxp = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -1017,21 +1017,21 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Public Function fSQLActualizaComprobantesDeCxp() As String
-   Dim SQL  As String
+   Dim Sql  As String
    On Error GoTo h_ERROR
-   SQL = "Update COMPROBANTE"
-   SQL = SQL & " SET COMPROBANTE.TotalDebe= (CASE COMPROBANTE.TotalDebe WHEN 0 THEN 0 ELSE COMPROBANTE.TotalDebe/1000 END),"
-   SQL = SQL & " COMPROBANTE.TotalHaber= (CASE COMPROBANTE.TotalHaber WHEN 0 THEN 0 ELSE COMPROBANTE.TotalHaber/1000 END)"
-   SQL = SQL & " FROM COMPROBANTE INNER JOIN cxP"
-   SQL = SQL & " ON (COMPROBANTE.NoDocumentoOrigen = cxP.CodigoProveedor + CHAR(9) + cxP.Numero)"
-   SQL = SQL & " AND COMPROBANTE.GeneradoPor = ';'"
-   SQL = SQL & " AND (cxP.Fecha<'01/01/2008' AND cxP.AnoDeAplicacion >= '2008')"
-   SQL = SQL & " AND (cxP.Fecha<'01/01/2008' AND COMPROBANTE.Fecha >= '01/01/2008')"
-   SQL = SQL & " AND (COMPROBANTE.TotalDebe = CxP.MontoExento + MontoGravado + MontoIva)"
-   SQL = SQL & " INNER JOIN PERIODO ON"
-   SQL = SQL & " (Cxp.ConsecutivoCompania = PERIODO.consecutivoCompania) AND"
-   SQL = SQL & " (PERIODO.ConsecutivoPeriodo = COMPROBANTE.ConsecutivoPeriodo)"
-   fSQLActualizaComprobantesDeCxp = SQL
+   Sql = "Update COMPROBANTE"
+   Sql = Sql & " SET COMPROBANTE.TotalDebe= (CASE COMPROBANTE.TotalDebe WHEN 0 THEN 0 ELSE COMPROBANTE.TotalDebe/1000 END),"
+   Sql = Sql & " COMPROBANTE.TotalHaber= (CASE COMPROBANTE.TotalHaber WHEN 0 THEN 0 ELSE COMPROBANTE.TotalHaber/1000 END)"
+   Sql = Sql & " FROM COMPROBANTE INNER JOIN cxP"
+   Sql = Sql & " ON (COMPROBANTE.NoDocumentoOrigen = cxP.CodigoProveedor + CHAR(9) + cxP.Numero)"
+   Sql = Sql & " AND COMPROBANTE.GeneradoPor = ';'"
+   Sql = Sql & " AND (cxP.Fecha<'01/01/2008' AND cxP.AnoDeAplicacion >= '2008')"
+   Sql = Sql & " AND (cxP.Fecha<'01/01/2008' AND COMPROBANTE.Fecha >= '01/01/2008')"
+   Sql = Sql & " AND (COMPROBANTE.TotalDebe = CxP.MontoExento + MontoGravado + MontoIva)"
+   Sql = Sql & " INNER JOIN PERIODO ON"
+   Sql = Sql & " (Cxp.ConsecutivoCompania = PERIODO.consecutivoCompania) AND"
+   Sql = Sql & " (PERIODO.ConsecutivoPeriodo = COMPROBANTE.ConsecutivoPeriodo)"
+   fSQLActualizaComprobantesDeCxp = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -1039,7 +1039,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Public Function fSQLDelReporteAnalisisDeVencimientoEntreFechas(ByVal valAnalisisDeVencimientoPor As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valConsecutivoCompania As String, ByVal valNombreMonedaLocal As String, ByVal valMonedaOriginal As Boolean, ByRef gMonedaLocalActual As Object, ByRef InsAdmPropAnalisisVenc As Object, ByRef gUltimaTasaDeCambio As Object) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlMtoRestante As String
    Dim sqlDateDiff As String
    Dim sqlMtoTotal As String
@@ -1067,43 +1067,43 @@ Public Function fSQLDelReporteAnalisisDeVencimientoEntreFechas(ByVal valAnalisis
         sqlMtoAbonado = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.fCodigoMoneda(gUtilDate.getFechaDeHoy), "CxP.MontoAbonado", "CxP.fecha")
         sqlMtoRestante = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.fCodigoMoneda(gUtilDate.getFechaDeHoy), sqlMtoRestante, "CxP.fecha")
       End If
-      SQL = "SELECT "
-      SQL = SQL & sqlMoneda & ", "
-      SQL = SQL & sqlMonedaReporte & " AS MonedaReporte, "
-      SQL = SQL & gUtilSQL.fMonth(sqlFecha, "") & " AS Mes, "
-      SQL = SQL & gUtilSQL.fYear(sqlFecha, "") & " AS Ano, "
-      SQL = SQL & "CxP.CodigoProveedor, "
-      SQL = SQL & "proveedor.NombreProveedor, "
-      SQL = SQL & "CxP.Numero, "
-      SQL = SQL & sqlFecha & ", "
-      SQL = SQL & "CxP.FechaVencimiento, "
-      SQL = SQL & sqlDateDiff & " AS DiasVencidos, "
-      SQL = SQL & gUtilSQL.getIIF(sqlDateDiff & " <= 0 ", sqlMtoRestante, "0", True) & " AS MtoNoVencido, "
-      SQL = SQL & gUtilSQL.getIIF(sqlDateDiff & " > 0 AND " & sqlDateDiff & " <= " & InsAdmPropAnalisisVenc.GetPrimerVencimiento, sqlMtoRestante, "0", True) & " AS Mto1Vto, "
-      SQL = SQL & gUtilSQL.getIIF(sqlDateDiff & " > " & InsAdmPropAnalisisVenc.GetPrimerVencimiento & " AND " & sqlDateDiff & " <= " & InsAdmPropAnalisisVenc.GetSegundoVencimiento, sqlMtoRestante, "0", True) & " AS Mto2Vto, "
-      SQL = SQL & gUtilSQL.getIIF(sqlDateDiff & " > " & InsAdmPropAnalisisVenc.GetSegundoVencimiento & " AND " & sqlDateDiff & " <= " & InsAdmPropAnalisisVenc.GetTercerVencimiento, sqlMtoRestante, "0", True) & " AS Mto3Vto, "
-      SQL = SQL & gUtilSQL.getIIF(sqlDateDiff & " > " & InsAdmPropAnalisisVenc.GetTercerVencimiento, sqlMtoRestante, "0", True) & " AS Mto4Vto, "
-      SQL = SQL & sqlMtoRestante & " AS MtoTotal"
-      SQL = SQL & " FROM " & "proveedor INNER JOIN " & "CxP ON ("
-      SQL = SQL & "proveedor.CodigoProveedor = " & "CxP.CodigoProveedor"
-      SQL = SQL & ") AND (" & "proveedor.ConsecutivoCompania = " & "CxP.ConsecutivoCompania)"
-      SQL = SQL & " WHERE " & "CxP.ConsecutivoCompania = " & valConsecutivoCompania
-      SQL = SQL & " AND (" & "CxP.Status" & _
+      Sql = "SELECT "
+      Sql = Sql & sqlMoneda & ", "
+      Sql = Sql & sqlMonedaReporte & " AS MonedaReporte, "
+      Sql = Sql & gUtilSQL.fMonth(sqlFecha, "") & " AS Mes, "
+      Sql = Sql & gUtilSQL.fYear(sqlFecha, "") & " AS Ano, "
+      Sql = Sql & "CxP.CodigoProveedor, "
+      Sql = Sql & "proveedor.NombreProveedor, "
+      Sql = Sql & "CxP.Numero, "
+      Sql = Sql & sqlFecha & ", "
+      Sql = Sql & "CxP.FechaVencimiento, "
+      Sql = Sql & sqlDateDiff & " AS DiasVencidos, "
+      Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " <= 0 ", sqlMtoRestante, "0", True) & " AS MtoNoVencido, "
+      Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " > 0 AND " & sqlDateDiff & " <= " & InsAdmPropAnalisisVenc.GetPrimerVencimiento, sqlMtoRestante, "0", True) & " AS Mto1Vto, "
+      Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " > " & InsAdmPropAnalisisVenc.GetPrimerVencimiento & " AND " & sqlDateDiff & " <= " & InsAdmPropAnalisisVenc.GetSegundoVencimiento, sqlMtoRestante, "0", True) & " AS Mto2Vto, "
+      Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " > " & InsAdmPropAnalisisVenc.GetSegundoVencimiento & " AND " & sqlDateDiff & " <= " & InsAdmPropAnalisisVenc.GetTercerVencimiento, sqlMtoRestante, "0", True) & " AS Mto3Vto, "
+      Sql = Sql & gUtilSQL.getIIF(sqlDateDiff & " > " & InsAdmPropAnalisisVenc.GetTercerVencimiento, sqlMtoRestante, "0", True) & " AS Mto4Vto, "
+      Sql = Sql & sqlMtoRestante & " AS MtoTotal"
+      Sql = Sql & " FROM " & "proveedor INNER JOIN " & "CxP ON ("
+      Sql = Sql & "proveedor.CodigoProveedor = " & "CxP.CodigoProveedor"
+      Sql = Sql & ") AND (" & "proveedor.ConsecutivoCompania = " & "CxP.ConsecutivoCompania)"
+      Sql = Sql & " WHERE " & "CxP.ConsecutivoCompania = " & valConsecutivoCompania
+      Sql = Sql & " AND (" & "CxP.Status" & _
                   " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO) & _
                   " OR " & "CxP.Status" & _
                   " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_PORCANCELAR) & ")"
-      SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("CxP.Fecha", valFechaInicial, valFechaFinal)
-      SQL = SQL & " ORDER BY "
-      SQL = SQL & sqlMoneda & ", "
-      SQL = SQL & sqlFecha & ", "
+      Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween("CxP.Fecha", valFechaInicial, valFechaFinal)
+      Sql = Sql & " ORDER BY "
+      Sql = Sql & sqlMoneda & ", "
+      Sql = Sql & sqlFecha & ", "
       If valAnalisisDeVencimientoPor = gEnumReport.enumReporteOrdenadoPorToString(enum_ReporteOrdenadoPor.eRO_Nombre) Then
-         SQL = SQL & "proveedor.NombreProveedor, "
+         Sql = Sql & "proveedor.NombreProveedor, "
       Else
-         SQL = SQL & "CxP.CodigoProveedor, "
+         Sql = Sql & "CxP.CodigoProveedor, "
       End If
-      SQL = SQL & "CxP.FechaVencimiento"
+      Sql = Sql & "CxP.FechaVencimiento"
    End If
-   fSQLDelReporteAnalisisDeVencimientoEntreFechas = SQL
+   fSQLDelReporteAnalisisDeVencimientoEntreFechas = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLDelReporteAnalisisDeVencimientoEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1114,7 +1114,7 @@ Public Function fSQLComprobanteRetIVA(ByVal valFechaRetencion As Date, ByVal val
                                  ByVal gMonedaLocalActual As Object, ByVal valRetAplicadaPago As Boolean, _
                                     ByVal valAnoAplicacion As Integer, ByVal valFecha As Date, _
                                        ByVal gUltimaTasaDeCambio As Object, ByVal valEsUnaCxPCuentaATercero As Boolean) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlTotalCxP As String
    Dim sqlMontoGravado As String
    Dim sqlMontoExento As String
@@ -1193,88 +1193,88 @@ Public Function fSQLComprobanteRetIVA(ByVal valFechaRetencion As Date, ByVal val
    sqlMontoIVAALicuota2 = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(sqlCampoCambio, sqlCampoMoneda, sqlMontoIVAALicuota2, True, "")
    sqlMontoIVAALicuota3 = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(sqlCampoCambio, sqlCampoMoneda, sqlMontoIVAALicuota3, True, "")
 
-   SQL = "SELECT "
-   SQL = SQL & sqlTotalCxP & " As TotalCXPComprobanteRetIva, "
-   SQL = SQL & "proveedor.Direccion, "
-   SQL = SQL & "proveedor.Telefonos, "
-   SQL = SQL & "proveedor.NumeroRIF, "
-   SQL = SQL & "proveedor.NumeroNIT, "
-   SQL = SQL & "proveedor.NombreProveedor, "
-   SQL = SQL & "proveedor.CodigoProveedor, "
-   SQL = SQL & "cxp.FechaAplicacionRetIVA, "
-   SQL = SQL & "cxp.MesDeAplicacion, "
-   SQL = SQL & "cxp.AnoDeAplicacion, "
-   SQL = SQL & gUtilSQL.getIIF(gUtilSQL.DfCIntSQL("cxP.NumeroComprobanteRetencion") & " <> " & "0", "cxP.NumeroComprobanteRetencion", gUtilSQL.fSimpleSqlValue("Sin N° Asignado"), True) & " AS NumeroComprobanteRetencion, "
-   SQL = SQL & "cxP.PorcentajeRetencionAplicado, "
-   SQL = SQL & "cxP.Fecha AS FechaDelDocOrigen, "
-   SQL = SQL & gUtilSQL.getIIF("cxP.TipoDeCxP = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_FACTURA), gUtilSQL.getIIF("cxP.UsaPrefijoSerie='S'", "'Serie ' + cxP.Numero", "cxP.Numero", True), gUtilSQL.fSimpleSqlValue(""), True) & " AS NumeroDeFactura, "
-   SQL = SQL & "cxP.NumeroControl, "
-   SQL = SQL & gUtilSQL.getIIF("cxP.TipoDeCxP = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADEDEBITO), _
+   Sql = "SELECT "
+   Sql = Sql & sqlTotalCxP & " As TotalCXPComprobanteRetIva, "
+   Sql = Sql & "proveedor.Direccion, "
+   Sql = Sql & "proveedor.Telefonos, "
+   Sql = Sql & "proveedor.NumeroRIF, "
+   Sql = Sql & "proveedor.NumeroNIT, "
+   Sql = Sql & "proveedor.NombreProveedor, "
+   Sql = Sql & "proveedor.CodigoProveedor, "
+   Sql = Sql & "cxp.FechaAplicacionRetIVA, "
+   Sql = Sql & "cxp.MesDeAplicacion, "
+   Sql = Sql & "cxp.AnoDeAplicacion, "
+   Sql = Sql & gUtilSQL.getIIF(gUtilSQL.DfCIntSQL("cxP.NumeroComprobanteRetencion") & " <> " & "0", "cxP.NumeroComprobanteRetencion", gUtilSQL.fSimpleSqlValue("Sin N° Asignado"), True) & " AS NumeroComprobanteRetencion, "
+   Sql = Sql & "cxP.PorcentajeRetencionAplicado, "
+   Sql = Sql & "cxP.Fecha AS FechaDelDocOrigen, "
+   Sql = Sql & gUtilSQL.getIIF("cxP.TipoDeCxP = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_FACTURA), gUtilSQL.getIIF("cxP.UsaPrefijoSerie='S'", "'Serie ' + cxP.Numero", "cxP.Numero", True), gUtilSQL.fSimpleSqlValue(""), True) & " AS NumeroDeFactura, "
+   Sql = Sql & "cxP.NumeroControl, "
+   Sql = Sql & gUtilSQL.getIIF("cxP.TipoDeCxP = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADEDEBITO), _
                               "cxP.Numero", gUtilSQL.fSimpleSqlValue(""), True) & _
                " AS NumeroDeNotaDebito, "
-   SQL = SQL & gUtilSQL.getIIF("cxP.TipoDeCxP = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADECREDITO), _
+   Sql = Sql & gUtilSQL.getIIF("cxP.TipoDeCxP = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADECREDITO), _
                               "cxP.Numero", gUtilSQL.fSimpleSqlValue(""), True) & _
                " AS NumeroDeNotaCredito, "
-   SQL = SQL & gUtilSQL.DfSQLCaseIfForEnum("cxP.TipoDeTransaccion", _
+   Sql = Sql & gUtilSQL.DfSQLCaseIfForEnum("cxP.TipoDeTransaccion", _
                         enum_TipoDeTransaccionDeLibrosFiscales.eTD_A01_REGISTRO, _
                         gEnumProyecto.fEnumTransaccionFiscalToStringInArray(True), "") & _
                " AS TipoDeTransaccion, "
-   SQL = SQL & "cxP.NumeroDeFacturaAfectada, "
-   SQL = SQL & sqlMontoExento & " AS MontoExento, "
-   SQL = SQL & sqlMontoGravado & " AS MontoGravado, "
-   SQL = SQL & sqlMontoGravableAlicuotaGeneral & " AS MontoGravableAlicuotaGeneral, "
-   SQL = SQL & sqlMontoGravableAlicuota2 & " AS MontoGravableAlicuota2, "
-   SQL = SQL & sqlMontoGravableAlicuota3 & " AS MontoGravableAlicuota3, "
-   SQL = SQL & gUtilSQL.getIIF("cxp.AplicaIvaAlicuotaEspecial " & " = " & "'N'", _
+   Sql = Sql & "cxP.NumeroDeFacturaAfectada, "
+   Sql = Sql & sqlMontoExento & " AS MontoExento, "
+   Sql = Sql & sqlMontoGravado & " AS MontoGravado, "
+   Sql = Sql & sqlMontoGravableAlicuotaGeneral & " AS MontoGravableAlicuotaGeneral, "
+   Sql = Sql & sqlMontoGravableAlicuota2 & " AS MontoGravableAlicuota2, "
+   Sql = Sql & sqlMontoGravableAlicuota3 & " AS MontoGravableAlicuota3, "
+   Sql = Sql & gUtilSQL.getIIF("cxp.AplicaIvaAlicuotaEspecial " & " = " & "'N'", _
                         "(SELECT TOP 1 alicuotaIVA.MontoAlicuotaGeneral FROM alicuotaIVA WHERE " & _
                         " alicuotaIVA.FechaDeInicioDeVigencia <= cxP.Fecha ORDER BY alicuotaIVA.FechaDeInicioDeVigencia DESC)", _
                         gUtilSQL.getIIF("cxP.MontoGravableAlicuotaEspecial1 " & " > " & "0", _
                         "cxP.PorcentajeIvaAlicuotaEspecial1 ", "cxP.PorcentajeIvaAlicuotaEspecial2 "), True) & "As AlicuotaG,"
-   SQL = SQL & "(SELECT TOP 1 alicuotaIVA.MontoAlicuota2" & _
+   Sql = Sql & "(SELECT TOP 1 alicuotaIVA.MontoAlicuota2" & _
                         " FROM alicuotaIVA WHERE alicuotaIVA.FechaDeInicioDeVigencia <= cxP.Fecha" & _
                         " ORDER BY alicuotaIVA.FechaDeInicioDeVigencia" & _
                         " DESC) AS Alicuota2, "
-   SQL = SQL & "(SELECT TOP 1 alicuotaIVA.MontoAlicuota3" & _
+   Sql = Sql & "(SELECT TOP 1 alicuotaIVA.MontoAlicuota3" & _
                         " FROM alicuotaIVA WHERE alicuotaIVA.FechaDeInicioDeVigencia <= cxP.Fecha" & _
                         " ORDER BY alicuotaIVA.FechaDeInicioDeVigencia" & _
                         " DESC) AS Alicuota3, "
-   SQL = SQL & sqlMontoIva & " AS MontoIva, "
-   SQL = SQL & sqlMontoIVAALicuotaGeneral & " AS MontoIVAAlicuotaGeneral, "
-   SQL = SQL & sqlMontoIVAALicuota2 & " AS MontoIVAAlicuota2, "
-   SQL = SQL & sqlMontoIVAALicuota3 & " AS MontoIVAAlicuota3, "
+   Sql = Sql & sqlMontoIva & " AS MontoIva, "
+   Sql = Sql & sqlMontoIVAALicuotaGeneral & " AS MontoIVAAlicuotaGeneral, "
+   Sql = Sql & sqlMontoIVAALicuota2 & " AS MontoIVAAlicuota2, "
+   Sql = Sql & sqlMontoIVAALicuota3 & " AS MontoIVAAlicuota3, "
    If valAnoAplicacion >= gUtilDate.fYear(gMonedaLocalActual.GetHoyVigenteDesde) And valFecha < gMonedaLocalActual.GetHoyVigenteDesde Then
-      SQL = SQL & "cxP.MontoRetenido * " & gMonedaLocalActual.fFactorDeConversion(valFechaRetencion) & " as MontoRetenido, "
+      Sql = Sql & "cxP.MontoRetenido * " & gMonedaLocalActual.fFactorDeConversion(valFechaRetencion) & " as MontoRetenido, "
    Else
-      SQL = SQL & "cxP.MontoRetenido, "
+      Sql = Sql & "cxP.MontoRetenido, "
    End If
-   SQL = SQL & fSQLAnoYMesDeAplicacionIVAParaComprobante
-   SQL = SQL & " FROM proveedor"
-   SQL = SQL & " INNER JOIN cxP ON ("
+   Sql = Sql & fSQLAnoYMesDeAplicacionIVAParaComprobante
+   Sql = Sql & " FROM proveedor"
+   Sql = Sql & " INNER JOIN cxP ON ("
    If valEsUnaCxPCuentaATercero Then
-      SQL = SQL & " proveedor.CodigoProveedor = cxP.CodigoProveedorOriginalServicio"
+      Sql = Sql & " proveedor.CodigoProveedor = cxP.CodigoProveedorOriginalServicio"
    Else
-      SQL = SQL & " proveedor.CodigoProveedor = cxP.CodigoProveedor"
+      Sql = Sql & " proveedor.CodigoProveedor = cxP.CodigoProveedor"
    End If
-   SQL = SQL & ") AND (proveedor.ConsecutivoCompania = cxP.ConsecutivoCompania)"
-   SQL = SQL & " WHERE cxP.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND cxP.Numero = " & valNumero
+   Sql = Sql & ") AND (proveedor.ConsecutivoCompania = cxP.ConsecutivoCompania)"
+   Sql = Sql & " WHERE cxP.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND cxP.Numero = " & valNumero
    If valEsUnaCxPCuentaATercero Then
-      SQL = SQL & " AND cxP.CodigoProveedorOriginalServicio = " & ValCodigoProveedor
+      Sql = Sql & " AND cxP.CodigoProveedorOriginalServicio = " & ValCodigoProveedor
    Else
-      SQL = SQL & " AND cxP.CodigoProveedor = " & ValCodigoProveedor
+      Sql = Sql & " AND cxP.CodigoProveedor = " & ValCodigoProveedor
    End If
-   SQL = SQL & " AND cxP.SeHizoLaRetencionIVA = " & gUtilSQL.fBooleanToSqlValue(True)
+   Sql = Sql & " AND cxP.SeHizoLaRetencionIVA = " & gUtilSQL.fBooleanToSqlValue(True)
 h_EXIT:
    Set gEnumProyecto = Nothing
    Set insPagoSQL = Nothing
    On Error GoTo 0
-   fSQLComprobanteRetIVA = SQL
+   fSQLComprobanteRetIVA = Sql
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLComprobanteRetIVA", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLAnoYMesDeAplicacionIVAParaComprobante() As String
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlMes As String
    Dim sqlAno As String
    On Error GoTo h_ERROR
@@ -1284,10 +1284,10 @@ Public Function fSQLAnoYMesDeAplicacionIVAParaComprobante() As String
    sqlMes = gUtilSQL.DfRightSQL(sqlMes, 2, "0")
    sqlAno = "cxP.FechaAplicacionRetIva"
    sqlAno = gUtilSQL.fYear(sqlAno, "")
-   SQL = sqlAno & " AS AnoAplicRetIVA, "
-   SQL = SQL & sqlMes & " AS MesAplicRetIVA "
+   Sql = sqlAno & " AS AnoAplicRetIVA, "
+   Sql = Sql & sqlMes & " AS MesAplicRetIVA "
 h_EXIT: On Error GoTo 0
-   fSQLAnoYMesDeAplicacionIVAParaComprobante = SQL
+   fSQLAnoYMesDeAplicacionIVAParaComprobante = Sql
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fSQLAnoYMesDeAplicacionIVAParaComprobante", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1302,7 +1302,7 @@ Public Function fSQLRetIVAenCxP(ByVal valMonedaOriginal As Boolean, _
                                                                  ByVal valConsecutivoCompania As String, _
                                                                   ByVal gMonedaLocalActual As Object, _
                                                                    ByVal gUltimaTasaDeCambio As Object) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlStatusCxP As String
    Dim sqlMtoTotal As String
    Dim sqlMtoRestante As String
@@ -1346,65 +1346,65 @@ Public Function fSQLRetIVAenCxP(ByVal valMonedaOriginal As Boolean, _
       unSoloStatus = True
       statusABuscarChr = gUtilSQL.fSQLSimpleValueForEnum(gEnumProyecto.strStatusDocumentoToNum(valElementInComboBoxToString))
    End If
-   SQL = "SELECT "
-   SQL = SQL & "CxP.Numero, "
-   SQL = SQL & "CxP.CodigoProveedor, "
-   SQL = SQL & "Proveedor.NombreProveedor, "
-   SQL = SQL & "CxP.Fecha, "
-   SQL = SQL & "CxP.FechaVencimiento, "
-   SQL = SQL & sqlStatusCxP & " AS StatusStr, "
-   SQL = SQL & sqlMtoTotal & " AS MontoTotal, "
-   SQL = SQL & sqlMtoRestante & " AS MontoRestante, "
-   SQL = SQL & sqlMonedaReporte & " AS MonedaReporte, "
-   SQL = SQL & "CxP.Moneda AS MonedaDocumento, "
-   SQL = SQL & sqlCambio & " AS Cambio, "
-   SQL = SQL & "CxP.porcentajeRetencionAplicado, "
-   SQL = SQL & sqlMtoRetenido & " AS MontoRetenido "
-   SQL = SQL & ", CxP.Status"
-   SQL = SQL & " FROM CxP INNER JOIN Proveedor ON "
-   SQL = SQL & "CxP.CodigoProveedor = Proveedor.CodigoProveedor"
-   SQL = SQL & " AND CxP.ConsecutivoCompania = Proveedor.ConsecutivoCompania"
-   SQL = SQL & " WHERE " & gUtilSQL.DfSQLDateValueBetween("CxP.Fecha", valFechaInicial, valFechaFinal)
+   Sql = "SELECT "
+   Sql = Sql & "CxP.Numero, "
+   Sql = Sql & "CxP.CodigoProveedor, "
+   Sql = Sql & "Proveedor.NombreProveedor, "
+   Sql = Sql & "CxP.Fecha, "
+   Sql = Sql & "CxP.FechaVencimiento, "
+   Sql = Sql & sqlStatusCxP & " AS StatusStr, "
+   Sql = Sql & sqlMtoTotal & " AS MontoTotal, "
+   Sql = Sql & sqlMtoRestante & " AS MontoRestante, "
+   Sql = Sql & sqlMonedaReporte & " AS MonedaReporte, "
+   Sql = Sql & "CxP.Moneda AS MonedaDocumento, "
+   Sql = Sql & sqlCambio & " AS Cambio, "
+   Sql = Sql & "CxP.porcentajeRetencionAplicado, "
+   Sql = Sql & sqlMtoRetenido & " AS MontoRetenido "
+   Sql = Sql & ", CxP.Status"
+   Sql = Sql & " FROM CxP INNER JOIN Proveedor ON "
+   Sql = Sql & "CxP.CodigoProveedor = Proveedor.CodigoProveedor"
+   Sql = Sql & " AND CxP.ConsecutivoCompania = Proveedor.ConsecutivoCompania"
+   Sql = Sql & " WHERE " & gUtilSQL.DfSQLDateValueBetween("CxP.Fecha", valFechaInicial, valFechaFinal)
    If unSoloStatus Then
-      SQL = SQL & " AND CxP.Status = " & statusABuscarChr
+      Sql = Sql & " AND CxP.Status = " & statusABuscarChr
    End If
-   SQL = SQL & " AND CxP.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND cxP.EsUnaCuentaATerceros = " & gUtilSQL.fBooleanToSqlValue(False)
-   SQL = SQL & " UNION"
-   SQL = SQL & " SELECT "
-   SQL = SQL & "CxP.Numero, "
-   SQL = SQL & "CxP.CodigoProveedor, "
-   SQL = SQL & "Proveedor.NombreProveedor, "
-   SQL = SQL & "CxP.Fecha, "
-   SQL = SQL & "CxP.FechaVencimiento, "
-   SQL = SQL & sqlStatusCxP & " AS StatusStr, "
-   SQL = SQL & sqlMtoTotal & " AS MontoTotal, "
-   SQL = SQL & sqlMtoRestante & " AS MontoRestante, "
-   SQL = SQL & sqlMonedaReporte & " AS MonedaReporte, "
-   SQL = SQL & "CxP.Moneda AS MonedaDocumento, "
-   SQL = SQL & sqlCambio & " AS Cambio, "
-   SQL = SQL & "CxP.porcentajeRetencionAplicado, "
-   SQL = SQL & sqlMtoRetenido & " AS MontoRetenido "
-   SQL = SQL & ", CxP.Status"
-   SQL = SQL & " FROM CxP INNER JOIN Proveedor ON "
-   SQL = SQL & "CxP.CodigoProveedorOriginalServicio = Proveedor.CodigoProveedor"
-   SQL = SQL & " AND CxP.ConsecutivoCompania = Proveedor.ConsecutivoCompania"
-   SQL = SQL & " WHERE " & gUtilSQL.DfSQLDateValueBetween("CxP.Fecha", valFechaInicial, valFechaFinal)
+   Sql = Sql & " AND CxP.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND cxP.EsUnaCuentaATerceros = " & gUtilSQL.fBooleanToSqlValue(False)
+   Sql = Sql & " UNION"
+   Sql = Sql & " SELECT "
+   Sql = Sql & "CxP.Numero, "
+   Sql = Sql & "CxP.CodigoProveedor, "
+   Sql = Sql & "Proveedor.NombreProveedor, "
+   Sql = Sql & "CxP.Fecha, "
+   Sql = Sql & "CxP.FechaVencimiento, "
+   Sql = Sql & sqlStatusCxP & " AS StatusStr, "
+   Sql = Sql & sqlMtoTotal & " AS MontoTotal, "
+   Sql = Sql & sqlMtoRestante & " AS MontoRestante, "
+   Sql = Sql & sqlMonedaReporte & " AS MonedaReporte, "
+   Sql = Sql & "CxP.Moneda AS MonedaDocumento, "
+   Sql = Sql & sqlCambio & " AS Cambio, "
+   Sql = Sql & "CxP.porcentajeRetencionAplicado, "
+   Sql = Sql & sqlMtoRetenido & " AS MontoRetenido "
+   Sql = Sql & ", CxP.Status"
+   Sql = Sql & " FROM CxP INNER JOIN Proveedor ON "
+   Sql = Sql & "CxP.CodigoProveedorOriginalServicio = Proveedor.CodigoProveedor"
+   Sql = Sql & " AND CxP.ConsecutivoCompania = Proveedor.ConsecutivoCompania"
+   Sql = Sql & " WHERE " & gUtilSQL.DfSQLDateValueBetween("CxP.Fecha", valFechaInicial, valFechaFinal)
    If unSoloStatus Then
-      SQL = SQL & " AND CxP.Status = " & statusABuscarChr
+      Sql = Sql & " AND CxP.Status = " & statusABuscarChr
    End If
-   SQL = SQL & " AND CxP.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND cxP.EsUnaCuentaATerceros = " & gUtilSQL.fBooleanToSqlValue(True)
+   Sql = Sql & " AND CxP.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND cxP.EsUnaCuentaATerceros = " & gUtilSQL.fBooleanToSqlValue(True)
    
    
-   SQL = SQL & " ORDER BY "
-   SQL = SQL & "CxP.Status, "
-   SQL = SQL & "MonedaReporte, "
-   SQL = SQL & "CxP.Fecha, "
-   SQL = SQL & "CxP.Numero, "
-   SQL = SQL & "CxP.CodigoProveedor"
+   Sql = Sql & " ORDER BY "
+   Sql = Sql & "CxP.Status, "
+   Sql = Sql & "MonedaReporte, "
+   Sql = Sql & "CxP.Fecha, "
+   Sql = Sql & "CxP.Numero, "
+   Sql = Sql & "CxP.CodigoProveedor"
    Set gEnumProyecto = Nothing
-   fSQLRetIVAenCxP = SQL
+   fSQLRetIVAenCxP = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -1412,70 +1412,70 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 Public Function fConstruirSQLDeComprobanteCxP(ByVal valConsecutivoCompania As Long, ByVal valNumero As String, ByVal ValCodigoProveedor, ByVal valEsUnaCuentaDeTercero As Boolean) As String
    Dim gEnumProyecto As clsEnumAdministrativo
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlTotal As String
    Dim sqlMontoRestante As String
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   SQL = " SELECT "
-   SQL = SQL & gUtilSQL.DfSQLCaseIfForEnum("cxP" & ".TipoDeCxp", enum_TipoDeTransaccion.eTD_FACTURA, gEnumProyecto.fEnumTipoDeTransaccioToStringInArray(True), "TipoDeCxP") & ","
-   SQL = SQL & gUtilSQL.getIIF("cxP" & ".UsaPrefijoSerie='S'", "'Serie ' +" & "cxP" & ".Numero", "cxP" & ".Numero", True) & " AS Numero, "
-   SQL = SQL & "cxP" & ".NumeroControl AS NumeroControl, "
-   SQL = SQL & "cxP" & ".Fecha AS Fecha, "
-   SQL = SQL & "cxP" & ".FechaVencimiento AS FechaVencimiento, "
-   SQL = SQL & "cxP" & ".NumDiasDeVencimiento AS DiasVencimiento, "
-   SQL = SQL & "cxP" & ".FechaCancelacion AS FechaCancelacion, "
-   SQL = SQL & gUtilSQL.DfSQLCaseIfForEnum("cxP" & ".Status", enum_StatusDocumento.eSD_PORCANCELAR, gEnumProyecto.fEnumStatusCxCToStringInArray(True), "Status") & ","
-   SQL = SQL & "cxP" & ".EsCxPhistorica AS CxPHistorico, "
-   SQL = SQL & "cxP" & ".Moneda AS Moneda, "
-   SQL = SQL & "cxP" & ".CambioAbolivares AS CambioABolivares, "
-   SQL = SQL & "proveedor" & ".CodigoProveedor As CodigoProveedor, "
-   SQL = SQL & "proveedor" & ".NumeroRIF AS NumeroRif, "
-   SQL = SQL & "proveedor" & ".NombreProveedor As NombreProveedor, "
-   SQL = SQL & "cxP" & ".Observaciones AS Observaciones, "
+   Sql = " SELECT "
+   Sql = Sql & gUtilSQL.DfSQLCaseIfForEnum("cxP" & ".TipoDeCxp", enum_TipoDeTransaccion.eTD_FACTURA, gEnumProyecto.fEnumTipoDeTransaccioToStringInArray(True), "TipoDeCxP") & ","
+   Sql = Sql & gUtilSQL.getIIF("cxP" & ".UsaPrefijoSerie='S'", "'Serie ' +" & "cxP" & ".Numero", "cxP" & ".Numero", True) & " AS Numero, "
+   Sql = Sql & "cxP" & ".NumeroControl AS NumeroControl, "
+   Sql = Sql & "cxP" & ".Fecha AS Fecha, "
+   Sql = Sql & "cxP" & ".FechaVencimiento AS FechaVencimiento, "
+   Sql = Sql & "cxP" & ".NumDiasDeVencimiento AS DiasVencimiento, "
+   Sql = Sql & "cxP" & ".FechaCancelacion AS FechaCancelacion, "
+   Sql = Sql & gUtilSQL.DfSQLCaseIfForEnum("cxP" & ".Status", enum_StatusDocumento.eSD_PORCANCELAR, gEnumProyecto.fEnumStatusCxCToStringInArray(True), "Status") & ","
+   Sql = Sql & "cxP" & ".EsCxPhistorica AS CxPHistorico, "
+   Sql = Sql & "cxP" & ".Moneda AS Moneda, "
+   Sql = Sql & "cxP" & ".CambioAbolivares AS CambioABolivares, "
+   Sql = Sql & "proveedor" & ".CodigoProveedor As CodigoProveedor, "
+   Sql = Sql & "proveedor" & ".NumeroRIF AS NumeroRif, "
+   Sql = Sql & "proveedor" & ".NombreProveedor As NombreProveedor, "
+   Sql = Sql & "cxP" & ".Observaciones AS Observaciones, "
    sqlTotal = "(" & "cxP" & ".MontoExento + " & "cxP" & ".MontoGravado + " & "cxP" & ".MontoIva)"
-   SQL = SQL & sqlTotal & " AS Total, "
-   SQL = SQL & "cxP" & ".MontoAbonado AS MontoAbonado,"
+   Sql = Sql & sqlTotal & " AS Total, "
+   Sql = Sql & "cxP" & ".MontoAbonado AS MontoAbonado,"
    sqlMontoRestante = sqlTotal & "-" & "cxP" & ".MontoAbonado"
-   SQL = SQL & sqlMontoRestante & " AS RestaPorPagar,"
-   SQL = SQL & "cxP" & ".MesDeAplicacion AS Mes, "
-   SQL = SQL & "cxP" & ".AnoDeAplicacion AS Ano, "
-   SQL = SQL & gUtilSQL.DfSQLCaseIfForEnum("cxP" & ".TipoDeCompra", enum_TipoDeCompra.eTD_COMPRASEXENTAS, gEnumProyecto.fenumTipoCompraToStringInArray(True), "TipodeCompra") & ","
-   SQL = SQL & "cxP" & ".NumeroPlanillaDeImportacion AS PlanillaImportacion, "
-   SQL = SQL & "cxP" & ".NumeroExpedienteDeImportacion AS ExpedienteImportacion, "
-   SQL = SQL & "cxP" & ".NumeroDeclaracionAduana AS NumeroDeclaracionAduana, "
-   SQL = SQL & "cxP" & ".FechaDeclaracionAduana AS FechaDeclaracionAduana, "
-   SQL = SQL & "cxP" & ".UsaPrefijoSerie AS UsaPrefijoSerie, "
-   SQL = SQL & gUtilSQL.DfSQLCaseIfForEnum("cxP" & ".TipoDeTransaccion", enum_TipoDeTransaccionDeLibrosFiscales.eTD_A01_REGISTRO, gEnumProyecto.fEnumTransaccionFiscalToStringInArray(True), "TipoTransaccion") & ","
-   SQL = SQL & "cxP" & ".NumeroDeFacturaAfectada AS FacturaAfectada, "
-   SQL = SQL & gUtilSQL.DfSQLCaseIfForEnum("cxP" & ".CreditoFiscal", enum_CreditoFiscal.eCF_DEDUCIBLE, gEnumProyecto.fEnumCreditoFiscalToStringInArray(True), "CreditoFiscal") & ","
-   SQL = SQL & "cxP" & ".MontoExento AS MontoExento, "
+   Sql = Sql & sqlMontoRestante & " AS RestaPorPagar,"
+   Sql = Sql & "cxP" & ".MesDeAplicacion AS Mes, "
+   Sql = Sql & "cxP" & ".AnoDeAplicacion AS Ano, "
+   Sql = Sql & gUtilSQL.DfSQLCaseIfForEnum("cxP" & ".TipoDeCompra", enum_TipoDeCompra.eTD_COMPRASEXENTAS, gEnumProyecto.fenumTipoCompraToStringInArray(True), "TipodeCompra") & ","
+   Sql = Sql & "cxP" & ".NumeroPlanillaDeImportacion AS PlanillaImportacion, "
+   Sql = Sql & "cxP" & ".NumeroExpedienteDeImportacion AS ExpedienteImportacion, "
+   Sql = Sql & "cxP" & ".NumeroDeclaracionAduana AS NumeroDeclaracionAduana, "
+   Sql = Sql & "cxP" & ".FechaDeclaracionAduana AS FechaDeclaracionAduana, "
+   Sql = Sql & "cxP" & ".UsaPrefijoSerie AS UsaPrefijoSerie, "
+   Sql = Sql & gUtilSQL.DfSQLCaseIfForEnum("cxP" & ".TipoDeTransaccion", enum_TipoDeTransaccionDeLibrosFiscales.eTD_A01_REGISTRO, gEnumProyecto.fEnumTransaccionFiscalToStringInArray(True), "TipoTransaccion") & ","
+   Sql = Sql & "cxP" & ".NumeroDeFacturaAfectada AS FacturaAfectada, "
+   Sql = Sql & gUtilSQL.DfSQLCaseIfForEnum("cxP" & ".CreditoFiscal", enum_CreditoFiscal.eCF_DEDUCIBLE, gEnumProyecto.fEnumCreditoFiscalToStringInArray(True), "CreditoFiscal") & ","
+   Sql = Sql & "cxP" & ".MontoExento AS MontoExento, "
 '   SQL = SQL & "cxP" & ".MontoGravableAlicuotaGeneral AS AGMontoGravable, "
 '   SQL = SQL & "cxP" & ".MontoIvaalicuotaGeneral AS AGMontoIVA, "
-   SQL = SQL & gUtilSQL.getIIF("cxp.AplicaIvaAlicuotaEspecial = " & gUtilSQL.fSimpleSqlValue("S"), gUtilSQL.getIIF("cxP.MontoGravableAlicuotaEspecial1 <> 0", "cxP.MontoGravableAlicuotaEspecial1", "cxP.MontoGravableAlicuotaEspecial2", True), "cxP.MontoGravableAlicuotaGeneral", True) & "AS AGMontoGravable,"
-   SQL = SQL & gUtilSQL.getIIF("cxp.AplicaIvaAlicuotaEspecial = " & gUtilSQL.fSimpleSqlValue("S"), gUtilSQL.getIIF("cxP.MontoIVAAlicuotaEspecial1 <> 0", "cxP.MontoIVAAlicuotaEspecial1", "cxP.MontoIVAAlicuotaEspecial2", True), "cxP.MontoIvaalicuotaGeneral", True) & "AS AGMontoIVA,"
-   SQL = SQL & "cxP" & ".MontoGravableAlicuota2 AS A2MontoGravable, "
-   SQL = SQL & "cxP" & ".MontoIvaalicuota2 AS A2MontoIVA, "
-   SQL = SQL & "cxP" & ".NumeroComprobanteRetencion AS NumeroComprobanteRetencionIVA, "
-   SQL = SQL & "cxP" & ".FechaAplicacionRetIva AS FechaAplicacion, "
-   SQL = SQL & "cxP" & ".OrigenDeLaRetencion AS ModuloDeOrigen, "
-   SQL = SQL & "cxP" & ".PorcentajeRetencionAplicado AS PorcentajeRetenido, "
-   SQL = SQL & "cxP" & ".MontoRetenido AS MontoRetencionIVA, "
-   SQL = SQL & "cxP" & ".CodigoMoneda AS CodigoMoneda"
+   Sql = Sql & gUtilSQL.getIIF("cxp.AplicaIvaAlicuotaEspecial = " & gUtilSQL.fSimpleSqlValue("S"), gUtilSQL.getIIF("cxP.MontoGravableAlicuotaEspecial1 <> 0", "cxP.MontoGravableAlicuotaEspecial1", "cxP.MontoGravableAlicuotaEspecial2", True), "cxP.MontoGravableAlicuotaGeneral", True) & "AS AGMontoGravable,"
+   Sql = Sql & gUtilSQL.getIIF("cxp.AplicaIvaAlicuotaEspecial = " & gUtilSQL.fSimpleSqlValue("S"), gUtilSQL.getIIF("cxP.MontoIVAAlicuotaEspecial1 <> 0", "cxP.MontoIVAAlicuotaEspecial1", "cxP.MontoIVAAlicuotaEspecial2", True), "cxP.MontoIvaalicuotaGeneral", True) & "AS AGMontoIVA,"
+   Sql = Sql & "cxP" & ".MontoGravableAlicuota2 AS A2MontoGravable, "
+   Sql = Sql & "cxP" & ".MontoIvaalicuota2 AS A2MontoIVA, "
+   Sql = Sql & "cxP" & ".NumeroComprobanteRetencion AS NumeroComprobanteRetencionIVA, "
+   Sql = Sql & "cxP" & ".FechaAplicacionRetIva AS FechaAplicacion, "
+   Sql = Sql & "cxP" & ".OrigenDeLaRetencion AS ModuloDeOrigen, "
+   Sql = Sql & "cxP" & ".PorcentajeRetencionAplicado AS PorcentajeRetenido, "
+   Sql = Sql & "cxP" & ".MontoRetenido AS MontoRetencionIVA, "
+   Sql = Sql & "cxP" & ".CodigoMoneda AS CodigoMoneda"
    If valEsUnaCuentaDeTercero Then
-      SQL = SQL & "cxP" & ", cxp.CodigoProveedorOriginalServicio as CodigoProvOriginal, proveedorOriginal.NombreProveedor as NombreProvOriginal"
+      Sql = Sql & "cxP" & ", cxp.CodigoProveedorOriginalServicio as CodigoProvOriginal, proveedorOriginal.NombreProveedor as NombreProvOriginal"
    End If
-   SQL = SQL & " FROM " & "proveedor as Proveedor INNER JOIN " & "cxP" & " ON  ( " & "proveedor" & ".CodigoProveedor = " & "cxP" & ".CodigoProveedor )" & _
+   Sql = Sql & " FROM " & "proveedor as Proveedor INNER JOIN " & "cxP" & " ON  ( " & "proveedor" & ".CodigoProveedor = " & "cxP" & ".CodigoProveedor )" & _
    " AND (" & "proveedor" & ".ConsecutivoCompania = " & "cxP" & ".ConsecutivoCompania ) "
    If valEsUnaCuentaDeTercero Then
-      SQL = SQL & " INNER JOIN proveedor as proveedorOriginal ON ( proveedorOriginal.CodigoProveedor = cxP.CodigoProveedorOriginalServicio) "
-      SQL = SQL & " AND (proveedorOriginal.ConsecutivoCompania = cxP.ConsecutivoCompania)"
+      Sql = Sql & " INNER JOIN proveedor as proveedorOriginal ON ( proveedorOriginal.CodigoProveedor = cxP.CodigoProveedorOriginalServicio) "
+      Sql = Sql & " AND (proveedorOriginal.ConsecutivoCompania = cxP.ConsecutivoCompania)"
    End If
-   SQL = SQL & "WHERE " & "cxP" & ".ConsecutivoCompania = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & _
+   Sql = Sql & "WHERE " & "cxP" & ".ConsecutivoCompania = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & _
    " AND " & "cxP" & ".Numero = " & gUtilSQL.fSimpleSqlValue(valNumero) & _
    " AND " & "cxP" & ".CodigoProveedor = " & gUtilSQL.fSimpleSqlValue(ValCodigoProveedor)
    Set gEnumProyecto = Nothing
-   fConstruirSQLDeComprobanteCxP = SQL
+   fConstruirSQLDeComprobanteCxP = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -1488,70 +1488,70 @@ Public Function fSQLSearchCxPPendientes(ByVal valConsecutivoCompania As Long, By
    
    Dim sqlMontoOriginal As String
    Dim sqlMontoRestante As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
    If valTraerTotales Then
       sqlMontoOriginal = valfSQLMontoTotalCxP
       sqlMontoRestante = "(" & sqlMontoOriginal & " - " & "cxP" & ".MontoAbonado)"
-      SQL = "SELECT "
-      SQL = SQL & "cxP" & ".Numero, "
-      SQL = SQL & "cxP" & ".NumeroControl, " 'Pendiente
-      SQL = SQL & "cxP" & ".ConsecutivoCxp, "
-      SQL = SQL & "cxP" & ".Status, "
-      SQL = SQL & "cxP" & ".MontoIva, "
-      SQL = SQL & sqlMontoOriginal & " AS MontoOriginalCxP, "
-      SQL = SQL & sqlMontoRestante & " AS MontoRestante, "
-      SQL = SQL & "cxP" & ".Moneda, "
+      Sql = "SELECT "
+      Sql = Sql & "cxP" & ".Numero, "
+      Sql = Sql & "cxP" & ".NumeroControl, " 'Pendiente
+      Sql = Sql & "cxP" & ".ConsecutivoCxp, "
+      Sql = Sql & "cxP" & ".Status, "
+      Sql = Sql & "cxP" & ".MontoIva, "
+      Sql = Sql & sqlMontoOriginal & " AS MontoOriginalCxP, "
+      Sql = Sql & sqlMontoRestante & " AS MontoRestante, "
+      Sql = Sql & "cxP" & ".Moneda, "
       If valEnviadoAPago Then
-         SQL = SQL & "cxP" & ".CambioABolivares, "
+         Sql = Sql & "cxP" & ".CambioABolivares, "
       End If
-      SQL = SQL & "cxP" & ".SeHizoLaRetencion AS Retenido, "
-      SQL = SQL & "cxP" & ".RetencionAplicadaEnPago AS RetenerEnPago, "
-      SQL = SQL & gUtilSQL.getIIF("cxP" & ".RetencionAplicadaEnPago" & " = " & gUtilSQL.fBooleanToSqlValue(False), "cxP" & ".MontoRetenido", "0", True) & " AS MontoRetIVA, "
-      SQL = SQL & "cxP" & ".SeHizoLaRetencionIva AS IvaRetenido, "
-      SQL = SQL & "cxP" & ".CodigoMoneda, "
-      SQL = SQL & "cxP.EsUnaCuentaATerceros, "
-      SQL = SQL & "cxP.CodigoProveedorOriginalServicio "
-      SQL = SQL & " FROM " & "cxP"
-      SQL = SQL & " WHERE " & "cxP" & ".ConsecutivoCompania" & _
+      Sql = Sql & "cxP" & ".SeHizoLaRetencion AS Retenido, "
+      Sql = Sql & "cxP" & ".RetencionAplicadaEnPago AS RetenerEnPago, "
+      Sql = Sql & gUtilSQL.getIIF("cxP" & ".RetencionAplicadaEnPago" & " = " & gUtilSQL.fBooleanToSqlValue(False), "cxP" & ".MontoRetenido", "0", True) & " AS MontoRetIVA, "
+      Sql = Sql & "cxP" & ".SeHizoLaRetencionIva AS IvaRetenido, "
+      Sql = Sql & "cxP" & ".CodigoMoneda, "
+      Sql = Sql & "cxP.EsUnaCuentaATerceros, "
+      Sql = Sql & "cxP.CodigoProveedorOriginalServicio "
+      Sql = Sql & " FROM " & "cxP"
+      Sql = Sql & " WHERE " & "cxP" & ".ConsecutivoCompania" & _
                   " = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania)
-      SQL = SQL & " AND " & "cxP" & ".CodigoProveedor" & _
+      Sql = Sql & " AND " & "cxP" & ".CodigoProveedor" & _
                   " = " & gUtilSQL.fSimpleSqlValue(refCodigoProveedor)
-      SQL = SQL & " AND " & "cxP" & ".Status" & _
+      Sql = Sql & " AND " & "cxP" & ".Status" & _
                   " <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ANULADO)
      
      If (valFiltraPorOrigenRetencion) Then
       
-      SQL = SQL & " AND " & "cxP" & ".OrigenDeLaRetencionISLR" & _
+      Sql = Sql & " AND " & "cxP" & ".OrigenDeLaRetencionISLR" & _
                   " <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeSeEfectuaLaRetencionIVA.eDS_NO_RETENIDA)
      
      End If
     
-      SQL = SQL & " AND " & "cxP" & ".MontoAbonado" & _
+      Sql = Sql & " AND " & "cxP" & ".MontoAbonado" & _
                   " <> (" & "cxP" & ".MontoExento" & _
                      " + " & "cxP" & ".MontoGravado" & _
                      " + " & "cxP" & ".MontoIva)"
-      SQL = SQL & " AND Fecha <= " & gUtilSQL.fDateToSQLValue(valFecha)
-      SQL = SQL & " AND " & gUtilSQL.DfMidSQL("cxP" & ".Numero", 1, 3) & " <> " & gUtilSQL.fSimpleSqlValue(valPrefijoRIS)
+      Sql = Sql & " AND Fecha <= " & gUtilSQL.fDateToSQLValue(valFecha)
+      Sql = Sql & " AND " & gUtilSQL.DfMidSQL("cxP" & ".Numero", 1, 3) & " <> " & gUtilSQL.fSimpleSqlValue(valPrefijoRIS)
     
       If valEnviadoAPago Then
-         SQL = SQL & " AND " & "cxP" & ".Numero" & " = " & gUtilSQL.fSimpleSqlValue(valNumeroEnviadoAPago)
+         Sql = Sql & " AND " & "cxP" & ".Numero" & " = " & gUtilSQL.fSimpleSqlValue(valNumeroEnviadoAPago)
       End If
-         SQL = SQL & " AND " & "cxP" & ".EstaAsociadoARendicion  = 'N' "
+         Sql = Sql & " AND " & "cxP" & ".EstaAsociadoARendicion  = 'N' "
     
    Else
-      SQL = "SELECT "
-      SQL = SQL & "cxP" & ".Numero"
-      SQL = SQL & " FROM " & "cxP"
-      SQL = SQL & " WHERE " & "cxP" & ".ConsecutivoCompania" & " = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania)
-      SQL = SQL & " AND " & "cxP" & ".Status <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ANULADO)
-      SQL = SQL & " AND " & "cxP" & ".CodigoProveedor" & " = " & gUtilSQL.fSimpleSqlValue(refCodigoProveedor)
-      SQL = SQL & " AND " & gUtilSQL.DfMidSQL("cxP" & ".Numero", 1, 3) & " <> " & gUtilSQL.fSimpleSqlValue(valPrefijoRIS)
+      Sql = "SELECT "
+      Sql = Sql & "cxP" & ".Numero"
+      Sql = Sql & " FROM " & "cxP"
+      Sql = Sql & " WHERE " & "cxP" & ".ConsecutivoCompania" & " = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania)
+      Sql = Sql & " AND " & "cxP" & ".Status <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ANULADO)
+      Sql = Sql & " AND " & "cxP" & ".CodigoProveedor" & " = " & gUtilSQL.fSimpleSqlValue(refCodigoProveedor)
+      Sql = Sql & " AND " & gUtilSQL.DfMidSQL("cxP" & ".Numero", 1, 3) & " <> " & gUtilSQL.fSimpleSqlValue(valPrefijoRIS)
    End If
    If valOrdenarCxPPorFacturaDocumento Then
-      SQL = SQL & " ORDER BY " & gUtilSQL.fSQLFillRightWithCaracter("cxP.Numero", 25, "0")
+      Sql = Sql & " ORDER BY " & gUtilSQL.fSQLFillRightWithCaracter("cxP.Numero", 25, "0")
    End If
-   fSQLSearchCxPPendientes = SQL
+   fSQLSearchCxPPendientes = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fSQLSearchCxPPendientes = ""
@@ -1560,45 +1560,45 @@ h_ERROR: fSQLSearchCxPPendientes = ""
 End Function
 
 Public Function fSQLSearchByCodigoProveedoryNumeroCxPParaActualizarDesdePago(ByVal ValCodigoProveedor As String, ByVal valNumeroCxP As String, ByVal valConsecutivoCompania As Long) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlWhere As String
    On Error GoTo h_ERROR
    sqlWhere = ""
    sqlWhere = gUtilSQL.fSQLNumberValueWithAnd(sqlWhere, "ConsecutivoCompania", valConsecutivoCompania)
    sqlWhere = gUtilSQL.fSQLValueWithAnd(sqlWhere, "CodigoProveedor", ValCodigoProveedor, False)
    sqlWhere = gUtilSQL.fSQLValueWithAnd(sqlWhere, "Numero", valNumeroCxP, False)
-   SQL = "SELECT "
-   SQL = SQL & "ConsecutivoCompania, "
-   SQL = SQL & "Numero, "
-   SQL = SQL & "Status, "
-   SQL = SQL & "CodigoProveedor, "
-   SQL = SQL & "MontoExento, "
-   SQL = SQL & "MontoGravado, "
-   SQL = SQL & "MontoIva, "
-   SQL = SQL & "MontoAbonado, "
-   SQL = SQL & "TotalOtrosImpuestos, "
-   SQL = SQL & "SeHizoLaRetencion, "
-   SQL = SQL & "SeHizoLaRetencionIva, "
-   SQL = SQL & "MontoRetenido, "
-   SQL = SQL & "NumeroComprobanteRetencion, "
-   SQL = SQL & "RetencionAplicadaEnPago, "
-   SQL = SQL & "FechaCancelacion, "
-   SQL = SQL & "OrigenDeLaRetencion, "
-   SQL = SQL & "OrigenInformacionRetencion, "
-   SQL = SQL & "FechaAplicacionRetIva, "
-   SQL = SQL & "EsCxPhistorica, "
-   SQL = SQL & "DondeContabilRetIva, "
-   SQL = SQL & "SeContabilRetIva, "
-   SQL = SQL & "ConsecutivoCxP, "
-   SQL = SQL & "NombreOperador, "
-   SQL = SQL & "OrigenDeLaRetencionISLR,"
-   SQL = SQL & "SeContabilISLR,"
-   SQL = SQL & "ISLRAplicadaEnPago,"
-   SQL = SQL & "FechaUltimaModificacion"
-   SQL = SQL & " FROM " & "cxP"
-   SQL = SQL & gUtilSQL.getWhereSQL(sqlWhere)
-   SQL = SQL & " ORDER BY Numero"
-   fSQLSearchByCodigoProveedoryNumeroCxPParaActualizarDesdePago = SQL
+   Sql = "SELECT "
+   Sql = Sql & "ConsecutivoCompania, "
+   Sql = Sql & "Numero, "
+   Sql = Sql & "Status, "
+   Sql = Sql & "CodigoProveedor, "
+   Sql = Sql & "MontoExento, "
+   Sql = Sql & "MontoGravado, "
+   Sql = Sql & "MontoIva, "
+   Sql = Sql & "MontoAbonado, "
+   Sql = Sql & "TotalOtrosImpuestos, "
+   Sql = Sql & "SeHizoLaRetencion, "
+   Sql = Sql & "SeHizoLaRetencionIva, "
+   Sql = Sql & "MontoRetenido, "
+   Sql = Sql & "NumeroComprobanteRetencion, "
+   Sql = Sql & "RetencionAplicadaEnPago, "
+   Sql = Sql & "FechaCancelacion, "
+   Sql = Sql & "OrigenDeLaRetencion, "
+   Sql = Sql & "OrigenInformacionRetencion, "
+   Sql = Sql & "FechaAplicacionRetIva, "
+   Sql = Sql & "EsCxPhistorica, "
+   Sql = Sql & "DondeContabilRetIva, "
+   Sql = Sql & "SeContabilRetIva, "
+   Sql = Sql & "ConsecutivoCxP, "
+   Sql = Sql & "NombreOperador, "
+   Sql = Sql & "OrigenDeLaRetencionISLR,"
+   Sql = Sql & "SeContabilISLR,"
+   Sql = Sql & "ISLRAplicadaEnPago,"
+   Sql = Sql & "FechaUltimaModificacion"
+   Sql = Sql & " FROM " & "cxP"
+   Sql = Sql & gUtilSQL.getWhereSQL(sqlWhere)
+   Sql = Sql & " ORDER BY Numero"
+   fSQLSearchByCodigoProveedoryNumeroCxPParaActualizarDesdePago = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fSQLSearchByCodigoProveedoryNumeroCxPParaActualizarDesdePago = ""
@@ -1606,101 +1606,101 @@ h_ERROR: fSQLSearchByCodigoProveedoryNumeroCxPParaActualizarDesdePago = ""
       "fSQLSearchByCodigoProveedoryNumeroCxPParaActualizarDesdePago", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fSQLActualizarPrimerPaso(ByVal valConsecutivoCompania As Long, ByVal valConsecutivoCxp As Long) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = "SELECT "
-   SQL = SQL & "ConsecutivoCompania, "
-   SQL = SQL & "ConsecutivoCxP, "
-   SQL = SQL & "Numero, "
-   SQL = SQL & "CodigoProveedor, "
-   SQL = SQL & "TipoDeCxp, "
-   SQL = SQL & "Status, "
-   SQL = SQL & "Fecha, "
-   SQL = SQL & "FechaCancelacion, "
-   SQL = SQL & "FechaVencimiento, "
-   SQL = SQL & "FechaAnulacion, "
-   SQL = SQL & "Moneda, "
-   SQL = SQL & "CambioAbolivares, "
-   SQL = SQL & "AplicaParaLibrodeCompras, "
-   SQL = SQL & "MontoExento, "
-   SQL = SQL & "MontoGravado, "
-   SQL = SQL & "MontoIva, "
-   SQL = SQL & "MontoAbonado, "
-   SQL = SQL & "MesDeAplicacion, "
-   SQL = SQL & "AnoDeAplicacion, "
-   SQL = SQL & "Observaciones, "
-   SQL = SQL & "CreditoFiscal, "
-   SQL = SQL & "TipoDeCompra, "
-   SQL = SQL & "SeHizoLaRetencion, "
-   SQL = SQL & "NombreOperador, "
-   SQL = SQL & "NumDiasDeVencimiento, "
-   SQL = SQL & "FechaUltimaModificacion, "
-   SQL = SQL & "CodigoMoneda,"
-   SQL = SQL & "BaseImponibleIGTFML, "
-   SQL = SQL & "AlicuotaIGTFML, "
-   SQL = SQL & "MontoIGTFML "
-   SQL = SQL & " FROM " & "cxP"
-   SQL = SQL & " WHERE ConsecutivoCompania = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania)
-   SQL = SQL & " AND ConsecutivoCxP = " & gUtilSQL.fNumToStrSQL(valConsecutivoCxp)
-   fSQLActualizarPrimerPaso = SQL
+   Sql = "SELECT "
+   Sql = Sql & "ConsecutivoCompania, "
+   Sql = Sql & "ConsecutivoCxP, "
+   Sql = Sql & "Numero, "
+   Sql = Sql & "CodigoProveedor, "
+   Sql = Sql & "TipoDeCxp, "
+   Sql = Sql & "Status, "
+   Sql = Sql & "Fecha, "
+   Sql = Sql & "FechaCancelacion, "
+   Sql = Sql & "FechaVencimiento, "
+   Sql = Sql & "FechaAnulacion, "
+   Sql = Sql & "Moneda, "
+   Sql = Sql & "CambioAbolivares, "
+   Sql = Sql & "AplicaParaLibrodeCompras, "
+   Sql = Sql & "MontoExento, "
+   Sql = Sql & "MontoGravado, "
+   Sql = Sql & "MontoIva, "
+   Sql = Sql & "MontoAbonado, "
+   Sql = Sql & "MesDeAplicacion, "
+   Sql = Sql & "AnoDeAplicacion, "
+   Sql = Sql & "Observaciones, "
+   Sql = Sql & "CreditoFiscal, "
+   Sql = Sql & "TipoDeCompra, "
+   Sql = Sql & "SeHizoLaRetencion, "
+   Sql = Sql & "NombreOperador, "
+   Sql = Sql & "NumDiasDeVencimiento, "
+   Sql = Sql & "FechaUltimaModificacion, "
+   Sql = Sql & "CodigoMoneda,"
+   Sql = Sql & "BaseImponibleIGTFML, "
+   Sql = Sql & "AlicuotaIGTFML, "
+   Sql = Sql & "MontoIGTFML "
+   Sql = Sql & " FROM " & "cxP"
+   Sql = Sql & " WHERE ConsecutivoCompania = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania)
+   Sql = Sql & " AND ConsecutivoCxP = " & gUtilSQL.fNumToStrSQL(valConsecutivoCxp)
+   fSQLActualizarPrimerPaso = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fSQLActualizarPrimerPaso", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fSQLActualizarSegundoPaso(ByVal valConsecutivoCompania As Long, ByVal valConsecutivoCxp As Long) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = "SELECT "
-   SQL = SQL & "ConsecutivoCompania, "
-   SQL = SQL & "ConsecutivoCxP, "
-   SQL = SQL & "Numero, "
-   SQL = SQL & "CodigoProveedor, "
-   SQL = SQL & "MontoGravableAlicuotaGeneral, "
-   SQL = SQL & "MontoGravableAlicuota2, "
-   SQL = SQL & "MontoGravableAlicuota3, "
-   SQL = SQL & "MontoIvaalicuotaGeneral, "
-   SQL = SQL & "MontoIvaalicuota2, "
-   SQL = SQL & "MontoIvaalicuota3, "
-   SQL = SQL & "NumeroComprobanteRetencion, "
-   SQL = SQL & "NumeroPlanillaDeImportacion, "
-   SQL = SQL & "NumeroExpedienteDeImportacion, "
-   SQL = SQL & "TipoDeTransaccion, "
-   SQL = SQL & "NumeroDeFacturaAfectada, "
-   SQL = SQL & "NumeroControl, "
-   SQL = SQL & "SeHizoLaRetencionIva, "
-   SQL = SQL & "FechaAplicacionRetIva, "
-   SQL = SQL & "PorcentajeRetencionAplicado, "
-   SQL = SQL & "MontoRetenido, "
-   SQL = SQL & "OrigenDeLaRetencion, "
-   SQL = SQL & "DondeContabilRetIva, "
-   SQL = SQL & "OrigenInformacionRetencion,"
-   SQL = SQL & "TotalOtrosImpuestos,"
-   SQL = SQL & "RetencionAplicadaEnPago, "
-   SQL = SQL & "OrigenDeLaRetencionISLR,"
-   SQL = SQL & "SeContabilISLR,"
-   SQL = SQL & "ISLRAplicadaEnPago,"
-   SQL = SQL & "MontoRetenidoISLR,"
-   SQL = SQL & "DondeContabilISLR,"
-   SQL = SQL & "EstaAsociadoARendicion, "
-   SQL = SQL & "ConsecutivoRendicion, "
-   SQL = SQL & "FechaAplicacionImpuestoMunicipal, "
-   SQL = SQL & "NumeroComprobanteImpuestoMunicipal, "
-   SQL = SQL & "MontoRetenidoImpuestoMunicipal, "
-   SQL = SQL & "ImpuestoMunicipalRetenido, "
-   SQL = SQL & "NumeroControlDeFacturaAfectada, "
-   SQL = SQL & "NumeroDeclaracionAduana, "
-   SQL = SQL & "FechaDeclaracionAduana, "
-   SQL = SQL & "UsaPrefijoSerie, "
-   SQL = SQL & "EsUnaCuentaATerceros, "
-   SQL = SQL & "CodigoProveedorOriginalServicio, "
-   SQL = SQL & "SeHizoLaDetraccion , AplicaIvaAlicuotaEspecial, MontoGravableAlicuotaEspecial1, MontoIVAAlicuotaEspecial1, PorcentajeIvaAlicuotaEspecial1, MontoGravableAlicuotaEspecial2, MontoIVAAlicuotaEspecial2, PorcentajeIvaAlicuotaEspecial2, "
-   SQL = SQL & "DiaDeAplicacion, "
-   SQL = SQL & "MotivoDeAnulacionDeComprobante "
-   SQL = SQL & " FROM " & "cxP"
-   SQL = SQL & " WHERE ConsecutivoCompania = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania)
-   SQL = SQL & " AND ConsecutivoCxP = " & gUtilSQL.fNumToStrSQL(valConsecutivoCxp)
-   fSQLActualizarSegundoPaso = SQL
+   Sql = "SELECT "
+   Sql = Sql & "ConsecutivoCompania, "
+   Sql = Sql & "ConsecutivoCxP, "
+   Sql = Sql & "Numero, "
+   Sql = Sql & "CodigoProveedor, "
+   Sql = Sql & "MontoGravableAlicuotaGeneral, "
+   Sql = Sql & "MontoGravableAlicuota2, "
+   Sql = Sql & "MontoGravableAlicuota3, "
+   Sql = Sql & "MontoIvaalicuotaGeneral, "
+   Sql = Sql & "MontoIvaalicuota2, "
+   Sql = Sql & "MontoIvaalicuota3, "
+   Sql = Sql & "NumeroComprobanteRetencion, "
+   Sql = Sql & "NumeroPlanillaDeImportacion, "
+   Sql = Sql & "NumeroExpedienteDeImportacion, "
+   Sql = Sql & "TipoDeTransaccion, "
+   Sql = Sql & "NumeroDeFacturaAfectada, "
+   Sql = Sql & "NumeroControl, "
+   Sql = Sql & "SeHizoLaRetencionIva, "
+   Sql = Sql & "FechaAplicacionRetIva, "
+   Sql = Sql & "PorcentajeRetencionAplicado, "
+   Sql = Sql & "MontoRetenido, "
+   Sql = Sql & "OrigenDeLaRetencion, "
+   Sql = Sql & "DondeContabilRetIva, "
+   Sql = Sql & "OrigenInformacionRetencion,"
+   Sql = Sql & "TotalOtrosImpuestos,"
+   Sql = Sql & "RetencionAplicadaEnPago, "
+   Sql = Sql & "OrigenDeLaRetencionISLR,"
+   Sql = Sql & "SeContabilISLR,"
+   Sql = Sql & "ISLRAplicadaEnPago,"
+   Sql = Sql & "MontoRetenidoISLR,"
+   Sql = Sql & "DondeContabilISLR,"
+   Sql = Sql & "EstaAsociadoARendicion, "
+   Sql = Sql & "ConsecutivoRendicion, "
+   Sql = Sql & "FechaAplicacionImpuestoMunicipal, "
+   Sql = Sql & "NumeroComprobanteImpuestoMunicipal, "
+   Sql = Sql & "MontoRetenidoImpuestoMunicipal, "
+   Sql = Sql & "ImpuestoMunicipalRetenido, "
+   Sql = Sql & "NumeroControlDeFacturaAfectada, "
+   Sql = Sql & "NumeroDeclaracionAduana, "
+   Sql = Sql & "FechaDeclaracionAduana, "
+   Sql = Sql & "UsaPrefijoSerie, "
+   Sql = Sql & "EsUnaCuentaATerceros, "
+   Sql = Sql & "CodigoProveedorOriginalServicio, "
+   Sql = Sql & "SeHizoLaDetraccion , AplicaIvaAlicuotaEspecial, MontoGravableAlicuotaEspecial1, MontoIVAAlicuotaEspecial1, PorcentajeIvaAlicuotaEspecial1, MontoGravableAlicuotaEspecial2, MontoIVAAlicuotaEspecial2, PorcentajeIvaAlicuotaEspecial2, "
+   Sql = Sql & "DiaDeAplicacion, "
+   Sql = Sql & "MotivoDeAnulacionDeComprobante "
+   Sql = Sql & " FROM " & "cxP"
+   Sql = Sql & " WHERE ConsecutivoCompania = " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania)
+   Sql = Sql & " AND ConsecutivoCxP = " & gUtilSQL.fNumToStrSQL(valConsecutivoCxp)
+   fSQLActualizarSegundoPaso = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -1709,52 +1709,52 @@ End Function
 
 '********************Generar pago de ISLR en CxP
 Public Function fSQLInsertarCxP(ByVal valnombreParaTabla As String, ByVal valConsecutivoCompania As Long) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = "INSERT INTO tblInformeCxCCxP " & "("
-   SQL = SQL & "ConsecutivoCompania, "
-   SQL = SQL & "Idusuario, "
-   SQL = SQL & "Idmodulo, "
-   SQL = SQL & "Numero, "
-   SQL = SQL & "Status, "
-   SQL = SQL & "CodigoCliProv, "
-   SQL = SQL & "Origen, "
-   SQL = SQL & "Tipo, "
-   SQL = SQL & "MontoExento, "
-   SQL = SQL & "MontoGravado, "
-   SQL = SQL & "MontoIva, "
-   SQL = SQL & "MontoAbonado, "
-   SQL = SQL & "Fecha, "
-   SQL = SQL & "FechaCancelacion, "
-   SQL = SQL & "FechaVencimiento, "
-   SQL = SQL & "FechaAnulacion, "
-   SQL = SQL & "Moneda, "
-   SQL = SQL & "CambioAbolivares, "
-   SQL = SQL & "CodigoMoneda"
-   SQL = SQL & ") SELECT "
-   SQL = SQL & valConsecutivoCompania & ", "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue(valnombreParaTabla) & ", "
-   SQL = SQL & gUtilSQL.fSimpleSqlValue(CM_MODULO_CxP) & ", "
-   SQL = SQL & "Numero, "
-   SQL = SQL & "Status, "
-   SQL = SQL & "CodigoProveedor, "
-   SQL = SQL & gUtilSQL.fSQLSimpleValueForEnum(enum_OrigenFacturacionOManual.eOF_MANUAL) & ", "
-   SQL = SQL & "TipoDeCxP, "
-   SQL = SQL & "MontoExento, "
-   SQL = SQL & "MontoGravado, "
-   SQL = SQL & "MontoIva, "
-   SQL = SQL & "MontoAbonado, "
-   SQL = SQL & "Fecha, "
-   SQL = SQL & "FechaCancelacion, "
-   SQL = SQL & "FechaVencimiento, "
-   SQL = SQL & "FechaAnulacion, "
-   SQL = SQL & "Moneda, "
-   SQL = SQL & "CambioABolivares, "
-   SQL = SQL & "CodigoMoneda"
-   SQL = SQL & " FROM cxP "
-   SQL = SQL & " WHERE ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = "INSERT INTO tblInformeCxCCxP " & "("
+   Sql = Sql & "ConsecutivoCompania, "
+   Sql = Sql & "Idusuario, "
+   Sql = Sql & "Idmodulo, "
+   Sql = Sql & "Numero, "
+   Sql = Sql & "Status, "
+   Sql = Sql & "CodigoCliProv, "
+   Sql = Sql & "Origen, "
+   Sql = Sql & "Tipo, "
+   Sql = Sql & "MontoExento, "
+   Sql = Sql & "MontoGravado, "
+   Sql = Sql & "MontoIva, "
+   Sql = Sql & "MontoAbonado, "
+   Sql = Sql & "Fecha, "
+   Sql = Sql & "FechaCancelacion, "
+   Sql = Sql & "FechaVencimiento, "
+   Sql = Sql & "FechaAnulacion, "
+   Sql = Sql & "Moneda, "
+   Sql = Sql & "CambioAbolivares, "
+   Sql = Sql & "CodigoMoneda"
+   Sql = Sql & ") SELECT "
+   Sql = Sql & valConsecutivoCompania & ", "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue(valnombreParaTabla) & ", "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue(CM_MODULO_CxP) & ", "
+   Sql = Sql & "Numero, "
+   Sql = Sql & "Status, "
+   Sql = Sql & "CodigoProveedor, "
+   Sql = Sql & gUtilSQL.fSQLSimpleValueForEnum(enum_OrigenFacturacionOManual.eOF_MANUAL) & ", "
+   Sql = Sql & "TipoDeCxP, "
+   Sql = Sql & "MontoExento, "
+   Sql = Sql & "MontoGravado, "
+   Sql = Sql & "MontoIva, "
+   Sql = Sql & "MontoAbonado, "
+   Sql = Sql & "Fecha, "
+   Sql = Sql & "FechaCancelacion, "
+   Sql = Sql & "FechaVencimiento, "
+   Sql = Sql & "FechaAnulacion, "
+   Sql = Sql & "Moneda, "
+   Sql = Sql & "CambioABolivares, "
+   Sql = Sql & "CodigoMoneda"
+   Sql = Sql & " FROM cxP "
+   Sql = Sql & " WHERE ConsecutivoCompania = " & valConsecutivoCompania
 h_EXIT: On Error GoTo 0
-   fSQLInsertarCxP = SQL
+   fSQLInsertarCxP = Sql
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSQLInsertarCxP", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1781,37 +1781,37 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Public Function fSQLRetPago(ByVal valNumero As String, ByVal ValCodigoProveedor As String, ByVal valConsecutivoCompania As Long) As String
-   Dim vSQL As String
+   Dim vSql As String
    On Error GoTo h_ERROR
-   vSQL = " SELECT retPago.* "
-   vSQL = vSQL & " FROM RetPago "
-   vSQL = vSQL & " INNER JOIN retDocumentoPagado "
-   vSQL = vSQL & " ON retPago.ConsecutivoCompania = retDocumentoPagado.ConsecutivoCompania "
-   vSQL = vSQL & " AND retPago.NumeroComprobante = retDocumentoPagado.NumeroComprobante "
-   vSQL = vSQL & " INNER JOIN cxP "
-   vSQL = vSQL & " ON retDocumentoPagado.ConsecutivoCompania = cxP.ConsecutivoCompania "
-   vSQL = vSQL & " AND retDocumentoPagado.NumeroDelDocumento = Numero "
-   vSQL = vSQL & " AND retPago.CodigoProveedor = cxP.CodigoProveedor "
-   vSQL = vSQL & " WHERE retPago.consecutivoCompania = " & valConsecutivoCompania
-   vSQL = vSQL & " AND cxP.Numero = " & gUtilSQL.fSimpleSqlValue(valNumero)
-   vSQL = vSQL & " AND cxP.CodigoProveedor = " & gUtilSQL.fSimpleSqlValue(ValCodigoProveedor)
+   vSql = " SELECT retPago.* "
+   vSql = vSql & " FROM RetPago "
+   vSql = vSql & " INNER JOIN retDocumentoPagado "
+   vSql = vSql & " ON retPago.ConsecutivoCompania = retDocumentoPagado.ConsecutivoCompania "
+   vSql = vSql & " AND retPago.NumeroComprobante = retDocumentoPagado.NumeroComprobante "
+   vSql = vSql & " INNER JOIN cxP "
+   vSql = vSql & " ON retDocumentoPagado.ConsecutivoCompania = cxP.ConsecutivoCompania "
+   vSql = vSql & " AND retDocumentoPagado.NumeroDelDocumento = Numero "
+   vSql = vSql & " AND retPago.CodigoProveedor = cxP.CodigoProveedor "
+   vSql = vSql & " WHERE retPago.consecutivoCompania = " & valConsecutivoCompania
+   vSql = vSql & " AND cxP.Numero = " & gUtilSQL.fSimpleSqlValue(valNumero)
+   vSql = vSql & " AND cxP.CodigoProveedor = " & gUtilSQL.fSimpleSqlValue(ValCodigoProveedor)
 h_EXIT: On Error GoTo 0
-   fSQLRetPago = vSQL
+   fSQLRetPago = vSql
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLRetPago", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
  End Function
 
 Public Function fSQLSearchDetail(ByVal valNumeroReferencia As String, ByVal valProveedor As String, ByVal valConsecutivoCompania As Long) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlSortOrder As String
    On Error GoTo h_ERROR
    sqlSortOrder = " ORDER BY " & "RetDocumentoPagado.ConsecutivoCompania" _
       & ", " & "RetDocumentoPagado.NumeroComprobante" _
       & ", " & "RetDocumentoPagado.SecuencialDocPagado"
-   SQL = ""
-   SQL = gUtilSQL.fSQLValueWithAnd(SQL, " RetPago.CodigoProveedor", valProveedor, False)
-   SQL = gUtilSQL.fSQLNumberValueWithAnd(SQL, " RetPago.ConsecutivoCompania", valConsecutivoCompania)
-   SQL = gUtilSQL.fSQLValueWithAnd(SQL, " RetPago.NumeroReferencia", valNumeroReferencia, False)
+   Sql = ""
+   Sql = gUtilSQL.fSQLValueWithAnd(Sql, " RetPago.CodigoProveedor", valProveedor, False)
+   Sql = gUtilSQL.fSQLNumberValueWithAnd(Sql, " RetPago.ConsecutivoCompania", valConsecutivoCompania)
+   Sql = gUtilSQL.fSQLValueWithAnd(Sql, " RetPago.NumeroReferencia", valNumeroReferencia, False)
    fSQLSearchDetail = "SELECT NumeroDelDocumento, NumeroControl, " _
          & "CodigoRetencion,  PorcentajeDeRetencion, MontoOriginal, " _
          & "MontoBaseImponible, MontoRetencion, " _
@@ -1820,7 +1820,7 @@ Public Function fSQLSearchDetail(ByVal valNumeroReferencia As String, ByVal valP
          & " FROM RetDocumentoPagado INNER JOIN RetPago " _
          & " ON " & " RetPago.ConsecutivoCompania = retDocumentoPagado.ConsecutivoCompania" _
          & " AND  " & " RetPago.NumeroComprobante = retDocumentoPagado.NumeroComprobante" _
-         & gUtilSQL.getWhereSQL(SQL) & sqlSortOrder
+         & gUtilSQL.getWhereSQL(Sql) & sqlSortOrder
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fSQLSearchDetail = ""
@@ -1829,53 +1829,53 @@ h_ERROR: fSQLSearchDetail = ""
 End Function
 
 Public Function fConstruirSQLDeCxPConComprobante(ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valComprobanteNavTableName As String, ByVal valConsecutivoCompania As Long, ByVal valDocOrigenContabilizacionParaSQL As String) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = " SELECT "
-   SQL = SQL & " cxP.Fecha AS FechaDocumento, "
-   SQL = SQL & " cxP.Numero AS NumeroDocumento, "
-   SQL = SQL & " proveedor.CodigoProveedor"
-   SQL = SQL & " AS CodigoProveedor , "
-   SQL = SQL & " cxP.TipoDeCxp AS Tipo, "
-   SQL = SQL & "proveedor.NombreProveedor"
-   SQL = SQL & " AS NombreProveedor , "
-   SQL = SQL & valComprobanteNavTableName & "." & "GeneradoPor"
-   SQL = SQL & " AS TipoDeDocumento, "
-   SQL = SQL & valComprobanteNavTableName & "." & "Fecha"
-   SQL = SQL & " AS FechaCombrobante, "
-   SQL = SQL & valComprobanteNavTableName & "." & "NUMERO"
-   SQL = SQL & " AS NumeroComprobante, "
-   SQL = SQL & valComprobanteNavTableName & "." & "DESCRIPCION"
-   SQL = SQL & " AS DescripcionComprobante, "
-   SQL = SQL & valComprobanteNavTableName & "." & "TotalHaber"
-   SQL = SQL & " AS TotalHaber, "
-   SQL = SQL & valComprobanteNavTableName & "." & "NoDocumentoOrigen"
-   SQL = SQL & " AS NumeroDocumentoOrigen, "
-   SQL = SQL & "(" & "cxP.MontoExento + "
-   SQL = SQL & "cxP.MontoGravado ) "
-   SQL = SQL & " AS TotalDocumento "
-   SQL = SQL & " FROM " & "cxP, " & valComprobanteNavTableName & ", "
-   SQL = SQL & " proveedor "
-   SQL = SQL & " WHERE " & "cxP.CodigoProveedor = "
-   SQL = SQL & "proveedor.CodigoProveedor"
-   SQL = SQL & " AND " & "cxP.ConsecutivoCompania = "
-   SQL = SQL & "proveedor.ConsecutivoCompania"
-   SQL = SQL & " AND " & valComprobanteNavTableName & "." & "NoDocumentoOrigen" & " = "
-   SQL = SQL & "(" & valDocOrigenContabilizacionParaSQL & ")"
+   Sql = " SELECT "
+   Sql = Sql & " cxP.Fecha AS FechaDocumento, "
+   Sql = Sql & " cxP.Numero AS NumeroDocumento, "
+   Sql = Sql & " proveedor.CodigoProveedor"
+   Sql = Sql & " AS CodigoProveedor , "
+   Sql = Sql & " cxP.TipoDeCxp AS Tipo, "
+   Sql = Sql & "proveedor.NombreProveedor"
+   Sql = Sql & " AS NombreProveedor , "
+   Sql = Sql & valComprobanteNavTableName & "." & "GeneradoPor"
+   Sql = Sql & " AS TipoDeDocumento, "
+   Sql = Sql & valComprobanteNavTableName & "." & "Fecha"
+   Sql = Sql & " AS FechaCombrobante, "
+   Sql = Sql & valComprobanteNavTableName & "." & "NUMERO"
+   Sql = Sql & " AS NumeroComprobante, "
+   Sql = Sql & valComprobanteNavTableName & "." & "DESCRIPCION"
+   Sql = Sql & " AS DescripcionComprobante, "
+   Sql = Sql & valComprobanteNavTableName & "." & "TotalHaber"
+   Sql = Sql & " AS TotalHaber, "
+   Sql = Sql & valComprobanteNavTableName & "." & "NoDocumentoOrigen"
+   Sql = Sql & " AS NumeroDocumentoOrigen, "
+   Sql = Sql & "(" & "cxP.MontoExento + "
+   Sql = Sql & "cxP.MontoGravado ) "
+   Sql = Sql & " AS TotalDocumento "
+   Sql = Sql & " FROM " & "cxP, " & valComprobanteNavTableName & ", "
+   Sql = Sql & " proveedor "
+   Sql = Sql & " WHERE " & "cxP.CodigoProveedor = "
+   Sql = Sql & "proveedor.CodigoProveedor"
+   Sql = Sql & " AND " & "cxP.ConsecutivoCompania = "
+   Sql = Sql & "proveedor.ConsecutivoCompania"
+   Sql = Sql & " AND " & valComprobanteNavTableName & "." & "NoDocumentoOrigen" & " = "
+   Sql = Sql & "(" & valDocOrigenContabilizacionParaSQL & ")"
 '   SQL = SQL & "(" & getFN_NO_DOC_ORIGEN_CONTABILIZACION_PARA_SQL(True) & ")"
-   SQL = SQL & " AND " & "cxP.ConsecutivoCompania = "
-   SQL = SQL & valConsecutivoCompania
-   SQL = SQL & " AND " & valComprobanteNavTableName & "." & "GeneradoPor" & " ='"
-   SQL = SQL & gConvert.enumerativoAChar(enum_ComprobanteGeneradoPor.eCG_CXP) & "'"
-   SQL = SQL & " AND " & "cxP.Fecha"
-   SQL = SQL & " BETWEEN "
-   SQL = SQL & gUtilSQL.fDateToSQLValue(valFechaInicial) & " AND "
-   SQL = SQL & gUtilSQL.fDateToSQLValue(valFechaFinal)
-   SQL = SQL & " AND " & valComprobanteNavTableName & "." & "Fecha"
-   SQL = SQL & " BETWEEN "
-   SQL = SQL & gUtilSQL.fDateToSQLValue(valFechaInicial) & " AND "
-   SQL = SQL & gUtilSQL.fDateToSQLValue(valFechaFinal)
-   fConstruirSQLDeCxPConComprobante = SQL
+   Sql = Sql & " AND " & "cxP.ConsecutivoCompania = "
+   Sql = Sql & valConsecutivoCompania
+   Sql = Sql & " AND " & valComprobanteNavTableName & "." & "GeneradoPor" & " ='"
+   Sql = Sql & gConvert.enumerativoAChar(enum_ComprobanteGeneradoPor.eCG_CXP) & "'"
+   Sql = Sql & " AND " & "cxP.Fecha"
+   Sql = Sql & " BETWEEN "
+   Sql = Sql & gUtilSQL.fDateToSQLValue(valFechaInicial) & " AND "
+   Sql = Sql & gUtilSQL.fDateToSQLValue(valFechaFinal)
+   Sql = Sql & " AND " & valComprobanteNavTableName & "." & "Fecha"
+   Sql = Sql & " BETWEEN "
+   Sql = Sql & gUtilSQL.fDateToSQLValue(valFechaInicial) & " AND "
+   Sql = Sql & gUtilSQL.fDateToSQLValue(valFechaFinal)
+   fConstruirSQLDeCxPConComprobante = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDeCxPConComprobante", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1884,21 +1884,21 @@ End Function
 Public Function fSQLProcesoPostEliminacionCxP(ByVal valNumeroDocOrigen As String, ByVal valConsecutivoCompania As Long) As String
    Dim vCodigoProveedor As String
    Dim vNumeroCxP As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
    vCodigoProveedor = gTexto.DfMid(valNumeroDocOrigen, 1, gTexto.DfInStr(valNumeroDocOrigen, gTexto.fSeparadorStandardDeElementosString) - 1)
    vNumeroCxP = gTexto.DfMid(valNumeroDocOrigen, gTexto.DfInStr(valNumeroDocOrigen, gTexto.fSeparadorStandardDeElementosString) + 1)
-   SQL = "UPDATE cxP "
-   SQL = SQL & " SET SeContabilRetIva = " & gUtilSQL.fBooleanToSqlValue(False)
-   SQL = SQL & " SET SeContabilISLR = " & gUtilSQL.fBooleanToSqlValue(False)
-   SQL = SQL & " WHERE ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND CodigoProveedor = " & gUtilSQL.fSimpleSqlValue(vCodigoProveedor)
-   SQL = SQL & " AND Numero = " & gUtilSQL.fSimpleSqlValue(vNumeroCxP)
-   SQL = SQL & " AND DondeContabilRetIVA = " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeEfectuoContabilizacionRetIVA.eDC_CxP)
-   SQL = SQL & " AND DondeContabilISLR = " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeEfectuoContabilizacionRetIVA.eDC_CxP)
-   SQL = SQL & " AND MontoRetenido <> 0"
-   SQL = SQL & " AND MontoRetenidoISLR <> 0"
-   fSQLProcesoPostEliminacionCxP = SQL
+   Sql = "UPDATE cxP "
+   Sql = Sql & " SET SeContabilRetIva = " & gUtilSQL.fBooleanToSqlValue(False)
+   Sql = Sql & " SET SeContabilISLR = " & gUtilSQL.fBooleanToSqlValue(False)
+   Sql = Sql & " WHERE ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND CodigoProveedor = " & gUtilSQL.fSimpleSqlValue(vCodigoProveedor)
+   Sql = Sql & " AND Numero = " & gUtilSQL.fSimpleSqlValue(vNumeroCxP)
+   Sql = Sql & " AND DondeContabilRetIVA = " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeEfectuoContabilizacionRetIVA.eDC_CxP)
+   Sql = Sql & " AND DondeContabilISLR = " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeEfectuoContabilizacionRetIVA.eDC_CxP)
+   Sql = Sql & " AND MontoRetenido <> 0"
+   Sql = Sql & " AND MontoRetenidoISLR <> 0"
+   fSQLProcesoPostEliminacionCxP = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -1906,21 +1906,21 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Public Function fSQLPagosEnXML(ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valConsecutivoCompania As Long) As String
-   Dim vSQL As String
+   Dim vSql As String
    On Error GoTo h_ERROR
-   vSQL = " SELECT "
-   vSQL = vSQL & " retPago.ConsecutivoCompania, "
-   vSQL = vSQL & " retPago.NumeroComprobante "
-   vSQL = vSQL & "FROM retPago "
-   vSQL = vSQL & " INNER JOIN Proveedor ON "
-   vSQL = vSQL & "retPago.ConsecutivoCompania = "
-   vSQL = vSQL & "Proveedor.ConsecutivoCompania "
-   vSQL = vSQL & " AND retPago.CodigoProveedor = "
-   vSQL = vSQL & "Proveedor.CodigoProveedor "
-   vSQL = vSQL & " WHERE "
-   vSQL = vSQL & " retPago.ConsecutivoCompania = " & valConsecutivoCompania
-   vSQL = vSQL & " AND " & gUtilSQL.fSQLValueBetween("retPago.Fecha", gUtilSQL.fSimpleSqlValue(valFechaDesde), gUtilSQL.fSimpleSqlValue(valFechaHasta))
-   fSQLPagosEnXML = vSQL
+   vSql = " SELECT "
+   vSql = vSql & " retPago.ConsecutivoCompania, "
+   vSql = vSql & " retPago.NumeroComprobante "
+   vSql = vSql & "FROM retPago "
+   vSql = vSql & " INNER JOIN Proveedor ON "
+   vSql = vSql & "retPago.ConsecutivoCompania = "
+   vSql = vSql & "Proveedor.ConsecutivoCompania "
+   vSql = vSql & " AND retPago.CodigoProveedor = "
+   vSql = vSql & "Proveedor.CodigoProveedor "
+   vSql = vSql & " WHERE "
+   vSql = vSql & " retPago.ConsecutivoCompania = " & valConsecutivoCompania
+   vSql = vSql & " AND " & gUtilSQL.fSQLValueBetween("retPago.Fecha", gUtilSQL.fSimpleSqlValue(valFechaDesde), gUtilSQL.fSimpleSqlValue(valFechaHasta))
+   fSQLPagosEnXML = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -1928,30 +1928,30 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Public Function fSQLCxPPorCancelar(ByVal valConsecutivoCompania As Long, ByVal ValCodigoProveedor As String, ByVal valFiltroPorProveedor As Boolean) As String
-   Dim vSQL As String
-   Dim vSQLWhere As String
+   Dim vSql As String
+   Dim vSqlWhere As String
    On Error GoTo h_ERROR
-    vSQLWhere = gUtilSQL.fSQLEnumValueWithAnd("", "cxP.OrigenDeLaRetencionISLR", enum_DondeSeEfectuaLaRetencionIVA.eDS_NO_RETENIDA)
-    vSQLWhere = gUtilSQL.fSQLEnumValueWithAnd(vSQLWhere, "cxP.Status", enum_StatusDocumento.eSD_PORCANCELAR)
-    vSQLWhere = gUtilSQL.fSQLEnumValueWithAnd(vSQLWhere, "cxP.TipoDeCxp", enum_TipoDeTransaccion.eTD_FACTURA)
+    vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd("", "cxP.OrigenDeLaRetencionISLR", enum_DondeSeEfectuaLaRetencionIVA.eDS_NO_RETENIDA)
+    vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, "cxP.Status", enum_StatusDocumento.eSD_PORCANCELAR)
+    vSqlWhere = gUtilSQL.fSQLEnumValueWithAnd(vSqlWhere, "cxP.TipoDeCxp", enum_TipoDeTransaccion.eTD_FACTURA)
 
    
     If (valFiltroPorProveedor) Then
-     vSQLWhere = gUtilSQL.fSQLValueWithAnd(vSQLWhere, "cxP.CodigoProveedor", ValCodigoProveedor, False)
+     vSqlWhere = gUtilSQL.fSQLValueWithAnd(vSqlWhere, "cxP.CodigoProveedor", ValCodigoProveedor, False)
     End If
-    vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "cxP.ConsecutivoCompania", valConsecutivoCompania)
-    vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
+    vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "cxP.ConsecutivoCompania", valConsecutivoCompania)
+    vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
     
-    vSQL = "SELECT "
-    vSQL = vSQL & "cxP" & ".Fecha, "
-    vSQL = vSQL & "cxP" & ".Numero, "
-    vSQL = vSQL & "cxP" & ".NumeroControl, "
-    vSQL = vSQL & "cxP" & ".NombreOperador "
+    vSql = "SELECT "
+    vSql = vSql & "cxP" & ".Fecha, "
+    vSql = vSql & "cxP" & ".Numero, "
+    vSql = vSql & "cxP" & ".NumeroControl, "
+    vSql = vSql & "cxP" & ".NombreOperador "
   
-    vSQL = vSQL & " FROM  cxP "
-    vSQL = vSQL & vSQLWhere
+    vSql = vSql & " FROM  cxP "
+    vSql = vSql & vSqlWhere
     
-   fSQLCxPPorCancelar = vSQL
+   fSQLCxPPorCancelar = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fSQLCxPPorCancelar = ""
@@ -1960,39 +1960,35 @@ h_ERROR: fSQLCxPPorCancelar = ""
 End Function
 
 Public Function fSQLComprobanteRetencionEnCxP(ByVal valConsecutivoCompania As Long, ByVal valNumeroComprobanteRetencion As Long, ByVal valTipoDePersona As String, ByVal valFechaInicioVigencia As Date) As String
-   Dim vSQL As String
-   Dim vSQLWhere As String
+   Dim vSql As String
+   Dim vSqlWhere As String
    On Error GoTo h_ERROR
-      
-    vSQLWhere = gUtilSQL.fSQLValueWithAnd("", "TipoDePersona", valTipoDePersona, False)
-    vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "Pago.NumeroComprobante", valNumeroComprobanteRetencion)
-    vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "retDocumentoPagado.NumeroComprobante", valNumeroComprobanteRetencion)
-    vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "retDocumentoPagado.ConsecutivoCompania", valConsecutivoCompania)
-    vSQLWhere = gUtilSQL.fSQLValueWithAnd(vSQLWhere, "TablaRetencion.FechaDeInicioDeVigencia", valFechaInicioVigencia, False)
-    vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
-    
-   vSQL = " SELECT "
-   vSQL = vSQL & "NumeroDelDocumento,"
-   vSQL = vSQL & "retDocumentoPagado.NumeroControl,"
-   vSQL = vSQL & "MontoRetencion,"
-   vSQL = vSQL & "MontoOriginal,"
-   vSQL = vSQL & "MontoBaseImponible,"
-   vSQL = vSQL & "Sustraendo,"
-   vSQL = vSQL & "TipoDePago,"
-   vSQL = vSQL & "Tarifa,"
-   vSQL = vSQL & "CxP.Fecha AS FechaFact "
-   vSQL = vSQL & "From retDocumentoPagado "
-   vSQL = vSQL & "INNER JOIN TablaRetencion  ON "
-   vSQL = vSQL & "(retDocumentoPagado.CodigoRetencion = TablaRetencion.Codigo) "
-   vSQL = vSQL & "INNER JOIN CxP INNER JOIN Pago ON "
-   vSQL = vSQL & "(CxP.CodigoProveedor = Pago.CodigoProveedor AND "
-   vSQL = vSQL & " Pago.ConsecutivoCompania = cxp.ConsecutivoCompania) ON "
-   vSQL = vSQL & "(CxP.Numero = retDocumentoPagado.NumeroDelDocumento  AND "
-   vSQL = vSQL & " CxP.ConsecutivoCompania = retDocumentoPagado.ConsecutivoCompania) "
-   
-    vSQL = vSQL & vSQLWhere
-    
-  fSQLComprobanteRetencionEnCxP = vSQL
+   vSqlWhere = gUtilSQL.fSQLValueWithAnd("", "TipoDePersona", valTipoDePersona, False)
+   vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "Pago.NumeroComprobante", valNumeroComprobanteRetencion)
+   vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "retDocumentoPagado.NumeroComprobante", valNumeroComprobanteRetencion)
+   vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "retDocumentoPagado.ConsecutivoCompania", valConsecutivoCompania)
+   vSqlWhere = gUtilSQL.fSQLValueWithAnd(vSqlWhere, "TablaRetencion.FechaDeInicioDeVigencia", valFechaInicioVigencia, False)
+   vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+   vSql = " SELECT "
+   vSql = vSql & "NumeroDelDocumento,"
+   vSql = vSql & "retDocumentoPagado.NumeroControl,"
+   vSql = vSql & "MontoRetencion,"
+   vSql = vSql & "MontoOriginal,"
+   vSql = vSql & "MontoBaseImponible,"
+   vSql = vSql & "Sustraendo,"
+   vSql = vSql & "TipoDePago,"
+   vSql = vSql & "Tarifa,"
+   vSql = vSql & "CxP.Fecha AS FechaFact "
+   vSql = vSql & "From retDocumentoPagado "
+   vSql = vSql & "INNER JOIN TablaRetencion  ON "
+   vSql = vSql & "(retDocumentoPagado.CodigoRetencion = TablaRetencion.Codigo) "
+   vSql = vSql & "INNER JOIN CxP INNER JOIN Pago ON "
+   vSql = vSql & "(CxP.CodigoProveedor = Pago.CodigoProveedor AND "
+   vSql = vSql & " Pago.ConsecutivoCompania = cxp.ConsecutivoCompania) ON "
+   vSql = vSql & "(CxP.Numero = retDocumentoPagado.NumeroDelDocumento  AND "
+   vSql = vSql & " CxP.ConsecutivoCompania = retDocumentoPagado.ConsecutivoCompania) "
+   vSql = vSql & vSqlWhere
+   fSQLComprobanteRetencionEnCxP = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fSQLComprobanteRetencionEnCxP = ""
@@ -2001,67 +1997,69 @@ h_ERROR: fSQLComprobanteRetencionEnCxP = ""
 End Function
 
 Public Function fSQLComprobanteRetencionImpuestoMunicipalEnCxP(ByVal valConsecutivoCompania As Long, ByVal valConsecutivoCxp As Long, ByVal valTieneContabilidadActiva As Boolean, ByVal valConsecutivoPeriodo) As String
-   Dim vSQL As String
-   Dim vSQLWhere As String
+   Dim vSql As String
+   Dim vSqlWhere As String
    Dim vCxPVista As clsCxPVista
    On Error GoTo h_ERROR
    Set vCxPVista = New clsCxPVista
-    vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd("", "ConsecutivoCxp", valConsecutivoCxp)
-    vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "dbo.COMPANIA.ConsecutivoCompania", valConsecutivoCompania)
+    vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd("", "ConsecutivoCxp", valConsecutivoCxp)
+    vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "dbo.COMPANIA.ConsecutivoCompania", valConsecutivoCompania)
     If (valTieneContabilidadActiva And valConsecutivoPeriodo > 0) Then
-        vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "PERIODO.ConsecutivoPeriodo", valConsecutivoPeriodo)
+        vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "PERIODO.ConsecutivoPeriodo", valConsecutivoPeriodo)
     End If
-    vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
-    vSQL = ""
-    vSQL = "SELECT "
-    vSQL = vSQL & "Comun.Gv_Municipio_B1.NombreMunicipio,"
-    vSQL = vSQL & "NumeroComprobanteImpuestoMunicipal AS NumeroComprobante,"
-    vSQL = vSQL & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Numero,"
-    vSQL = vSQL & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".NombreCompania AS RazonSocialAgente, "
-    vSQL = vSQL & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".CodigoContribuyente AS NumeroLicenciaActividadEconominca,"
-    vSQL = vSQL & "RifCompaniaModelo1 AS NumeroRifAgente,"
-    vSQL = vSQL & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Fecha AS FechaCxp,"
-    vSQL = vSQL & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Direccion AS DireccionAgente,"
-    vSQL = vSQL & "NombreProveedor AS RazonSocialSujetoRetenido,"
-    vSQL = vSQL & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".CodigoContribuyenteProveedor AS  NumeroLicenciaActividadEconomincaRetenido,"
-    vSQL = vSQL & "RifProveedorModelo1 AS NumeroRifAgenteSujetoRetenido, Telefono1 AS TelefonoAgenteSujetoRetenido, "
-    vSQL = vSQL & gUtilSQL.fYear("FechaAplicacionImpuestoMunicipal", "YEAR") & ", "
-    vSQL = vSQL & gUtilSQL.fSQLFillRightWithCaracter(gUtilSQL.fCast(gUtilSQL.fMonth("FechaAplicacionImpuestoMunicipal", ""), eTDSS_VARCHAR, ""), 2, "0") & gUtilSQL.fAlias("MES") & ", "
-    vSQL = vSQL & "DireccionProveedor  AS   DireccionSujetoRetenido,"
-    vSQL = vSQL & fTipoDeOperacion() & ", "
-    vSQL = vSQL & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Fecha  AS FechaCxpDetalle,"
-    vSQL = vSQL & gUtilSQL.getIIF("TipoDeCxP = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_FACTURA), vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Numero", gUtilSQL.fSimpleSqlValue(""), True) & " AS NumeroCxp, "
-    vSQL = vSQL & "NumeroControl AS NumeroControlFactura,"
-    vSQL = vSQL & gUtilSQL.getIIF("TipoDeCxP = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADEDEBITO), vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Numero", gUtilSQL.fSimpleSqlValue(""), True) & " AS NumeroDeNotaDebito, "
-    vSQL = vSQL & gUtilSQL.getIIF("TipoDeCxP = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADECREDITO), vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Numero", gUtilSQL.fSimpleSqlValue(""), True) & " AS NumeroDeNotaCREDITO, "
-    vSQL = vSQL & fTipoDeTransaccion() & " , "
-    vSQL = vSQL & "NumeroDeFacturaAfectada AS NumeroDeLaFacturaAfectada,"
-    vSQL = vSQL & "MontoBaseImponible AS TotalComprasSinIVABaseImponible,"
-    vSQL = vSQL & "AlicuotaRetencion AS  ALICUOTA,"
-    vSQL = vSQL & "CodigoActividad AS GRUPO ,"
-    vSQL = vSQL & "MontoRetencion  As ImpuestoMunicipalRetenido, "
-    vSQL = vSQL & "NumeroRUC  As NumeroRUC, "
-    vSQL = vSQL & "FechaAplicacionImpuestoMunicipal, "
-    vSQL = vSQL & "MontoExento  As MontoExentoCxp, "
-    vSQL = vSQL & "MontoGravado  As MontoGravadoCxp, "
-    vSQL = vSQL & "MontoIva  As MontoIvaCxp, "
-    vSQL = vSQL & "MontoExento +  MontoGravado + MontoIva  As MontoTotalFacturadoCxp, "
-    vSQL = vSQL & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Descripcion  As DescripcionActividad, "
-    vSQL = vSQL & "Comprobante.Numero as NroComprobanteCxp "
-    vSQL = vSQL & " FROM dbo.COMPANIA "
-    vSQL = vSQL & " INNER JOIN " & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & " ON "
-    vSQL = vSQL & " dbo.COMPANIA.ConsecutivoCompania = " & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".ConsecutivoCompania "
-    vSQL = vSQL & " INNER JOIN Comun.Gv_MunicipioCiudad_B1 ON "
-    vSQL = vSQL & " dbo.COMPANIA.ConsecutivoMunicipio = Comun.Gv_MunicipioCiudad_B1.Consecutivo "
-    vSQL = vSQL & " INNER JOIN Comun.Gv_Municipio_B1 ON "
-    vSQL = vSQL & " Comun.Gv_MunicipioCiudad_B1.CodigoMunicipio = Comun.Gv_Municipio_B1.Codigo "
-    vSQL = vSQL & " LEFT OUTER JOIN PERIODO ON"
-    vSQL = vSQL & " dbo.COMPANIA.ConsecutivoCompania = PERIODO.ConsecutivoCompania "
-    vSQL = vSQL & " LEFT OUTER JOIN COMPROBANTE ON"
-    vSQL = vSQL & " PERIODO.ConsecutivoPeriodo = COMPROBANTE.ConsecutivoPeriodo AND "
-    vSQL = vSQL & " COMPROBANTE.ConsecutivoDocOrigen = " & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".ConsecutivoCxp "
-    vSQL = vSQL & vSQLWhere
-    fSQLComprobanteRetencionImpuestoMunicipalEnCxP = vSQL
+    vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+    vSql = ""
+    vSql = "SELECT "
+    vSql = vSql & "Comun.Gv_Municipio_B1.NombreMunicipio,"
+    vSql = vSql & "NumeroComprobanteImpuestoMunicipal AS NumeroComprobante,"
+    vSql = vSql & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Numero,"
+    vSql = vSql & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".NombreCompania AS RazonSocialAgente, "
+    vSql = vSql & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".CodigoContribuyente AS NumeroLicenciaActividadEconominca,"
+    vSql = vSql & "RifCompaniaModelo1 AS NumeroRifAgente,"
+    vSql = vSql & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Fecha AS FechaCxp,"
+    vSql = vSql & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Direccion AS DireccionAgente,"
+    vSql = vSql & "NombreProveedor AS RazonSocialSujetoRetenido,"
+    vSql = vSql & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".CodigoContribuyenteProveedor AS  NumeroLicenciaActividadEconomincaRetenido,"
+    vSql = vSql & "RifProveedorModelo1 AS NumeroRifAgenteSujetoRetenido, Telefono1 AS TelefonoAgenteSujetoRetenido, "
+    vSql = vSql & gUtilSQL.fYear("FechaAplicacionImpuestoMunicipal", "YEAR") & ", "
+    vSql = vSql & gUtilSQL.fSQLFillRightWithCaracter(gUtilSQL.fCast(gUtilSQL.fMonth("FechaAplicacionImpuestoMunicipal", ""), eTDSS_VARCHAR, ""), 2, "0") & gUtilSQL.fAlias("MES") & ", "
+    vSql = vSql & "DireccionProveedor  AS   DireccionSujetoRetenido,"
+    vSql = vSql & fTipoDeOperacion() & ", "
+    vSql = vSql & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Fecha  AS FechaCxpDetalle,"
+    vSql = vSql & gUtilSQL.getIIF("TipoDeCxP = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_FACTURA), vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Numero", gUtilSQL.fSimpleSqlValue(""), True) & " AS NumeroCxp, "
+    vSql = vSql & "NumeroControl AS NumeroControlFactura,"
+    vSql = vSql & gUtilSQL.getIIF("TipoDeCxP = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADEDEBITO), vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Numero", gUtilSQL.fSimpleSqlValue(""), True) & " AS NumeroDeNotaDebito, "
+    vSql = vSql & gUtilSQL.getIIF("TipoDeCxP = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_NOTADECREDITO), vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Numero", gUtilSQL.fSimpleSqlValue(""), True) & " AS NumeroDeNotaCREDITO, "
+    vSql = vSql & fTipoDeTransaccion() & " , "
+    vSql = vSql & "NumeroDeFacturaAfectada AS NumeroDeLaFacturaAfectada,"
+    vSql = vSql & "MontoBaseImponible AS TotalComprasSinIVABaseImponible,"
+    vSql = vSql & "AlicuotaRetencion AS  ALICUOTA,"
+    vSql = vSql & "CodigoActividad AS GRUPO ,"
+    vSql = vSql & "MontoRetencion  As ImpuestoMunicipalRetenido, "
+    vSql = vSql & "NumeroRUC  As NumeroRUC, "
+    vSql = vSql & "FechaAplicacionImpuestoMunicipal, "
+    vSql = vSql & "MontoExento  As MontoExentoCxp, "
+    vSql = vSql & "MontoGravado  As MontoGravadoCxp, "
+    vSql = vSql & "MontoIva  As MontoIvaCxp, "
+    vSql = vSql & "MontoExento +  MontoGravado + MontoIva  As MontoTotalFacturadoCxp, "
+    vSql = vSql & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Descripcion  As DescripcionActividad, "
+    vSql = vSql & "Comprobante.Numero as NroComprobanteCxp, "
+    vSql = vSql & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".CambioABolivares AS CambioABolivares, "
+    vSql = vSql & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".MonedaDocumento  "
+    vSql = vSql & " FROM dbo.COMPANIA "
+    vSql = vSql & " INNER JOIN " & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & " ON "
+    vSql = vSql & " dbo.COMPANIA.ConsecutivoCompania = " & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".ConsecutivoCompania "
+    vSql = vSql & " INNER JOIN Comun.Gv_MunicipioCiudad_B1 ON "
+    vSql = vSql & " dbo.COMPANIA.ConsecutivoMunicipio = Comun.Gv_MunicipioCiudad_B1.Consecutivo "
+    vSql = vSql & " INNER JOIN Comun.Gv_Municipio_B1 ON "
+    vSql = vSql & " Comun.Gv_MunicipioCiudad_B1.CodigoMunicipio = Comun.Gv_Municipio_B1.Codigo "
+    vSql = vSql & " LEFT OUTER JOIN PERIODO ON"
+    vSql = vSql & " dbo.COMPANIA.ConsecutivoCompania = PERIODO.ConsecutivoCompania "
+    vSql = vSql & " LEFT OUTER JOIN COMPROBANTE ON"
+    vSql = vSql & " PERIODO.ConsecutivoPeriodo = COMPROBANTE.ConsecutivoPeriodo AND "
+    vSql = vSql & " COMPROBANTE.ConsecutivoDocOrigen = " & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".ConsecutivoCxp "
+    vSql = vSql & vSqlWhere
+    fSQLComprobanteRetencionImpuestoMunicipalEnCxP = vSql
     Set vCxPVista = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -2072,7 +2070,7 @@ End Function
 
 Private Function fTipoDeTransaccion() As String
  Dim gEnumProyecto As clsEnumAdministrativo
-   Dim vSQL As String
+   Dim vSql As String
    Dim vCxPVista As clsCxPVista
    Dim vCadenaComparacion As String
    Dim vCadenaResultadoStr As String
@@ -2087,10 +2085,10 @@ Private Function fTipoDeTransaccion() As String
    vCadenaResultadoStr = gUtilSQL.fSimpleSqlValue("NA")
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("C")
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("S")
-   vSQL = gUtilSQL.DfSQLCaseIf(vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".TipoDeTransaccionImpuesto", vCadenaComparacion, vCadenaResultadoStr, gTexto.fSeparadorStandardDeElementosString, "=", "TipoDeTransaccion")
+   vSql = gUtilSQL.DfSQLCaseIf(vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".TipoDeTransaccionImpuesto", vCadenaComparacion, vCadenaResultadoStr, gTexto.fSeparadorStandardDeElementosString, "=", "TipoDeTransaccion")
    Set gEnumProyecto = Nothing
    Set vCxPVista = Nothing
-  fTipoDeTransaccion = vSQL
+  fTipoDeTransaccion = vSql
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fTipoDeTransaccion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2099,7 +2097,7 @@ End Function
 Private Function fTipoDeOperacion() As String
    Dim gEnumProyecto As clsEnumAdministrativo
    Dim vCxPVista As clsCxPVista
-   Dim vSQL As String
+   Dim vSql As String
    Dim vCadenaComparacion As String
    Dim vCadenaResultadoStr As String
    Dim vSeparador As String
@@ -2113,10 +2111,10 @@ Private Function fTipoDeOperacion() As String
    vCadenaResultadoStr = gUtilSQL.fSimpleSqlValue("FT")
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("NC")
    vCadenaResultadoStr = vCadenaResultadoStr & vSeparador & gUtilSQL.fSimpleSqlValue("ND")
-   vSQL = gUtilSQL.DfSQLCaseIf(vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".TipoDeCxp ", vCadenaComparacion, vCadenaResultadoStr, gTexto.fSeparadorStandardDeElementosString, "=", "TipoDeOperacion ")
+   vSql = gUtilSQL.DfSQLCaseIf(vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".TipoDeCxp ", vCadenaComparacion, vCadenaResultadoStr, gTexto.fSeparadorStandardDeElementosString, "=", "TipoDeOperacion ")
    Set gEnumProyecto = Nothing
    Set vCxPVista = Nothing
-   fTipoDeOperacion = vSQL
+   fTipoDeOperacion = vSql
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fTipoDeOperacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2124,8 +2122,8 @@ End Function
 
 Public Function fSqlWhereArchivoDeTextoRetencionImpuestos(ByVal valAno As Long, ByVal valMes As Long, ByVal valConsecutivoCompania As Long) As String
    Dim vResult As String
-   Dim vSQLWhere As String
-   Dim vSQL As String
+   Dim vSqlWhere As String
+   Dim vSql As String
    Dim vFechaDesde As Date
    Dim vFechaHasta As Date
    Dim vCxPVista As clsCxPVista
@@ -2139,13 +2137,13 @@ Public Function fSqlWhereArchivoDeTextoRetencionImpuestos(ByVal valAno As Long, 
    
    vSqlStatusCxP = gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO) & ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_PORCANCELAR) & ", "
    vSqlStatusCxP = vSqlStatusCxP & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_CANCELADO) & ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_REFINANCIADO) & ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_CHEQUEDEVUELTO)
-   vSQLWhere = vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Status IN (" & vSqlStatusCxP & ")"
-   vSQLWhere = gUtilSQL.fSQLValueDatesBetween(vSQLWhere, "FechaAplicacionImpuestoMunicipal", vFechaDesde, vFechaHasta)
-   vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "ConsecutivoCompania", valConsecutivoCompania)
-   vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
+   vSqlWhere = vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Status IN (" & vSqlStatusCxP & ")"
+   vSqlWhere = gUtilSQL.fSQLValueDatesBetween(vSqlWhere, "FechaAplicacionImpuestoMunicipal", vFechaDesde, vFechaHasta)
+   vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, "ConsecutivoCompania", valConsecutivoCompania)
+   vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
    
-   vSQL = vSQL & vSQLWhere
-   vResult = vSQL
+   vSql = vSql & vSqlWhere
+   vResult = vSql
    fSqlWhereArchivoDeTextoRetencionImpuestos = vResult
    Set vCxPVista = Nothing
 h_EXIT: On Error GoTo 0
@@ -2154,8 +2152,8 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Public Function fSQLResumenRetencionesActividadesEconomicas(ByVal valAno As Long, ByVal valMes As Long, ByVal valConsecutivoCompania As Long) As String
-   Dim vSQL As String
-   Dim vSQLWhere As String
+   Dim vSql As String
+   Dim vSqlWhere As String
    Dim vCxPVista As clsCxPVista
    Dim vFechaDesde As Date
    Dim vFechaHasta As Date
@@ -2167,46 +2165,46 @@ Public Function fSQLResumenRetencionesActividadesEconomicas(ByVal valAno As Long
     vSqlStatusCxP = vSqlStatusCxP & ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_CANCELADO) & ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_REFINANCIADO) & ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_CHEQUEDEVUELTO)
     vFechaDesde = gUtilDate.fObtenLaFechaAPartirDelMesYAnoAplicacion(gTexto.llenaConCaracterALaIzquierda(gConvert.fConvierteAString(valMes), "0", 2), gConvert.fConvierteAString(valAno), True)
     vFechaHasta = gUtilDate.fObtenLaFechaAPartirDelMesYAnoAplicacion(gTexto.llenaConCaracterALaIzquierda(gConvert.fConvierteAString(valMes), "0", 2), gConvert.fConvierteAString(valAno), False)
-    vSQLWhere = vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Status IN (" & vSqlStatusCxP & ")"
-    vSQLWhere = gUtilSQL.fSQLValueDatesBetween(vSQLWhere, "FechaAplicacionImpuestoMunicipal", vFechaDesde, vFechaHasta)
-    vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".ConsecutivoCompania", valConsecutivoCompania)
-    vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
-    vSQL = ""
-    vSQL = "SELECT "
-    vSQL = vSQL & "Comun.Gv_Municipio_B1.NombreMunicipio,"
-    vSQL = vSQL & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".CodigoContribuyente,"
-    vSQL = vSQL & "NombreCompania AS RazonSocialAgente, "
-    vSQL = vSQL & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Direccion AS DireccionAgente,"
-    vSQL = vSQL & "RifCompaniaModelo3 AS NumeroRifAgente,"
-    vSQL = vSQL & "RifProveedorModelo3 AS NumeroRifAgenteSujetoRetenido,"
-    vSQL = vSQL & "NombreProveedor AS RazonSocialSujetoRetenido,"
-    vSQL = vSQL & "Fecha,"
-    vSQL = vSQL & "FechaAplicacionImpuestoMunicipal,"
-    vSQL = vSQL & "NumeroControl AS NumeroControlFactura,"
-    vSQL = vSQL & "Numero AS NumeroCxp,"
-    vSQL = vSQL & gUtilSQL.fYear("FechaAplicacionImpuestoMunicipal", "YEAR") & ", "
-    vSQL = vSQL & gUtilSQL.fMonth("FechaAplicacionImpuestoMunicipal", "MES") & ","
-    vSQL = vSQL & "((MontoExento+MontoGravado+MontoIva+TotalOtrosImpuestos) * CambioABolivares) AS CantidadPagada,"
-    vSQL = vSQL & "MontoBaseImponible,"
-    vSQL = vSQL & "AlicuotaRetencion,"
-    vSQL = vSQL & "MontoRetencion,"
-    vSQL = vSQL & gUtilSQL.fNumToStrSQL(1) & " AS Contador, "
-    vSQL = vSQL & "CodigoActividad, "
-    vSQL = vSQL & "NumeroRuc, "
-    vSQL = vSQL & "ROW_NUMBER() OVER (ORDER BY Comun.Gv_Municipio_B1.NombreMunicipio) AS NumeroConsecutivo, "
-    vSQL = vSQL & "(IGV_RetencionImpuestoMunicipalCxP.MontoExento + IGV_RetencionImpuestoMunicipalCxP.MontoGravado + IGV_RetencionImpuestoMunicipalCxP.MontoIva) AS MontoTotal, "
-    vSQL = vSQL & " IGV_RetencionImpuestoMunicipalCxP.MontoExento, "
-    vSQL = vSQL & " IGV_RetencionImpuestoMunicipalCxP.NumeroComprobanteImpuestoMunicipal"
-    vSQL = vSQL & " FROM dbo.COMPANIA "
-    vSQL = vSQL & " INNER JOIN " & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & " ON "
-    vSQL = vSQL & " dbo.COMPANIA.ConsecutivoCompania = " & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".ConsecutivoCompania "
-    vSQL = vSQL & " INNER JOIN Comun.Gv_MunicipioCiudad_B1 ON "
-    vSQL = vSQL & " dbo.COMPANIA.ConsecutivoMunicipio = Comun.Gv_MunicipioCiudad_B1.Consecutivo "
-    vSQL = vSQL & " INNER JOIN Comun.Gv_Municipio_B1 ON "
-    vSQL = vSQL & " Comun.Gv_MunicipioCiudad_B1.CodigoMunicipio = Comun.Gv_Municipio_B1.Codigo "
-    vSQL = vSQL & " "
-    vSQL = vSQL & vSQLWhere
-    fSQLResumenRetencionesActividadesEconomicas = vSQL
+    vSqlWhere = vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Status IN (" & vSqlStatusCxP & ")"
+    vSqlWhere = gUtilSQL.fSQLValueDatesBetween(vSqlWhere, "FechaAplicacionImpuestoMunicipal", vFechaDesde, vFechaHasta)
+    vSqlWhere = gUtilSQL.fSQLNumberValueWithAnd(vSqlWhere, vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".ConsecutivoCompania", valConsecutivoCompania)
+    vSqlWhere = gUtilSQL.getWhereSQL(vSqlWhere)
+    vSql = ""
+    vSql = "SELECT "
+    vSql = vSql & "Comun.Gv_Municipio_B1.NombreMunicipio,"
+    vSql = vSql & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".CodigoContribuyente,"
+    vSql = vSql & "NombreCompania AS RazonSocialAgente, "
+    vSql = vSql & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".Direccion AS DireccionAgente,"
+    vSql = vSql & "RifCompaniaModelo3 AS NumeroRifAgente,"
+    vSql = vSql & "RifProveedorModelo3 AS NumeroRifAgenteSujetoRetenido,"
+    vSql = vSql & "NombreProveedor AS RazonSocialSujetoRetenido,"
+    vSql = vSql & "Fecha,"
+    vSql = vSql & "FechaAplicacionImpuestoMunicipal,"
+    vSql = vSql & "NumeroControl AS NumeroControlFactura,"
+    vSql = vSql & "Numero AS NumeroCxp,"
+    vSql = vSql & gUtilSQL.fYear("FechaAplicacionImpuestoMunicipal", "YEAR") & ", "
+    vSql = vSql & gUtilSQL.fMonth("FechaAplicacionImpuestoMunicipal", "MES") & ","
+    vSql = vSql & "((MontoExento+MontoGravado+MontoIva+TotalOtrosImpuestos) * CambioABolivares) AS CantidadPagada,"
+    vSql = vSql & "MontoBaseImponible,"
+    vSql = vSql & "AlicuotaRetencion,"
+    vSql = vSql & "MontoRetencion,"
+    vSql = vSql & gUtilSQL.fNumToStrSQL(1) & " AS Contador, "
+    vSql = vSql & "CodigoActividad, "
+    vSql = vSql & "NumeroRuc, "
+    vSql = vSql & "ROW_NUMBER() OVER (ORDER BY Comun.Gv_Municipio_B1.NombreMunicipio) AS NumeroConsecutivo, "
+    vSql = vSql & "(IGV_RetencionImpuestoMunicipalCxP.MontoExento + IGV_RetencionImpuestoMunicipalCxP.MontoGravado + IGV_RetencionImpuestoMunicipalCxP.MontoIva) AS MontoTotal, "
+    vSql = vSql & " IGV_RetencionImpuestoMunicipalCxP.MontoExento, "
+    vSql = vSql & " IGV_RetencionImpuestoMunicipalCxP.NumeroComprobanteImpuestoMunicipal"
+    vSql = vSql & " FROM dbo.COMPANIA "
+    vSql = vSql & " INNER JOIN " & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & " ON "
+    vSql = vSql & " dbo.COMPANIA.ConsecutivoCompania = " & vCxPVista.GetViewNameRetencionImpuestoMunicipalCxP() & ".ConsecutivoCompania "
+    vSql = vSql & " INNER JOIN Comun.Gv_MunicipioCiudad_B1 ON "
+    vSql = vSql & " dbo.COMPANIA.ConsecutivoMunicipio = Comun.Gv_MunicipioCiudad_B1.Consecutivo "
+    vSql = vSql & " INNER JOIN Comun.Gv_Municipio_B1 ON "
+    vSql = vSql & " Comun.Gv_MunicipioCiudad_B1.CodigoMunicipio = Comun.Gv_Municipio_B1.Codigo "
+    vSql = vSql & " "
+    vSql = vSql & vSqlWhere
+    fSQLResumenRetencionesActividadesEconomicas = vSql
     Set vCxPVista = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -2215,27 +2213,27 @@ h_ERROR: fSQLResumenRetencionesActividadesEconomicas = ""
 End Function
 
 Public Function fSQLPagoMasivoDeDetracciones(ByVal valAno As Long, ByVal valMes As Long, ByVal valConsecutivoCompania As Long) As String
-   Dim vSQL As String
+   Dim vSql As String
    On Error GoTo h_ERROR
-   vSQL = "SELECT " & gUtilSQL.fSimpleSqlValue("6") & " AS TipoDocumentoProveedor,"
-   vSQL = vSQL & " Adm.Proveedor.NumeroRIF AS NumeroRUC, Adm.Proveedor.NombreProveedor AS NombreProveedor, "
-   vSQL = vSQL & gUtilSQL.fSimpleSqlValue(gTexto.nCar("0", 9)) & " AS NumProforma, OtrosImpuestosCxP.CodigoOI AS CodigoDetraccion,"
-   vSQL = vSQL & " Adm.Proveedor.NumeroCuentaBancaria AS NumeroCuentaBanco, "
-   vSQL = vSQL & " (OtrosImpuestosCxP.Monto * cxP.CambioAbolivares) AS MontoDeposito, "
-   vSQL = vSQL & gUtilSQL.fSimpleSqlValue("01") & " AS TipoOperacion, " ' ojo una vez definido en formulario de peru hacer case
-   vSQL = vSQL & gUtilSQL.fSimpleSqlValue(gConvert.fConvierteAString(valAno) & gTexto.llenaConCaracterALaIzquierda(gConvert.fConvierteAString(valMes), "0", 2)) & " AS PeriodoTributario, "
-   vSQL = vSQL & gUtilSQL.getIIF("cxP.TipoDeCxp = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_BOLETADEVENTA), _
+   vSql = "SELECT " & gUtilSQL.fSimpleSqlValue("6") & " AS TipoDocumentoProveedor,"
+   vSql = vSql & " Adm.Proveedor.NumeroRIF AS NumeroRUC, Adm.Proveedor.NombreProveedor AS NombreProveedor, "
+   vSql = vSql & gUtilSQL.fSimpleSqlValue(gTexto.nCar("0", 9)) & " AS NumProforma, OtrosImpuestosCxP.CodigoOI AS CodigoDetraccion,"
+   vSql = vSql & " Adm.Proveedor.NumeroCuentaBancaria AS NumeroCuentaBanco, "
+   vSql = vSql & " (OtrosImpuestosCxP.Monto * cxP.CambioAbolivares) AS MontoDeposito, "
+   vSql = vSql & gUtilSQL.fSimpleSqlValue("01") & " AS TipoOperacion, " ' ojo una vez definido en formulario de peru hacer case
+   vSql = vSql & gUtilSQL.fSimpleSqlValue(gConvert.fConvierteAString(valAno) & gTexto.llenaConCaracterALaIzquierda(gConvert.fConvierteAString(valMes), "0", 2)) & " AS PeriodoTributario, "
+   vSql = vSql & gUtilSQL.getIIF("cxP.TipoDeCxp = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeTransaccion.eTD_BOLETADEVENTA), _
             gUtilSQL.fSimpleSqlValue("03"), gUtilSQL.fSimpleSqlValue("01"), True) & " AS TipoComprobante, "
-   vSQL = vSQL & "cxP.numero AS Comprobante"
-   vSQL = vSQL & " FROM cxP INNER JOIN Adm.Proveedor ON cxP.codigoproveedor = Adm.Proveedor.CodigoProveedor"
-   vSQL = vSQL & " AND cxp.ConsecutivoCompania = Adm.Proveedor.ConsecutivoCompania"
-   vSQL = vSQL & " INNER JOIN OtrosImpuestosCxP ON cxp.ConsecutivoCxp = OtrosImpuestosCxP.ConsecutivoCxP"
-   vSQL = vSQL & " AND cxP.ConsecutivoCompania = OtrosImpuestosCxP.ConsecutivoCompania"
-   vSQL = vSQL & " WHERE cxP.ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValueForNumeric(valConsecutivoCompania)
-   vSQL = vSQL & " AND cxP.MesDeAplicacion = " & gUtilSQL.fSimpleSqlValueForNumeric(valMes)
-   vSQL = vSQL & " AND cxP.AnoDeAplicacion = " & gUtilSQL.fSimpleSqlValueForNumeric(valAno)
-   vSQL = vSQL & " AND cxP.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_CANCELADO)
-   fSQLPagoMasivoDeDetracciones = vSQL
+   vSql = vSql & "cxP.numero AS Comprobante"
+   vSql = vSql & " FROM cxP INNER JOIN Adm.Proveedor ON cxP.codigoproveedor = Adm.Proveedor.CodigoProveedor"
+   vSql = vSql & " AND cxp.ConsecutivoCompania = Adm.Proveedor.ConsecutivoCompania"
+   vSql = vSql & " INNER JOIN OtrosImpuestosCxP ON cxp.ConsecutivoCxp = OtrosImpuestosCxP.ConsecutivoCxP"
+   vSql = vSql & " AND cxP.ConsecutivoCompania = OtrosImpuestosCxP.ConsecutivoCompania"
+   vSql = vSql & " WHERE cxP.ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValueForNumeric(valConsecutivoCompania)
+   vSql = vSql & " AND cxP.MesDeAplicacion = " & gUtilSQL.fSimpleSqlValueForNumeric(valMes)
+   vSql = vSql & " AND cxP.AnoDeAplicacion = " & gUtilSQL.fSimpleSqlValueForNumeric(valAno)
+   vSql = vSql & " AND cxP.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_CANCELADO)
+   fSQLPagoMasivoDeDetracciones = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fSQLPagoMasivoDeDetracciones = ""
