@@ -1693,8 +1693,8 @@ namespace Galac.Saw.Brl.Inventario {
                     } else {
                         ActualizaCantidadACero(valConsecutivoCompania, vCodigoArticulo, vTipoArticuloInv, vXmlResultListAlmacen);
                         foreach (XElement vArticuloAlmacen in vXmlResultListAlmacen) {
-                            vSerial = LibXml.GetElementValueOrEmpty(vXmlExistenciaPorAlmacen, "CodigoSerial");
-                            vRollo = LibXml.GetElementValueOrEmpty(vXmlExistenciaPorAlmacen, "CodigoRollo");
+                            vSerial = LibXml.GetElementValueOrEmpty(vArticuloAlmacen, "CodigoSerial");
+                            vRollo = LibXml.GetElementValueOrEmpty(vArticuloAlmacen, "CodigoRollo");
                             vCodigoAlmacen = LibXml.GetElementValueOrEmpty(vArticuloAlmacen, "CodigoAlmacen");
                             vConsecutivoAlmacen = LibConvert.ToInt(LibXml.GetElementValueOrEmpty(vArticuloAlmacen, "ConsecutivoAlmacen"));
                             var ListGrupoArticulo = BuscarArticuloPorGrupo(valConsecutivoCompania, vCodigoArticulo, true);
