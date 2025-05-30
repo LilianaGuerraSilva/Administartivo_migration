@@ -435,25 +435,23 @@ namespace Galac.Saw.Brl.Inventario {
 
         bool ILoteDeInventarioPdn.RecalcularMovimientosDeLoteDeInventario(int valConsecutivoCompania, eCantidadAImprimir valCantidadArticulos, string valCodigoArticulo, eCantidadAImprimir valCantidadLineas, string valLineaDeProducto) {
             bool vResult =false;
-            if (valCantidadArticulos == eCantidadAImprimir.One) {
-                vResult = RecalcularMovimientosDeInventarioParaUnArticulo(valConsecutivoCompania, valCodigoArticulo);
+            XElement vXmlResult;
+            if (valCantidadArticulos == eCantidadAImprimir.One && valCantidadLineas == eCantidadAImprimir.One) {
+                vXmlResult = LibBusiness.ExecuteSelect(SqlArticulosARecalcular(valConsecutivoCompania, valLineaDeProducto, valCodigoArticulo), new StringBuilder(), "", 0);
+            } else if (valCantidadArticulos == eCantidadAImprimir.All && valCantidadLineas == eCantidadAImprimir.One) {
+                vXmlResult = LibBusiness.ExecuteSelect(SqlArticulosARecalcular(valConsecutivoCompania, valLineaDeProducto, ""), new StringBuilder(), "", 0);
+            } else if (valCantidadArticulos == eCantidadAImprimir.One && valCantidadLineas == eCantidadAImprimir.All) {
+                vXmlResult = LibBusiness.ExecuteSelect(SqlArticulosARecalcular(valConsecutivoCompania, "", valCodigoArticulo), new StringBuilder(), "", 0);
             } else {
-                if (valCantidadLineas == eCantidadAImprimir.One) {
-                    XElement vXmlResult = LibBusiness.ExecuteSelect(SqlArticulosARecalcular(valConsecutivoCompania, valLineaDeProducto), new StringBuilder(), "", 0);
-                    if (vXmlResult != null) {
-                        vResult = RecalcularConjuntoDeArticulos(vXmlResult, valConsecutivoCompania);
-                    }
-                } else {
-                    XElement vXmlResult = LibBusiness.ExecuteSelect(SqlArticulosARecalcular(valConsecutivoCompania, ""), new StringBuilder(), "", 0);
-                    if (vXmlResult != null) {
-                        vResult = RecalcularConjuntoDeArticulos(vXmlResult, valConsecutivoCompania);
-                    }
-                }
+                vXmlResult = LibBusiness.ExecuteSelect(SqlArticulosARecalcular(valConsecutivoCompania, "", ""), new StringBuilder(), "", 0);
+            }
+            if (vXmlResult != null) {
+                vResult = RecalcularConjuntoDeArticulos(vXmlResult, valConsecutivoCompania);
             }
             return vResult;
         }
 
-        string SqlArticulosARecalcular(int valConsecutivoCompania, string valLineaDeProducto) {
+        string SqlArticulosARecalcular(int valConsecutivoCompania, string valLineaDeProducto, string valCodigoArticulo) {
             StringBuilder vSql = new StringBuilder();
             LibDatabase insDb = new LibDatabase();
             vSql.AppendLine("SELECT Codigo FROM ArticuloInventario ");
@@ -461,6 +459,9 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("AND TipoArticuloInv IN (" + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.Lote) + ", " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeVencimiento) + ", " + insDb.InsSql.EnumToSqlValue((int)eTipoArticuloInv.LoteFechadeElaboracion) + ")");
             if (!LibString.IsNullOrEmpty(valLineaDeProducto)) {
                 vSql.AppendLine("AND LineaDeProducto = " + insDb.InsSql.ToSqlValue(valLineaDeProducto));
+            }
+            if (!LibString.IsNullOrEmpty(valCodigoArticulo)) {
+                vSql.AppendLine("AND Codigo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo));
             }
             return vSql.ToString();
         }
@@ -488,6 +489,7 @@ namespace Galac.Saw.Brl.Inventario {
                 LibDatabase insDb = new LibDatabase();
                 insDb.Execute("UPDATE articuloInventario SET Existencia = 0 WHERE Codigo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo) + " AND ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
                 insDb.Execute("UPDATE Saw.LoteDeInventario SET Existencia = 0 WHERE CodigoArticulo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo) + " AND ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
+                insDb.Execute("UPDATE existenciaPorAlmacen SET Cantidad = 0 WHERE CodigoArticulo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo) + " AND ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
                 insDb.Execute("UPDATE ExistenciaPorAlmacenDetLoteInv SET Cantidad = 0 WHERE CodigoArticulo = " + insDb.InsSql.ToSqlValue(valCodigoArticulo) + " AND ConsecutivoCompania = " + insDb.InsSql.ToSqlValue(valConsecutivoCompania));
 
                 StringBuilder vSql = new StringBuilder();
@@ -622,6 +624,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND F.TipoDeDocumento = '0' AND F.StatusFactura = '0'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
+            vSql.AppendLine("AND F.GeneradaPorNotaEntrega = '0'");
             vSql.AppendLine("UNION");
             //Facturas Anuladas y su origen vigente
             vSql.AppendLine("SELECT 4 AS ColOrden, F.ConsecutivoCompania, LoteInv.Consecutivo AS ConsecutivoLote, 0 AS Consecutivo, F.Fecha, ");
@@ -637,6 +640,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND F.TipoDeDocumento = '0' AND F.StatusFactura = '1'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
+            vSql.AppendLine("AND F.GeneradaPorNotaEntrega = '0'");
             vSql.AppendLine("UNION");
             vSql.AppendLine("SELECT 4 AS ColOrden, F.ConsecutivoCompania, LoteInv.Consecutivo AS ConsecutivoLote, 0 AS Consecutivo, F.Fecha, ");
             vSql.AppendLine(insSql.EnumToSqlValue((int)eOrigenLoteInv.Factura) + " AS Modulo, ");
@@ -651,6 +655,7 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("AND AI.Codigo = " + insSql.ToSqlValue(valCodigoArticulo));
             vSql.AppendLine("AND F.TipoDeDocumento = '0' AND F.StatusFactura = '1'");
             vSql.AppendLine("AND LoteInv.Consecutivo = " + insSql.ToSqlValue(valConseuctivoLote));
+            vSql.AppendLine("AND F.GeneradaPorNotaEntrega = '0'");
             return vSql.ToString();
         }
 
