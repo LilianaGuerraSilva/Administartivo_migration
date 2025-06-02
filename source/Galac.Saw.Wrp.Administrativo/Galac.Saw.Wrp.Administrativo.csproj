@@ -138,6 +138,7 @@
     </Compile>
     <Compile Include="clsLibSawDDL.cs" />
     <Compile Include="IWrpAlmacenVb.cs" />
+    <Compile Include="IWrpTransferencia.cs" />
     <Compile Include="IWrpArticuloInventario.cs" />
     <Compile Include="IWrpCaja.cs" />
     <Compile Include="IWrpCajaApertura.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="IWrpVenta.cs" />
     <Compile Include="IWrpVerificadorDePrecios.cs" />
     <Compile Include="IWrpVersionApi.cs" />
+    <Compile Include="wrpTransferencia.cs" />
     <Compile Include="wrpVenta.cs" />
     <Compile Include="wrpAnticipoInformes.cs" />
     <Compile Include="wrpCaja.cs" />
@@ -272,7 +274,7 @@
     <ProjectReference Include="..\Galac.Adm.Ccl.DispositivosExternos\Galac.Adm.Ccl.DispositivosExternos.csproj">
       <Project>{eea8e05e-9a11-4d51-aa9c-aacd7245952f}</Project>
       <Name>Galac.Adm.Ccl.DispositivosExternos</Name>
-    </ProjectReference>   
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Ccl.ImprentaDigital\Galac.Adm.Ccl.ImprentaDigital.csproj">
       <Project>{09e94989-2c8c-457a-b6af-1e529992f5ca}</Project>
       <Name>Galac.Adm.Ccl.ImprentaDigital</Name>

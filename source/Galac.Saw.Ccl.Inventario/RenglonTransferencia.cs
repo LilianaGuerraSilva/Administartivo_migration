@@ -18,6 +18,7 @@ namespace Galac.Saw.Ccl.Inventario {
         private string _Serial;
         private string _Rollo;
         private eTipoArticuloInv _TipoArticuloInv;
+        private string _CodigoLoteDeInventario;
         #endregion //Variables
         #region Propiedades
 
@@ -72,6 +73,13 @@ namespace Galac.Saw.Ccl.Inventario {
         public string TipoArticuloInvAsString {
             get { return LibEnumHelper.GetDescription(_TipoArticuloInv); }
         }
+
+        public string CodigoLoteDeInventario {
+            get { return _CodigoLoteDeInventario; }
+            set { 
+                _CodigoLoteDeInventario = LibString.Mid(value, 0, 30);
+            }
+        }
         #endregion //Propiedades
         #region Constructores
         #endregion //Constructores
@@ -90,6 +98,7 @@ namespace Galac.Saw.Ccl.Inventario {
             Serial = "";
             Rollo = "";
             TipoArticuloInvAsEnum = eTipoArticuloInv.Simple;
+            CodigoLoteDeInventario = string.Empty;
         }
 
         public RenglonTransferencia Clone() {
@@ -102,6 +111,7 @@ namespace Galac.Saw.Ccl.Inventario {
             vResult.Serial = _Serial;
             vResult.Rollo = _Rollo;
             vResult.TipoArticuloInvAsEnum = _TipoArticuloInv;
+            vResult.CodigoLoteDeInventario = _CodigoLoteDeInventario;
             return vResult;
         }
 
@@ -113,7 +123,8 @@ namespace Galac.Saw.Ccl.Inventario {
                "\nCantidad = " + _Cantidad.ToString() +
                "\nSerial = " + _Serial +
                "\nRollo = " + _Rollo +
-               "\nTipo Articulo Inv = " + _TipoArticuloInv.ToString();
+               "\nTipo Articulo Inv = " + _TipoArticuloInv.ToString() +
+               "\nCodigo Lote De Inventario = " + _CodigoLoteDeInventario;
         }
 
         #region Miembros de IEquatable<RenglonTransferencia>

@@ -2409,5 +2409,11 @@ namespace Galac.Saw.Brl.Inventario {
                 ActualizaCantidades(valConsecutivoCompania, vCodigoAlmacen, vNuevaCantidad, vCodigoArticulo, vSerial, vRollo, vCodigoCompuestoPorGrupo, vTipoArticuloInv, true);
             }
         }
+
+        public void ActualizarExistencia(int valConsecutivoCompania, List<ExistenciaPorAlmacenDetLoteInv> valList) {
+            foreach (var item in valList) {
+                ActualizarExistenciaPorAlmacenPorLoteInv(valConsecutivoCompania, item.ConsecutivoAlmacen, item.CodigoArticulo, item.ConsecutivoLoteInventario, item.Cantidad, item.Ubicacion);
+            }
+        }
     }
 } //End of namespace Galac.Saw.Brl.Inventario
