@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
+using System.Collections.ObjectModel;
 
 namespace Galac.Saw.Ccl.Inventario {
     [Serializable]
@@ -15,14 +16,16 @@ namespace Galac.Saw.Ccl.Inventario {
         private string _NumeroDocumento;
         private string _CodigoAlmacenEntrada;
         private string _NombreAlmacenEntrada;
+        private int _ConsecutivoAlmacenEntrada;
         private string _CodigoAlmacenSalida;
         private string _NombreAlmacenSalida;
+        private int _ConsecutivoAlmacenSalida;
         private DateTime _Fecha;
         private string _Comentarios;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
-		private GBindingList<RenglonTransferencia> _DetailRenglonTransferencia;
+		private ObservableCollection<RenglonTransferencia> _DetailRenglonTransferencia;
         XmlDocument _datos;
         #endregion //Variables
         #region Propiedades
@@ -47,6 +50,11 @@ namespace Galac.Saw.Ccl.Inventario {
             set { _NombreAlmacenEntrada = LibString.Mid(value, 0, 40); }
         }
 
+        public int ConsecutivoAlmacenEntrada {
+            get { return _ConsecutivoAlmacenEntrada; }
+            set { _ConsecutivoAlmacenEntrada = value; }
+        }
+
         public string CodigoAlmacenSalida {
             get { return _CodigoAlmacenSalida; }
             set { _CodigoAlmacenSalida = LibString.Mid(value, 0, 5); }
@@ -55,6 +63,11 @@ namespace Galac.Saw.Ccl.Inventario {
         public string NombreAlmacenSalida {
             get { return _NombreAlmacenSalida; }
             set { _NombreAlmacenSalida = LibString.Mid(value, 0, 40); }
+        }
+
+        public int ConsecutivoAlmacenSalida {
+            get { return _ConsecutivoAlmacenSalida; }
+            set { _ConsecutivoAlmacenSalida = value; }
         }
 
         public DateTime Fecha {
@@ -82,7 +95,7 @@ namespace Galac.Saw.Ccl.Inventario {
             set { _fldTimeStamp = value; }
         }
 
-        public GBindingList<RenglonTransferencia> DetailRenglonTransferencia {
+        public ObservableCollection<RenglonTransferencia> DetailRenglonTransferencia {
             get { return _DetailRenglonTransferencia; }
             set { _DetailRenglonTransferencia = value; }
         }
@@ -95,7 +108,7 @@ namespace Galac.Saw.Ccl.Inventario {
         #region Constructores
 
         public Transferencia() {
-            _DetailRenglonTransferencia = new GBindingList<RenglonTransferencia>();
+            _DetailRenglonTransferencia = new ObservableCollection<RenglonTransferencia>();
             Clear();
         }
         #endregion //Constructores
@@ -110,13 +123,16 @@ namespace Galac.Saw.Ccl.Inventario {
             NumeroDocumento = "";
             CodigoAlmacenEntrada = "";
             NombreAlmacenEntrada = "";
+            ConsecutivoAlmacenEntrada = 0;
             CodigoAlmacenSalida = "";
             NombreAlmacenSalida = "";
+            ConsecutivoAlmacenSalida = 0;
             Fecha = LibDate.Today();
             Comentarios = "";
             NombreOperador = "";
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
+            DetailRenglonTransferencia = new ObservableCollection<RenglonTransferencia>();
         }
 
         public Transferencia Clone() {
@@ -125,8 +141,10 @@ namespace Galac.Saw.Ccl.Inventario {
             vResult.NumeroDocumento = _NumeroDocumento;
             vResult.CodigoAlmacenEntrada = _CodigoAlmacenEntrada;
             vResult.NombreAlmacenEntrada = _NombreAlmacenEntrada;
+            vResult.ConsecutivoAlmacenEntrada = _ConsecutivoAlmacenEntrada;
             vResult.CodigoAlmacenSalida = _CodigoAlmacenSalida;
             vResult.NombreAlmacenSalida = _NombreAlmacenSalida;
+            vResult.ConsecutivoAlmacenSalida = _ConsecutivoAlmacenSalida;
             vResult.Fecha = _Fecha;
             vResult.Comentarios = _Comentarios;
             vResult.NombreOperador = _NombreOperador;
@@ -138,8 +156,9 @@ namespace Galac.Saw.Ccl.Inventario {
         public override string ToString() {
            return "Consecutivo Compania = " + _ConsecutivoCompania.ToString() +
                "\nNumero Documento = " + _NumeroDocumento +
-               "\nNombre Almacén = " + _CodigoAlmacenEntrada +
+               "\nConsecutivo Almacen Entrada = " + _ConsecutivoAlmacenEntrada.ToString() +
                "\nCodigo Almacen Salida = " + _CodigoAlmacenSalida +
+               "\nConsecutivo Almacen Salida = " + _ConsecutivoAlmacenSalida.ToString() +
                "\nFecha = " + _Fecha.ToShortDateString() +
                "\nComentarios = " + _Comentarios +
                "\nNombre Operador = " + _NombreOperador +

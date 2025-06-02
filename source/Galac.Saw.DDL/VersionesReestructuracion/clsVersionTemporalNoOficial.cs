@@ -45,6 +45,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AgregarTablaExistenciaPorAlmacenDetLoteInv();
             CrearCamposIDEnCxP();
             QuitarUniqueCaja();
+            AgregarLoteEnReglonTransferencia();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -297,6 +298,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			AddForeignKey("Adm.Caja", "Adm.CajaApertura", new string[] { "ConsecutivoCompania,Consecutivo" }, new string[] { "ConsecutivoCompania,ConsecutivoCaja" }, false, true);
 			AddForeignKey("Adm.Caja", "factura", new string[] { "ConsecutivoCompania,Consecutivo" }, new string[] { "ConsecutivoCompania,ConsecutivoCaja" }, false, true);
 		}
-		
+
+        private void AgregarLoteEnReglonTransferencia() {            
+            if (!ColumnExists("dbo.RenglonTransferencia", "CodigoLoteDeInventario")) {
+                AddColumnString("dbo.RenglonTransferencia", "CodigoLoteDeInventario", 30, "CONSTRAINT nnRenglonTransferenciaCodiLotInv NOT NULL", "''");
+                AddDefaultConstraint("dbo.RenglonTransferencia", "d_RenTransCodiLotInv", "''", "CodigoLoteDeInventario");
+            }
+        }
+
     }
 }
