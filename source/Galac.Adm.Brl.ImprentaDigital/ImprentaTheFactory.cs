@@ -688,32 +688,40 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             JArray vResult = new JArray();
             int vNumeroLinea = 1;
             foreach (ComprobanteRetDetalle vDetalle in DetalleComprobanteRetencion) {
-                JObject vItem = new JObject {
-                {"NumeroLinea", string.Format("{0:D4}",vNumeroLinea) },
-                {"FechaDocumento", LibConvert.ToStr(vDetalle.FechaDelDocumento)},
-                {"SerieDocumento", null},
-                {"TipoDocumento", GetTipoDocumentoRetencion(vDetalle.TipoDeCxPAsEnum) }, // Ajustar segun lo que corresponda
-                {"NumeroDocumento",vDetalle.NumeroDocumento },
-                {"NumeroControl", vDetalle.NumeroControlDocumento },
-                {"TipoTransaccion", GetTipoTransaccion(vDetalle.TipoDeTransaccionAsEnum) },
-                {"MontoTotal", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoTotal)) },
-                {"BaseImponible",DecimalToStringFormat(LibMath.Abs(vDetalle.BaseImponible)) },
-                {"Porcentaje", DecimalToStringFormat(LibMath.Abs(vDetalle.PorcentajeRetencion)) },
-                {"Retenido", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoRetenido)) },
-                {"Percibido", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoPercibido)) },
-                {"Moneda", vDetalle.CodigoMoneda }};
-                if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
-                    vItem.Add("MontoExento", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoExento)));
-                    vItem.Add("MontoIVA", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoIVA)));
-                } else if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
-                    vItem.Add("CodigoConcepto", vDetalle.CodigoConcepto);
-                    JArray vListInfoAdicional = new JArray(
-                     new JObject { { "Campo", "SustraendoPN" },
+                if (vDetalle.BaseImponible > 0) {
+                    JObject vItem = new JObject {
+                            {"NumeroLinea", string.Format("{0:D4}",vNumeroLinea) },
+                            {"FechaDocumento", LibConvert.ToStr(vDetalle.FechaDelDocumento)},
+                            {"TipoDocumento", GetTipoDocumentoRetencion(vDetalle.TipoDeCxPAsEnum) }, // Ajustar segun lo que corresponda
+                            {"TipoTransaccion", GetTipoTransaccion(vDetalle.TipoDeTransaccionAsEnum) },
+                            {"BaseImponible",DecimalToStringFormat(LibMath.Abs(vDetalle.BaseImponible)) },
+                            {"Porcentaje", DecimalToStringFormat(LibMath.Abs(vDetalle.PorcentajeAlicuota)) },
+                            {"Retenido", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoRetenido)) },
+                            {"Percibido", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoPercibido)) },
+                            {"Moneda",  vDetalle.CodigoMoneda}};
+                    if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionIVA) {
+                        vItem.Add("MontoIVA", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoIVA)));
+                        if (vNumeroLinea == 1) {
+                            vItem.Add("NumeroDocumento", vDetalle.NumeroDocumento);
+                            vItem.Add("NumeroControl", vDetalle.NumeroControlDocumento);
+                            vItem.Add("MontoExento", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoExento)));
+                            vItem.Add("MontoTotal", DecimalToStringFormat(LibMath.Abs(ComprobanteRetImprentaDigital.TotalDocumentoCXP)));
+                        }
+                    } else if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
+                        vItem.Add("CodigoConcepto", vDetalle.CodigoConcepto);
+                        if (vNumeroLinea == 1) {
+                            vItem.Add("NumeroDocumento", vDetalle.NumeroDocumento);
+                            vItem.Add("NumeroControl", vDetalle.NumeroControlDocumento);
+                            vItem.Add("MontoTotal", DecimalToStringFormat(LibMath.Abs(ComprobanteRetImprentaDigital.TotalDocumentoCXP)));
+                        }
+                        JArray vListInfoAdicional = new JArray(
+                         new JObject { { "Campo", "SustraendoPN" },
                                  { "Valor", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoSustraendo)) } });
-                    vItem.Add("InfoAdicionalItem", vListInfoAdicional);
+                        vItem.Add("InfoAdicionalItem", vListInfoAdicional);
+                    }
+                    vNumeroLinea++;
+                    vResult.Add(vItem);
                 }
-                vNumeroLinea++;
-                vResult.Add(vItem);
             }
             return vResult;
         }

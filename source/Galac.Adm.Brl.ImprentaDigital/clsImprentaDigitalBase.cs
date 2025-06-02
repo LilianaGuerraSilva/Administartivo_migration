@@ -742,7 +742,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     foreach (XElement vRowDetaill in ListDetaill) {
                         ComprobanteRetDetalle insComprobanteRetDetalle = new ComprobanteRetDetalle();
                         insComprobanteRetDetalle.BaseImponible = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "BaseImponible"), 2);
-                        insComprobanteRetDetalle.PorcentajeRetencion = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "PorcentajeAlicuota"), 2);
+                        insComprobanteRetDetalle.PorcentajeAlicuota = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "PorcentajeAlicuota"), 2);
                         insComprobanteRetDetalle.MontoIVA = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "MontoIVA"), 2);
                         insComprobanteRetDetalle.MontoExento = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "MontoExento"), 2);
                         insComprobanteRetDetalle.MontoTotal = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "MontoTotal"), 2);
@@ -851,7 +851,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     foreach (XElement vRowDetaill in ListDetaill) {
                         ComprobanteRetDetalle insComprobanteRetDetalle = new ComprobanteRetDetalle();
                         insComprobanteRetDetalle.BaseImponible = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "MontoBaseImponible"), 2);
-                        insComprobanteRetDetalle.PorcentajeRetencion = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "Tarifa"), 2);
+                        insComprobanteRetDetalle.PorcentajeAlicuota = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "Tarifa"), 2);
                         insComprobanteRetDetalle.MontoIVA = 0;
                         insComprobanteRetDetalle.MontoExento = 0;
                         insComprobanteRetDetalle.MontoTotal = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "MontoOriginal"), 2);
