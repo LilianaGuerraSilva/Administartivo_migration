@@ -695,7 +695,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                             {"TipoDocumento", GetTipoDocumentoRetencion(vDetalle.TipoDeCxPAsEnum) }, // Ajustar segun lo que corresponda
                             {"TipoTransaccion", GetTipoTransaccion(vDetalle.TipoDeTransaccionAsEnum) },
                             {"BaseImponible",DecimalToStringFormat(LibMath.Abs(vDetalle.BaseImponible)) },
-                            {"Porcentaje", DecimalToStringFormat(LibMath.Abs(vDetalle.PorcentajeRetencion)) },
+                            {"Porcentaje", DecimalToStringFormat(LibMath.Abs(vDetalle.PorcentajeAlicuota)) },
                             {"Retenido", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoRetenido)) },
                             {"Percibido", DecimalToStringFormat(LibMath.Abs(vDetalle.MontoPercibido)) },
                             {"Moneda",  vDetalle.CodigoMoneda}};
