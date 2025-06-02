@@ -302,6 +302,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         private void AgregarLoteEnReglonTransferencia() {            
             if (!ColumnExists("dbo.RenglonTransferencia", "CodigoLoteDeInventario")) {
                 AddColumnString("dbo.RenglonTransferencia", "CodigoLoteDeInventario", 30, "CONSTRAINT nnRenglonTransferenciaCodiLotInv NOT NULL", "''");
+                AddDefaultConstraint("dbo.RenglonTransferencia", "d_RenTransCodiLotInv", "''", "CodigoLoteDeInventario");
             }
         }
 
