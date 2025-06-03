@@ -178,9 +178,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" ,factura.UsarDireccionFiscal");
             vSql.AppendLine(" ,factura.NoDirDespachoAimprimir");
             vSql.AppendLine(" ,factura.ImprentaDigitalGUID");
-            vSql.AppendLine(" ,(SELECT ISNULL(Descripcion, '') FROM Saw.NotaFinal WHERE CodigoDeLaNota = factura.CodigoNota1 AND NotaFinal.ConsecutivoCompania = @ConsecutivoCompania) AS NotaFinal1");
-            vSql.AppendLine(" ,(SELECT ISNULL(Descripcion, '') FROM Saw.NotaFinal WHERE CodigoDeLaNota = factura.CodigoNota2 AND NotaFinal.ConsecutivoCompania = @ConsecutivoCompania) AS NotaFinal2");
+            vSql.AppendLine(" ,ISNULL(NF1.Descripcion, '') AS NotaFinal1");
+            vSql.AppendLine(" ,ISNULL(NF2.Descripcion, '') AS NotaFinal2");
             vSql.AppendLine(" FROM factura");
+            vSql.AppendLine(" LEFT  JOIN Saw.NotaFinal AS NF1 ON ");
+            vSql.AppendLine(" factura.ConsecutivoCompania = NF1.ConsecutivoCompania AND factura.CodigoNota1 = NF1.CodigoDeLaNota ");
+            vSql.AppendLine(" LEFT  JOIN Saw.NotaFinal AS NF2 ON ");
+            vSql.AppendLine(" factura.ConsecutivoCompania = NF2.ConsecutivoCompania AND factura.CodigoNota2 = NF2.CodigoDeLaNota ");
             vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND factura.Numero = @Numero ");
             vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento ");
