@@ -949,6 +949,26 @@ namespace Galac.Adm.Ccl.Venta {
             set { _ImprentaDigitalGUID =value; }
         }
 
+        string _NotaFinal1;
+        public string NotaFinal1 {
+            get {
+                return _NotaFinal1;
+            }
+            set {
+                _NotaFinal1 = value;
+            }
+        }
+
+        string _NotaFinal2;
+        public string NotaFinal2 {
+            get {
+                return _NotaFinal2;
+            }
+            set {
+                _NotaFinal2 = value;
+            }
+        }
+
         public string MotivoDeAnulacion {
             get {
                 return _MotivoDeAnulacion;
