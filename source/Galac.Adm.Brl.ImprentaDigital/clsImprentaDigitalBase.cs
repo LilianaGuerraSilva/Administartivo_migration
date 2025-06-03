@@ -178,8 +178,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" ,factura.UsarDireccionFiscal");
             vSql.AppendLine(" ,factura.NoDirDespachoAimprimir");
             vSql.AppendLine(" ,factura.ImprentaDigitalGUID");
-            vSql.AppendLine(" ,(SELECT Descripcion FROM Saw.NotaFinal WHERE CodigoDeLaNota = factura.CodigoNota1 AND NotaFinal.ConsecutivoCompania = @ConsecutivoCompania) AS NotaFinal1");
-            vSql.AppendLine(" ,(SELECT Descripcion FROM Saw.NotaFinal WHERE CodigoDeLaNota = factura.CodigoNota2 AND NotaFinal.ConsecutivoCompania = @ConsecutivoCompania) AS NotaFinal2");
+            vSql.AppendLine(" ,(SELECT ISNULL(Descripcion, '') FROM Saw.NotaFinal WHERE CodigoDeLaNota = factura.CodigoNota1 AND NotaFinal.ConsecutivoCompania = @ConsecutivoCompania) AS NotaFinal1");
+            vSql.AppendLine(" ,(SELECT ISNULL(Descripcion, '') FROM Saw.NotaFinal WHERE CodigoDeLaNota = factura.CodigoNota2 AND NotaFinal.ConsecutivoCompania = @ConsecutivoCompania) AS NotaFinal2");
             vSql.AppendLine(" FROM factura");
             vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND factura.Numero = @Numero ");
