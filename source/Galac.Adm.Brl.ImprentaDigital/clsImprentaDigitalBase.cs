@@ -479,7 +479,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vSql.ToString();
         }
 
-        private void BuscarDatosCmposDefFactura() {
+        private void BuscarDatosCamposDefFactura() {
             try {
                 StringBuilder vParam = new StringBuilder();
                 string vSql = SqlDatosCamposDefFactura(ref vParam);
@@ -993,7 +993,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 BuscarDatosDeDetalleDocumento();
                 BuscarDatosDeCliente();
                 BuscarDatosDelVendedor();
-                BuscarDatosCmposDefFactura();
+                BuscarDatosCamposDefFactura();
             }
         }
 
