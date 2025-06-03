@@ -1683,11 +1683,11 @@ namespace Galac.Saw.Brl.Inventario {
                     vCodigoArticulo = LibXml.GetElementValueOrEmpty(vArticulo, "Codigo");
                     vTipoArticuloInv = (eTipoArticuloInv)LibConvert.DbValueToEnum(LibXml.GetElementValueOrEmpty(vArticulo, "TipoArticuloInv"));
                     vCodigoArticuloCompuesto = LibXml.GetElementValueOrEmpty(vArticulo, "CodigoCompuesto");
-                    if (vTipoArticuloInv == eTipoArticuloInv.Simple || vTipoArticuloInv == eTipoArticuloInv.Lote || vTipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion || vTipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento || vTipoArticuloInv == eTipoArticuloInv.UsaTallaColor) {
+                    if (vTipoArticuloInv == eTipoArticuloInv.Simple || vTipoArticuloInv == eTipoArticuloInv.Lote || vTipoArticuloInv == eTipoArticuloInv.LoteFechadeElaboracion || vTipoArticuloInv == eTipoArticuloInv.LoteFechadeVencimiento) {
                         vCodigoArticuloCompuesto = LibXml.GetElementValueOrEmpty(vArticulo, "Codigo");
                     }
 
-                    vXmlExistenciaPorAlmacen = LibBusiness.ExecuteSelect(ExisteciaPorAlmacen(valConsecutivoCompania, vCodigoArticuloCompuesto, vTipoArticuloInv), new StringBuilder(), "", 0);
+                    vXmlExistenciaPorAlmacen = LibBusiness.ExecuteSelect(ExistenciaPorAlmacen(valConsecutivoCompania, vCodigoArticuloCompuesto, vTipoArticuloInv), new StringBuilder(), "", 0);
                     if (vXmlExistenciaPorAlmacen != null && vXmlExistenciaPorAlmacen.HasElements) {
                         vXmlResultListAlmacen = vXmlExistenciaPorAlmacen.Descendants("GpResult").ToList();
                     }
@@ -2277,7 +2277,7 @@ namespace Galac.Saw.Brl.Inventario {
             return vSql.ToString();
         }
 
-        string ExisteciaPorAlmacen(int valConsecutivoCompania, string vCodigoArticuloCompuesto, eTipoArticuloInv valTipoArticuloInv) {
+        string ExistenciaPorAlmacen(int valConsecutivoCompania, string vCodigoArticuloCompuesto, eTipoArticuloInv valTipoArticuloInv) {
             StringBuilder vSql = new StringBuilder();
             LibDatabase insDb = new LibDatabase();
             LibGpParams vParams = new LibGpParams();
