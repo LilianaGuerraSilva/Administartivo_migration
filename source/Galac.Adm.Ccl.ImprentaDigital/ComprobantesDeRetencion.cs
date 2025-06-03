@@ -142,7 +142,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
         public string SerieDocumento { get; set; }
         public string NumeroControlDocumento { get; set; }      
         public decimal BaseImponible { get; set; }   
-        public decimal PorcentajeRetencion { get; set;  }
+        public decimal PorcentajeAlicuota { get; set;  }
         public decimal MontoExento { get; set; }
         public decimal MontoIVA { get; set; }
         public decimal MontoTotal { get; set; }
@@ -203,7 +203,7 @@ namespace Galac.Adm.Ccl.ImprentaDigital {
             TipoDeTransaccionAsEnum = eTipoDeTransaccionDeLibrosFiscales.Registro;
             TipoDeCxPAsEnum = eTipoDeTransaccionID.Factura;
             BaseImponible = 0m;
-            PorcentajeRetencion = 0m;
+            PorcentajeAlicuota = 0m;
             MontoExento = 0m;
             MontoIVA = 0m;
             MontoTotal = 0m;
