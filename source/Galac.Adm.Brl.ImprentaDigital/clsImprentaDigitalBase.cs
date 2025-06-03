@@ -46,12 +46,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public string CodigoMonedaLocal { get; private set; }
         public decimal CambioABolivares { get; private set; }
         public string Mensaje { get; set; }
-        public string NumeroCxP { get; set; }              
+        public string NumeroCxP { get; set; }
         public eTipoDocumentoImprentaDigital TipoDocumentoImprentaDigital { get; private set; }
         public ComprobantesDeRetencion ComprobanteRetImprentaDigital { get; private set; }
         public List<ComprobanteRetDetalle> DetalleComprobanteRetencion { get; private set; }
-        public SujetoDeRetencion SujetoDeRetencionImpnretaDigital { get; private set; }
-
+        public SujetoDeRetencion SujetoDeRetencionImpnretaDigital { get; private set; }                
+        public CamposDefFactura CamposDefiniblesFactura { get; private set; }
         QAdvSql insUtilSql;
 
         #endregion Propiedades
@@ -178,6 +178,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" ,factura.UsarDireccionFiscal");
             vSql.AppendLine(" ,factura.NoDirDespachoAimprimir");
             vSql.AppendLine(" ,factura.ImprentaDigitalGUID");
+            vSql.AppendLine(" ,(SELECT Descripcion FROM Saw.NotaFinal WHERE CodigoDeLaNota = factura.CodigoNota1 AND NotaFinal.ConsecutivoCompania = @ConsecutivoCompania) AS NotaFinal1");
+            vSql.AppendLine(" ,(SELECT Descripcion FROM Saw.NotaFinal WHERE CodigoDeLaNota = factura.CodigoNota2 AND NotaFinal.ConsecutivoCompania = @ConsecutivoCompania) AS NotaFinal2");
             vSql.AppendLine(" FROM factura");
             vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND factura.Numero = @Numero ");
@@ -241,6 +243,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.UsarDireccionFiscalAsBool = LibImportData.SNToBool(LibXml.GetPropertyString(vResult, "UsarDireccionFiscal"));
                     FacturaImprentaDigital.NoDirDespachoAimprimir = FacturaImprentaDigital.UsarDireccionFiscalAsBool ? 0 : LibImportData.ToInt(LibXml.GetPropertyString(vResult, "NoDirDespachoAimprimir"));
                     FacturaImprentaDigital.ImprentaDigitalGUID = LibXml.GetPropertyString(vResult, "ImprentaDigitalGUID");
+                    FacturaImprentaDigital.NotaFinal1 = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NotaFinal1"));
+                    FacturaImprentaDigital.NotaFinal2 = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NotaFinal2"));
                     CambioABolivares = GetCambio();
                 } else {
                     throw new GalacException($"No existe un documento para enviar con el número {NumeroFactura} ", eExceptionManagementType.Controlled);
@@ -472,6 +476,51 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND factura.Numero = @Numero ");
             vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento");
+            return vSql.ToString();
+        }
+
+        private void BuscarDatosCmposDefFactura() {
+            try {
+                StringBuilder vParam = new StringBuilder();
+                string vSql = SqlDatosCamposDefFactura(ref vParam);
+                XElement vResult = LibBusiness.ExecuteSelect(vSql, vParam, "", 0);
+                CamposDefiniblesFactura = new CamposDefFactura();
+                if (vResult != null && vResult.HasElements) {
+                    CamposDefiniblesFactura.CampoDefinible1 = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CampoDefinible1"));
+                    CamposDefiniblesFactura.CampoDefinible2 = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CampoDefinible2"));
+                    CamposDefiniblesFactura.CampoDefinible3 = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CampoDefinible3"));
+                    CamposDefiniblesFactura.CampoDefinible4 = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CampoDefinible4"));
+                    CamposDefiniblesFactura.CampoDefinible5 = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CampoDefinible5"));
+                    CamposDefiniblesFactura.CampoDefinible6 = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CampoDefinible6"));
+                    CamposDefiniblesFactura.CampoDefinible7 = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CampoDefinible7"));
+                    CamposDefiniblesFactura.CampoDefinible8 = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CampoDefinible8"));
+                    CamposDefiniblesFactura.CampoDefinible9 = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CampoDefinible9"));
+                    CamposDefiniblesFactura.CampoDefinible10 = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CampoDefinible10"));
+                    CamposDefiniblesFactura.CampoDefinible11 = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CampoDefinible11"));
+                    CamposDefiniblesFactura.CampoDefinible12 = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "CampoDefinible12"));
+                }
+            } catch (GalacException) {
+                throw;
+            }
+        }
+
+        private string SqlDatosCamposDefFactura(ref StringBuilder refParametros) {
+            LibGpParams vParam = new LibGpParams();
+            vParam.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
+            vParam.AddInString("NumeroFactura", NumeroFactura, 11);
+            vParam.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
+            refParametros = vParam.Get();
+            StringBuilder vSql = new StringBuilder();            
+            vSql.AppendLine("SELECT ISNULL(CampoDefinible1,'') AS CampoDefinible1, ISNULL(CampoDefinible2,'') AS CampoDefinible2, ISNULL(CampoDefinible3,'') AS CampoDefinible3, ISNULL(CampoDefinible4,'') AS CampoDefinible4, ISNULL(CampoDefinible5,'') AS CampoDefinible5, ISNULL(CampoDefinible6,'') AS CampoDefinible6,");
+            vSql.AppendLine("       ISNULL(CampoDefinible7,'') AS CampoDefinible7, ISNULL(CampoDefinible8,'') AS CampoDefinible8, ISNULL(CampoDefinible9,'') AS CampoDefinible9, ISNULL(CampoDefinible10,'') AS CampoDefinible10, ISNULL(CampoDefinible11,'') AS CampoDefinible11, ISNULL(CampoDefinible12,'') AS CampoDefinible12");
+            vSql.AppendLine("  FROM factura");
+            vSql.AppendLine("  LEFT JOIN camposDefFactura ON");
+            vSql.AppendLine("  factura.ConsecutivoCompania =camposDefFactura.ConsecutivoCompania");
+            vSql.AppendLine("  AND factura.Numero = camposDefFactura.numeroFactura");
+            vSql.AppendLine("  AND factura.TipoDeDocumento = camposDefFactura.TipoDeDocumento");
+            vSql.AppendLine("  WHERE factura.consecutivocompania = @ConsecutivoCompania");
+            vSql.AppendLine("  AND NumeroFactura = @NumeroFactura");
+            vSql.AppendLine("  AND factura.TipoDeDocumento = @TipoDeDocumento");
             return vSql.ToString();
         }
 
@@ -944,6 +993,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 BuscarDatosDeDetalleDocumento();
                 BuscarDatosDeCliente();
                 BuscarDatosDelVendedor();
+                BuscarDatosCmposDefFactura();
             }
         }
 
