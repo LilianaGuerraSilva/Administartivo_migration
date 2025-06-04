@@ -1022,13 +1022,13 @@ namespace Galac.Adm.Brl.GestionCompras {
             vSQL.AppendLine("   WHERE cxP.CodigoProveedor = " + insSqlUtil.ToSqlValue(valCodigoProveedor));
             vSQL.AppendLine("   AND cxP.Numero = " + insSqlUtil.ToSqlValue(valNumeroCxP));
             vSQL.AppendLine("   AND cxP.ConsecutivoCompania = " + valConsecutivoCompania);
-            vSQL.AppendLine("   AND (cxP.NumeroControlRetencionIvaImpDigital <> " + insSqlUtil.ToSqlValue(""));
+            vSQL.AppendLine("   AND ((cxP.NumeroControlRetencionIvaImpDigital <> " + insSqlUtil.ToSqlValue(""));
             vSQL.AppendLine("	AND cxP.NumeroControlRetencionIvaImpDigital <> " + insSqlUtil.ToSqlValue(LibString.NCar("0", 20)));
             vSQL.AppendLine("	AND cxP.RetencionIvaEnviadaImpDigital = " + insSqlUtil.ToSqlValue(true));
             vSQL.AppendLine(" ) OR ( ");
-            vSQL.AppendLine("   AND cxP.NumeroControlRetencionISLRImpDigital <> " + insSqlUtil.ToSqlValue(""));
+            vSQL.AppendLine("   cxP.NumeroControlRetencionISLRImpDigital <> " + insSqlUtil.ToSqlValue(""));
             vSQL.AppendLine("	AND cxP.NumeroControlRetencionISLRImpDigital <> " + insSqlUtil.ToSqlValue(LibString.NCar("0", 20)));
-            vSQL.AppendLine("	AND cxP.RetencionISLREnviadaImpDigital = " + insSqlUtil.ToSqlValue(true) + ")");
+            vSQL.AppendLine("	AND cxP.RetencionISLREnviadaImpDigital = " + insSqlUtil.ToSqlValue(true) + "))");
             return new LibDatabase().RecordCountOfSql(vSQL.ToString()) > 0;
         }
 
