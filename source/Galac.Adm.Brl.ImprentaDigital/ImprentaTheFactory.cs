@@ -688,7 +688,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             JArray vResult = new JArray();
             int vNumeroLinea = 1;
             foreach (ComprobanteRetDetalle vDetalle in DetalleComprobanteRetencion) {
-                if (vDetalle.BaseImponible > 0) {
+                if (vDetalle.BaseImponible != 0) {
                     JObject vItem = new JObject {
                             {"NumeroLinea", string.Format("{0:D4}",vNumeroLinea) },
                             {"FechaDocumento", LibConvert.ToStr(vDetalle.FechaDelDocumento)},
