@@ -723,6 +723,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             refParametros = vParam.Get();
             string vSqlWhere = " FROM CxP WHERE cxP.ConsecutivoCompania = @ConsecutivoCompania AND cxP.Numero = @NumeroCxP";
             vSql.AppendLine("SELECT");
+            vSql.AppendLine("1 AS TopOrder, ");
             vSql.AppendLine("cxp.FechaAplicacionRetIVA AS FechaDelDocumento,");
             vSql.AppendLine("cxp.TipoDeCxP,");
             vSql.AppendLine("cxP.TipoDeTransaccion,");
@@ -743,6 +744,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(vSqlWhere);
             vSql.AppendLine("UNION");
             vSql.AppendLine("SELECT");
+            vSql.AppendLine("2 AS TopOrder, ");
             vSql.AppendLine("cxp.FechaAplicacionRetIVA AS FechaDelDocumento,");
             vSql.AppendLine("cxp.TipoDeCxP,");
             vSql.AppendLine("cxP.TipoDeTransaccion,");
@@ -763,6 +765,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(vSqlWhere);
             vSql.AppendLine("UNION");
             vSql.AppendLine("SELECT");
+            vSql.AppendLine("3 AS TopOrder, ");
             vSql.AppendLine("cxp.FechaAplicacionRetIVA AS FechaDelDocumento,");
             vSql.AppendLine("cxp.TipoDeCxP,");
             vSql.AppendLine("cxP.TipoDeTransaccion,");
@@ -781,6 +784,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine("ROUND( cxP.MontoIVAAlicuota3 * cxP.CambioABolivares,2 ) AS MontoIVA,");
             vSql.AppendLine("ROUND( cxP.MontoIvaalicuota3 * (cxp.PorcentajeRetencionAplicado / 100) * CambioABolivares ,2 ) AS MontoRetenido");
             vSql.AppendLine(vSqlWhere);
+            vSql.AppendLine("ORDER BY TopOrder ASC");
             return vSql.ToString();
         }
 
