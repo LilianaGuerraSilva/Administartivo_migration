@@ -1013,19 +1013,23 @@ namespace Galac.Adm.Brl.GestionCompras {
             vSQL.Append(" AND Numero = @NumeroCxP");
             vSQL.Append(" AND ConsecutivoCompania = @ConsecutivoCompania");
             return vSQL.ToString();
-        }       
+        }
 
-        public bool VerficaSiRetencionDeIVACxPFueEnviadaAImpDigital(int valConsecutivoCompania, string valNumeroCxP, string valCodigoProveedor) {
+        public bool VerficaSiRetencionDeIVAoISLRCxPFueEnviadaAImpDigital(int valConsecutivoCompania, string valNumeroCxP, string valCodigoProveedor) {
             StringBuilder vSQL = new StringBuilder();
             vSQL.AppendLine("SELECT ConsecutivoCxp");
             vSQL.AppendLine("	FROM cxP");
             vSQL.AppendLine("   WHERE cxP.CodigoProveedor = " + insSqlUtil.ToSqlValue(valCodigoProveedor));
             vSQL.AppendLine("   AND cxP.Numero = " + insSqlUtil.ToSqlValue(valNumeroCxP));
             vSQL.AppendLine("   AND cxP.ConsecutivoCompania = " + valConsecutivoCompania);
-            vSQL.AppendLine("   AND cxP.NumeroControlRetencionIvaImpDigital <> " + insSqlUtil.ToSqlValue(""));
+            vSQL.AppendLine("   AND (cxP.NumeroControlRetencionIvaImpDigital <> " + insSqlUtil.ToSqlValue(""));
             vSQL.AppendLine("	AND cxP.NumeroControlRetencionIvaImpDigital <> " + insSqlUtil.ToSqlValue(LibString.NCar("0", 20)));
             vSQL.AppendLine("	AND cxP.RetencionIvaEnviadaImpDigital = " + insSqlUtil.ToSqlValue(true));
-            return new LibDatabase().RecordCountOfSql(vSQL.ToString()) > 0;            
+            vSQL.AppendLine(" ) OR ( ");
+            vSQL.AppendLine("   AND cxP.NumeroControlRetencionISLRImpDigital <> " + insSqlUtil.ToSqlValue(""));
+            vSQL.AppendLine("	AND cxP.NumeroControlRetencionISLRImpDigital <> " + insSqlUtil.ToSqlValue(LibString.NCar("0", 20)));
+            vSQL.AppendLine("	AND cxP.RetencionISLREnviadaImpDigital = " + insSqlUtil.ToSqlValue(true) + ")");
+            return new LibDatabase().RecordCountOfSql(vSQL.ToString()) > 0;
         }
 
         internal bool VerficaSiCxPFueAnulada(int valConsecutivoCompania, string valNumeroCxP, string valCodigoProveedor) {

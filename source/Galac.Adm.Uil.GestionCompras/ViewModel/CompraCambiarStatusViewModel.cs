@@ -436,12 +436,12 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 if (LibMessages.MessageBox.YesNo(this, vConfirmMsgFormat, ModuleName)) {
                     ChangeStatus();
                     if (valAction == eAccionSR.Abrir) {
-                        if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital") && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PuedoUsarOpcionesDeContribuyenteEspecial")) {
+                        if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital") || LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetISLRPorImpDigital")) {
                             if (insCompra.VerificaSiDocumentoAsociadoEstaAnulado(Model.ConsecutivoCompania, Model.Numero, Model.CodigoProveedor)) {
                                 LibMessages.MessageBox.Alert(this, $"No se puede Abrir una Compra si su CxP asociada fue Anulada.", ModuleName);
                                 vContinuar = false;                                
                             } else {
-                                if (new clsCxPNav().VerficaSiRetencionDeIVACxPFueEnviadaAImpDigital(Model.ConsecutivoCompania, Model.Numero, Model.CodigoProveedor)) {
+                                if (new clsCxPNav().VerficaSiRetencionDeIVAoISLRCxPFueEnviadaAImpDigital(Model.ConsecutivoCompania, Model.Numero, Model.CodigoProveedor)) {
                                     vContinuar = false;
                                     LibMessages.MessageBox.Alert(this, $"No es posible abrir la Compra porque el Comprobante de Retención de la CxP asociada ya se envió a la Imprenta Digital.\r\nDebe anular la CxP", ModuleName);
                                 } else {
