@@ -731,10 +731,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 {"NumeroCompRetencion", ComprobanteRetImprentaDigital.NumeroComprobanteRetencion},
                 {"FechaEmisionCR",LibConvert.ToStr(ComprobanteRetImprentaDigital.FechaEmision,"dd/MM/yyyy")},
                 {"TotalIGTF", null },
-                { "TipoComprobante",TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR? "6": ""}};
+                {"TipoComprobante",TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR? "6": ""}};
             if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
                 vResult.Add("TotalBaseImponible", DecimalToStringFormat(LibMath.Abs(DetalleComprobanteRetencion.Sum(x => x.BaseImponible))));
-                vResult.Add("TotalISRL", DecimalToStringFormat(LibMath.Abs(ComprobanteRetImprentaDigital.MontoISLR)));
+                vResult.Add("TotalISRL", DecimalToStringFormat(LibMath.Abs(DetalleComprobanteRetencion.Sum(x => x.MontoRetenido))));
             } else {
                 vResult.Add("TotalBaseImponible", DecimalToStringFormat(LibMath.Abs(DetalleComprobanteRetencion.Sum(x => x.BaseImponible))));
                 vResult.Add("TotalRetenido", DecimalToStringFormat(LibMath.Abs(DetalleComprobanteRetencion.Sum(x => x.MontoRetenido))));
