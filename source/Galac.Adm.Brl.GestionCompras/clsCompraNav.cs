@@ -735,7 +735,7 @@ namespace Galac.Adm.Brl.GestionCompras {
 
         bool ICompraPdn.VerificaExistenciaEnOrdenDeCompra(int valConsecutivoCompania, int valConsecutivoOrdenDeCompra) {
             return new clsOrdenDeCompraNav().VerificaExistenciaEnOrdenDeCompra(valConsecutivoCompania, valConsecutivoOrdenDeCompra);
-        }       
+        }
 
         protected override bool CanBeChoosenForAction(IList<Compra> refRecord, eAccionSR valAction) {
             bool vResult = true;
@@ -749,11 +749,9 @@ namespace Galac.Adm.Brl.GestionCompras {
             }
             if (valAction == eAccionSR.Modificar || valAction == eAccionSR.Eliminar) {
                 if (vResult) {
-                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital")) {
-                        if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PuedoUsarOpcionesDeContribuyenteEspecial")) {
-                            foreach (Compra vCompra in refRecord) {
-                                vResult = !(new clsCxPNav().VerficaSiRetencionDeIVACxPFueEnviadaAImpDigital(vCompra.ConsecutivoCompania, vCompra.Numero, vCompra.CodigoProveedor));
-                            }
+                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital") || LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetISLRPorImpDigital")) {
+                        foreach (Compra vCompra in refRecord) {
+                            vResult = !(new clsCxPNav().VerficaSiRetencionDeIVAoISLRCxPFueEnviadaAImpDigital(vCompra.ConsecutivoCompania, vCompra.Numero, vCompra.CodigoProveedor));
                         }
                     }
                 }
@@ -763,11 +761,9 @@ namespace Galac.Adm.Brl.GestionCompras {
             }
             if (valAction == eAccionSR.Anular) {
                 if (vResult) {
-                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital")) {
-                        if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PuedoUsarOpcionesDeContribuyenteEspecial")) {
-                            foreach (Compra vCompra in refRecord) {
-                                vResult = !(new clsCxPNav().VerficaSiCxPFueAnulada(vCompra.ConsecutivoCompania, vCompra.Numero, vCompra.CodigoProveedor));
-                            }
+                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetIVAPorImpDigital") || LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "CompRetISLRPorImpDigital")) {
+                        foreach (Compra vCompra in refRecord) {
+                            vResult = !(new clsCxPNav().VerficaSiCxPFueAnulada(vCompra.ConsecutivoCompania, vCompra.Numero, vCompra.CodigoProveedor));
                         }
                     }
                 }
