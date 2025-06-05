@@ -95,7 +95,7 @@ namespace Galac.Saw.Brl.SttDef {
             LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParm.Get(), "", 0);
         }
 
-        public void DefaultKeyValues(eProveedorImprentaDigital valProveedor) {
+        public void GetDefaultKeysValues(eProveedorImprentaDigital valProveedor) {
             switch (valProveedor) {
                 case eProveedorImprentaDigital.TheFactoryHKA:
                     CampoClave = "clave";

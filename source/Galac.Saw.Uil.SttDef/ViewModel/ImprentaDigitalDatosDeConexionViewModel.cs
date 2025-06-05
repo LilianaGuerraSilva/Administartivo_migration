@@ -127,8 +127,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void CamposIDPorDefecto(eProveedorImprentaDigital valProveedor) {
-            Brl.SttDef.clsImprentaDigitalSettings _ImprentaDigitalSettings = new Brl.SttDef.clsImprentaDigitalSettings();
-            _ImprentaDigitalSettings.DefaultKeyValues(valProveedor);
+            clsImprentaDigitalSettings _ImprentaDigitalSettings = new clsImprentaDigitalSettings();
+            _ImprentaDigitalSettings.GetDefaultKeysValues(valProveedor);
             _CampoClave = _ImprentaDigitalSettings.CampoClave;
             _CampoUsuario = _ImprentaDigitalSettings.CampoUsuario;
         }
