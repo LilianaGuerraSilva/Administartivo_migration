@@ -94,6 +94,27 @@ namespace Galac.Saw.Brl.SttDef {
             vSql.AppendLine(" WHERE ConsecutivoCompania=@ConsecutivoCompania");
             LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParm.Get(), "", 0);
         }
+
+        public void DefaultKeyValues(eProveedorImprentaDigital valProveedor) {
+            switch (valProveedor) {
+                case eProveedorImprentaDigital.TheFactoryHKA:
+                    CampoClave = "clave";
+                    CampoUsuario = "usuario";
+                    break;
+                case eProveedorImprentaDigital.Novus:
+                    CampoClave = "token";
+                    CampoUsuario = "rif";
+                    break;
+                case eProveedorImprentaDigital.Unidigital:
+                    CampoClave = "Password";
+                    CampoUsuario = "UserName";
+                    break;
+                default:
+                    CampoClave = "clave";
+                    CampoUsuario = "usuario";
+                    break;
+            }
+        }
         #endregion //Metodos Generados
     }
 }

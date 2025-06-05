@@ -311,24 +311,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void CambiarValoresCamposID(eProveedorImprentaDigital valProveedor) {
-            switch(valProveedor) {
-                case eProveedorImprentaDigital.TheFactoryHKA:
-                    CampoClave = "clave";
-                    CampoUsuario = "usuario";
-                    break;
-                case eProveedorImprentaDigital.Novus:
-                    CampoClave = "token";
-                    CampoUsuario = "rif";
-                    break;
-                case eProveedorImprentaDigital.Unidigital:                    
-                    CampoClave = "Password";
-                    CampoUsuario = "UserName";
-                    break;
-                default:
-                    CampoClave = "clave";
-                    CampoUsuario = "usuario";
-                    break;
-            }
+            Brl.SttDef.clsImprentaDigitalSettings _ImprentaDigitalSettings = new Brl.SttDef.clsImprentaDigitalSettings();
+            _ImprentaDigitalSettings.DefaultKeyValues(valProveedor);
+            _CampoClave = _ImprentaDigitalSettings.CampoClave;
+            _CampoUsuario = _ImprentaDigitalSettings.CampoUsuario;
         }
 
         private void ActivarButtonActions(bool valActivate) {
