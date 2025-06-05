@@ -313,8 +313,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private void CambiarValoresCamposID(eProveedorImprentaDigital valProveedor) {
             clsImprentaDigitalSettings _ImprentaDigitalSettings = new clsImprentaDigitalSettings();
             _ImprentaDigitalSettings.GetDefaultKeysValues(valProveedor);
-            _CampoClave = _ImprentaDigitalSettings.CampoClave;
-            _CampoUsuario = _ImprentaDigitalSettings.CampoUsuario;
+            CampoClave = _ImprentaDigitalSettings.CampoClave;
+            CampoUsuario = _ImprentaDigitalSettings.CampoUsuario;
         }
 
         private void ActivarButtonActions(bool valActivate) {
