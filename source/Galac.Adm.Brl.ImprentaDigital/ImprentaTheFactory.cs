@@ -736,9 +736,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vResult.Add("TotalBaseImponible", DecimalToStringFormat(LibMath.Abs(DetalleComprobanteRetencion.Sum(x => x.BaseImponible))));
                 vResult.Add("TotalISRL", DecimalToStringFormat(LibMath.Abs(ComprobanteRetImprentaDigital.MontoISLR)));
             } else {
-                vResult.Add("TotalBaseImponible", DecimalToStringFormat(LibMath.Abs(ComprobanteRetImprentaDigital.MontoGravado)));
-                vResult.Add("TotalRetenido", DecimalToStringFormat(LibMath.Abs(ComprobanteRetImprentaDigital.MontoRetenido)));
-                vResult.Add("TotalIVA", DecimalToStringFormat(LibMath.Abs(ComprobanteRetImprentaDigital.MontoIva)));
+                vResult.Add("TotalBaseImponible", DecimalToStringFormat(LibMath.Abs(DetalleComprobanteRetencion.Sum(x => x.BaseImponible))));
+                vResult.Add("TotalRetenido", DecimalToStringFormat(LibMath.Abs(DetalleComprobanteRetencion.Sum(x => x.MontoRetenido))));
+                vResult.Add("TotalIVA", DecimalToStringFormat(LibMath.Abs(DetalleComprobanteRetencion.Sum(x => x.MontoIVA))));
             }
             return vResult;
         }
