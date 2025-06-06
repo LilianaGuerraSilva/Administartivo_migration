@@ -2626,10 +2626,16 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
  }
 
 
-{@S}FormaDelCobro = Record //Female, Componente=Tablas, Esquema=SAW,interop
-	Codigo	: Str5;//o, g, "Código", sugestconsecutive, SEARCH
-	Nombre	: Str50;  //SEARCH
-	TipoDePago	: unTipoDeFormaDePago;
+{@S}FormaDelCobro = Record //Multiarchivo=Compania, "Forma del Cobro", Componente=Venta, Esquema=Adm,Generate
+	ConsecutivoCompania		: LongInt;//o,HIDE
+	Consecutivo   			: LongInt;//u,o,a,sugestconsecutive
+	Codigo					: Str5;//o, g, "Código", sugestconsecutive, SEARCH
+	Nombre					: Str50;  //SEARCH
+	TipoDePago				: unTipoDeFormaDePago;
+	CodigoCuentaBancaria 	: Str5;//o,"Cuenta Bancaria",=cuentaBancaria.Codigo
+	NombreCuentaBancaria 	: Str40;//o,Logical,=cuentaBancaria.Nombrecuenta
+	CodigoMoneda            : str4; //Logical,=Moneda.Codigo, HIDE
+	CodigoTheFactory		:Str2;
 	@PrimaryKey = Codigo
 }
 
