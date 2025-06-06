@@ -211,6 +211,7 @@ unTipoNotaProduccion = (NoAplica, Abrir, Cerrar, Ajuste);//e,Componente=Inventar
 unStatusLoteDeInventario = (Vigente, Consumido, Anulado);//e,Componente=Inventario
 unOrigenLoteInv = (Factura, NotaDeCredito, NotaDeDebito, NotaDeEntrega, Produccion, NotaEntradaSalida, Compra, ConteoFisico);//e,Componente=Inventario
 unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
+UnOrigenFormadelCobro = (Sistema, Usuario);//e,Componente=Venta
 
 
 
@@ -2631,12 +2632,14 @@ unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
 	Consecutivo   			: LongInt;//u,o,a,sugestconsecutive
 	Codigo					: Str5;//o, g, "Código", sugestconsecutive, SEARCH
 	Nombre					: Str50;  //SEARCH
-	TipoDePago				: unTipoDeFormaDePago;
-	CodigoCuentaBancaria 	: Str5;//o,"Cuenta Bancaria",=cuentaBancaria.Codigo
-	NombreCuentaBancaria 	: Str40;//o,Logical,=cuentaBancaria.Nombrecuenta
-	CodigoMoneda            : str4; //Logical,=Moneda.Codigo, HIDE
-	CodigoTheFactory		:Str2;
-	@PrimaryKey = Codigo
+	TipoDePago				: unTipoDeFormaDePago;//g
+	CodigoCuentaBancaria 	: Str5;//"Cuenta Bancaria",=cuentaBancaria.Codigo
+	NombreCuentaBancaria 	: Str40;//Logical,=cuentaBancaria.Nombrecuenta
+	CodigoMoneda            : str4; //=Moneda.Codigo, HIDE
+	CodigoTheFactory		: str2;//g
+	Origen					: UnOrigenFormadelCobro
+	@PrimaryKey = ConsecutivoCompania,Consecutivo
+	@UniqueKey=ConsecutivoCompania,Codigo
 }
 
 {@S}Caja = Record //Multiarchivo=Compania, "Caja", Componente=Venta, Esquema=Adm, EsquemaBD=Adm,Generate
