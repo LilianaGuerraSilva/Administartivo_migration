@@ -3251,6 +3251,29 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fSQLFechaCierresCostoPromedio", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
+Public Function fSQLCodigoDeArticulos(ByVal valConsecutivoCompania As Long, ByVal valCodigoArticulo As String) As String
+   Dim vSQL As String
+   Dim vWhere As String
+   On Error GoTo h_ERROR
+    vWhere = ""
+   If (valCodigoArticulo <> "") Then
+     vWhere = gUtilSQL.fSQLValueWithAnd("", "articuloInventario.Codigo", valCodigoArticulo, False)
+   End If
+   vWhere = gUtilSQL.fSQLEnumValueWithAnd(vWhere, "articuloInventario.TipoDeArticulo", enum_TipoDeArticulo.eTD_MERCANCIA)
+   vWhere = gUtilSQL.fSQLEnumValueWithAnd(vWhere, "articuloInventario.StatusdelArticulo", enum_StatusArticulo.eSA_VIGENTE)
+   vWhere = gUtilSQL.fSQLNumberValueWithAnd(vWhere, "articuloInventario.ConsecutivoCompania", valConsecutivoCompania)
+   vWhere = gUtilSQL.getWhereSQL(vWhere)
+   vSQL = " SELECT articuloInventario.Codigo "
+   vSQL = vSQL & "   FROM   articuloInventario  "
+   vSQL = vSQL & vWhere
+  fSQLCodigoDeArticulos = vSQL
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
+      "fSQLCodigoDeArticulos", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
 Public Function fSqlCostoPromedioPonderadoReporteDetallado(ByVal valConsecutivoCompania As Long, ByVal valCodigoDesde As String, ByVal valCodigoHasta As String, ByVal valFechaCierre As Date, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
 Dim SQL As String
 Dim sqlWhere As String
