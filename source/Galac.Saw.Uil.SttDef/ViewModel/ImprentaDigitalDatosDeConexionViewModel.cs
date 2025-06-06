@@ -127,24 +127,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private void CamposIDPorDefecto(eProveedorImprentaDigital valProveedor) {
-            switch (valProveedor) {
-                case eProveedorImprentaDigital.TheFactoryHKA:
-                    _CampoClave = "clave";
-                    _CampoUsuario = "usuario";
-                    break;
-                case eProveedorImprentaDigital.Novus:
-                    _CampoClave = "token";
-                    _CampoUsuario = "rif";                    
-                    break;
-                case eProveedorImprentaDigital.Unidigital:
-                    _CampoClave = "Password";
-                    _CampoUsuario = "UserName";                    
-                    break;
-                default:
-                    _CampoClave = "clave";
-                    _CampoUsuario = "usuario";                    
-                    break;
-            }
+            clsImprentaDigitalSettings _ImprentaDigitalSettings = new clsImprentaDigitalSettings();
+            _ImprentaDigitalSettings.GetDefaultKeysValues(valProveedor);
+            _CampoClave = _ImprentaDigitalSettings.CampoClave;
+            _CampoUsuario = _ImprentaDigitalSettings.CampoUsuario;
         }
 
         private void ExecuteProbarConexionCommand() {

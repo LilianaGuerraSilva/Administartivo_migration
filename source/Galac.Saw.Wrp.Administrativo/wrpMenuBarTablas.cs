@@ -129,6 +129,7 @@ namespace Galac.Saw.Wrp.MenuBar {
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasLeyValorUT"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasZonaCobranza"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasOtrosCargosDeFactura"), new XAttribute("Module", "Tablas"))
+                      , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasLeyTablaRetencion"), new XAttribute("Module", "Tablas"))
                    ));
             return vResult;       
         }

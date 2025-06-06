@@ -58,6 +58,7 @@
     <Compile Include="ComprobantesDeRetencion.cs" />
     <Compile Include="IFkDocumentoDigitalViewModel.cs" />
     <Compile Include="ILibHttp.cs" />
+    <Compile Include="CamposDefFactura.cs" />
     <Compile Include="InfoAdicionalCliente.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

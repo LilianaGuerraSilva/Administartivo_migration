@@ -688,11 +688,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             JArray vResult = new JArray();
             int vNumeroLinea = 1;
             foreach (ComprobanteRetDetalle vDetalle in DetalleComprobanteRetencion) {
-                if (vDetalle.BaseImponible > 0) {
+                if (vDetalle.BaseImponible != 0 || TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) { // El sistema permite enviar retenciones ISLR con montos cero, pero no IVA
                     JObject vItem = new JObject {
                             {"NumeroLinea", string.Format("{0:D4}",vNumeroLinea) },
                             {"FechaDocumento", LibConvert.ToStr(vDetalle.FechaDelDocumento)},
-                            {"TipoDocumento", GetTipoDocumentoRetencion(vDetalle.TipoDeCxPAsEnum) }, // Ajustar segun lo que corresponda
+                            {"TipoDocumento", GetTipoDocumentoRetencion(vDetalle.TipoDeCxPAsEnum) }, 
                             {"TipoTransaccion", GetTipoTransaccion(vDetalle.TipoDeTransaccionAsEnum) },
                             {"BaseImponible",DecimalToStringFormat(LibMath.Abs(vDetalle.BaseImponible)) },
                             {"Porcentaje", DecimalToStringFormat(LibMath.Abs(vDetalle.PorcentajeAlicuota)) },
@@ -731,14 +731,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 {"NumeroCompRetencion", ComprobanteRetImprentaDigital.NumeroComprobanteRetencion},
                 {"FechaEmisionCR",LibConvert.ToStr(ComprobanteRetImprentaDigital.FechaEmision,"dd/MM/yyyy")},
                 {"TotalIGTF", null },
-                { "TipoComprobante",TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR? "6": ""}};
+                {"TipoComprobante",TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR? "6": ""}};
             if (TipoDocumentoImprentaDigital == eTipoDocumentoImprentaDigital.RetencionISLR) {
                 vResult.Add("TotalBaseImponible", DecimalToStringFormat(LibMath.Abs(DetalleComprobanteRetencion.Sum(x => x.BaseImponible))));
-                vResult.Add("TotalISRL", DecimalToStringFormat(LibMath.Abs(ComprobanteRetImprentaDigital.MontoISLR)));
+                vResult.Add("TotalISRL", DecimalToStringFormat(LibMath.Abs(DetalleComprobanteRetencion.Sum(x => x.MontoRetenido))));
             } else {
-                vResult.Add("TotalBaseImponible", DecimalToStringFormat(LibMath.Abs(ComprobanteRetImprentaDigital.MontoGravado)));
-                vResult.Add("TotalRetenido", DecimalToStringFormat(LibMath.Abs(ComprobanteRetImprentaDigital.MontoRetenido)));
-                vResult.Add("TotalIVA", DecimalToStringFormat(LibMath.Abs(ComprobanteRetImprentaDigital.MontoIva)));
+                vResult.Add("TotalBaseImponible", DecimalToStringFormat(LibMath.Abs(DetalleComprobanteRetencion.Sum(x => x.BaseImponible))));
+                vResult.Add("TotalRetenido", DecimalToStringFormat(LibMath.Abs(DetalleComprobanteRetencion.Sum(x => x.MontoRetenido))));
+                vResult.Add("TotalIVA", DecimalToStringFormat(LibMath.Abs(DetalleComprobanteRetencion.Sum(x => x.MontoIVA))));
             }
             return vResult;
         }
