@@ -330,7 +330,7 @@ namespace Galac.Adm.Ccl.Venta {
     }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eOrigen {
+    public enum eOrigenFormadelCobro {
         [LibEnumDescription("Sistema")] Sistema = 0,
         [LibEnumDescription("Usuario")] Usuario
     }

@@ -163,26 +163,26 @@ namespace Galac.Adm.Brl.Venta {
         }
 
         void IFormaDelCobroPdn.InsertDefaultRecord(int valConsecutivoCompania, string valCodigoMonedaLocal, string valCodigoMonedaExtranjera) {
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 1, "00001", "Efectivo", eFormaDeCobro.Efectivo, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.Efectivo), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 2, "00002", "Tarjeta", eFormaDeCobro.Tarjeta, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.Tarjeta), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 3, "00003", "Cheque", eFormaDeCobro.Cheque, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.Cheque), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 4, "00004", "Depósito", eFormaDeCobro.Deposito, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.Deposito), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 5, "00005", "Anticipo", eFormaDeCobro.Anticipo, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.Anticipo), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 6, "00006", "Transferencia", eFormaDeCobro.Transferencia, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.Transferencia), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 7, "00007", "Vuelto Efectivo", eFormaDeCobro.VueltoEfectivo, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.VueltoEfectivo), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 8, "00008", "Vuelto Pago Móvil", eFormaDeCobro.VueltoPM, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.VueltoPM), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 9, "00009", "Tarjeta Medios Electrónicos", eFormaDeCobro.TarjetaMS, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.TarjetaMS), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 10, "00010", "Zelle", eFormaDeCobro.Zelle, string.Empty, valCodigoMonedaExtranjera, CodigosTheFactory(eFormaDeCobro.Zelle), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 11, "00011", "Pago Móvil P2C", eFormaDeCobro.PagoMovil, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.PagoMovil), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 12, "00012", "Transferencia Medios Electrónicos", eFormaDeCobro.TransferenciaMS, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.TransferenciaMS), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 13, "00013", "Pago Móvil C2P", eFormaDeCobro.C2P, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.C2P), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 14, "00014", "Depósito Medios Electrónicos", eFormaDeCobro.DepositoMS, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.DepositoMS), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 15, "00015", "Crédito Electrónico", eFormaDeCobro.CreditoElectronico, string.Empty, valCodigoMonedaExtranjera, CodigosTheFactory(eFormaDeCobro.CreditoElectronico), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 16, "00016", "Tarjeta de Crédito", eFormaDeCobro.TarjetadeCredito, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.TarjetadeCredito), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 17, "00017", "Tarjeta de Débito", eFormaDeCobro.TarjetadeDebito, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.TarjetadeDebito), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 18, "00018", "Efectivo Divisas", eFormaDeCobro.EfectivoDivisas, string.Empty, valCodigoMonedaExtranjera, CodigosTheFactory(eFormaDeCobro.EfectivoDivisas), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 19, "00019", "Transferencia Divisas", eFormaDeCobro.TransferenciaDivisas, string.Empty, valCodigoMonedaExtranjera, CodigosTheFactory(eFormaDeCobro.TransferenciaDivisas), eOrigen.Sistema);
-            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 20, "00020", "Vuelto Efectivo Divisas", eFormaDeCobro.VueltoEfectivoDivisas, string.Empty, valCodigoMonedaExtranjera, CodigosTheFactory(eFormaDeCobro.VueltoEfectivoDivisas), eOrigen.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 1, "00001", "Efectivo", eFormaDeCobro.Efectivo, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.Efectivo), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 2, "00002", "Tarjeta", eFormaDeCobro.Tarjeta, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.Tarjeta), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 3, "00003", "Cheque", eFormaDeCobro.Cheque, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.Cheque), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 4, "00004", "Depósito", eFormaDeCobro.Deposito, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.Deposito), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 5, "00005", "Anticipo", eFormaDeCobro.Anticipo, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.Anticipo), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 6, "00006", "Transferencia", eFormaDeCobro.Transferencia, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.Transferencia), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 7, "00007", "Vuelto Efectivo", eFormaDeCobro.VueltoEfectivo, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.VueltoEfectivo), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 8, "00008", "Vuelto Pago Móvil", eFormaDeCobro.VueltoPM, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.VueltoPM), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 9, "00009", "Tarjeta Medios Electrónicos", eFormaDeCobro.TarjetaMS, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.TarjetaMS), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 10, "00010", "Zelle", eFormaDeCobro.Zelle, string.Empty, valCodigoMonedaExtranjera, CodigosTheFactory(eFormaDeCobro.Zelle), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 11, "00011", "Pago Móvil P2C", eFormaDeCobro.PagoMovil, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.PagoMovil), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 12, "00012", "Transferencia Medios Electrónicos", eFormaDeCobro.TransferenciaMS, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.TransferenciaMS), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 13, "00013", "Pago Móvil C2P", eFormaDeCobro.C2P, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.C2P), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 14, "00014", "Depósito Medios Electrónicos", eFormaDeCobro.DepositoMS, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.DepositoMS), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 15, "00015", "Crédito Electrónico", eFormaDeCobro.CreditoElectronico, string.Empty, valCodigoMonedaExtranjera, CodigosTheFactory(eFormaDeCobro.CreditoElectronico), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 16, "00016", "Tarjeta de Crédito", eFormaDeCobro.TarjetadeCredito, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.TarjetadeCredito), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 17, "00017", "Tarjeta de Débito", eFormaDeCobro.TarjetadeDebito, string.Empty, valCodigoMonedaLocal, CodigosTheFactory(eFormaDeCobro.TarjetadeDebito), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 18, "00018", "Efectivo Divisas", eFormaDeCobro.EfectivoDivisas, string.Empty, valCodigoMonedaExtranjera, CodigosTheFactory(eFormaDeCobro.EfectivoDivisas), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 19, "00019", "Transferencia Divisas", eFormaDeCobro.TransferenciaDivisas, string.Empty, valCodigoMonedaExtranjera, CodigosTheFactory(eFormaDeCobro.TransferenciaDivisas), eOrigenFormadelCobro.Sistema);
+            InsertFormaDelCobroPorDefecto(valConsecutivoCompania, 20, "00020", "Vuelto Efectivo Divisas", eFormaDeCobro.VueltoEfectivoDivisas, string.Empty, valCodigoMonedaExtranjera, CodigosTheFactory(eFormaDeCobro.VueltoEfectivoDivisas), eOrigenFormadelCobro.Sistema);
         }
 
         private string CodigosTheFactory(eFormaDeCobro valFormaDelCobro) {
@@ -210,7 +210,7 @@ namespace Galac.Adm.Brl.Venta {
             return vResult;
         }
         
-        void InsertFormaDelCobroPorDefecto(int valConsecutivoCompania, int valConsecutivo, string valCodigo, string valNombre, eFormaDeCobro valFormaDelCobro, string valCodigoCtaBancaria, string valCodigoMoneda, string valCodigoTheFactory, eOrigen valOrigen) {
+        void InsertFormaDelCobroPorDefecto(int valConsecutivoCompania, int valConsecutivo, string valCodigo, string valNombre, eFormaDeCobro valFormaDelCobro, string valCodigoCtaBancaria, string valCodigoMoneda, string valCodigoTheFactory, eOrigenFormadelCobro valOrigen) {
             QAdvSql insUtilSql = new QAdvSql("");
             StringBuilder vSQL = new StringBuilder();
             vSQL.AppendLine("INSERT INTO Adm.FormaDelCobro (ConsecutivoCompania, Consecutivo, Codigo,Nombre, TipoDePago, CodigoCuentaBancaria, CodigoMoneda, CodigoTheFactory, Origen) VALUES (");

@@ -492,7 +492,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSQL.AppendLine("INSERT INTO Adm.FormaDelCobro (ConsecutivoCompania, Consecutivo, Codigo,Nombre, TipoDePago, CodigoCuentaBancaria,CodigoMoneda ,CodigoTheFactory,Origen)");
             vSQL.AppendLine("SELECT ConsecutivoCompania, " + InsSql.ToSqlValue(valConsecutivo) + " , " + InsSql.ToSqlValue(valCodigo) + " , " + InsSql.ToSqlValue(valNombre) + ", ");
             vSQL.AppendLine(InsSql.EnumToSqlValue((int)valFormaDelCobro) + ", " + InsSql.ToSqlValue(string.Empty) + " , " + InsSql.ToSqlValue(valCodigoMoneda) + ", " + InsSql.ToSqlValue(valCodigoTheFactory));
-            vSQL.AppendLine(", " + InsSql.EnumToSqlValue((int)eOrigen.Sistema) + " FROM CTE_SettValueCtaBancaria");
+            vSQL.AppendLine(", " + InsSql.EnumToSqlValue((int)eOrigenFormadelCobro.Sistema) + " FROM CTE_SettValueCtaBancaria");
             LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(), new StringBuilder(), string.Empty, 0);
         }
 
