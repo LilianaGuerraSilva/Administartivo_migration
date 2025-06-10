@@ -22,7 +22,7 @@ namespace Galac.Adm.Ccl.Venta {
         private string _CodigoMoneda;
         private string _NombreMoneda;
         private string _CodigoTheFactory;
-        private eOrigen _Origen;
+        private eOrigenFormadelCobro _Origen;
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
@@ -90,13 +90,13 @@ namespace Galac.Adm.Ccl.Venta {
             set { _CodigoTheFactory = LibString.Mid(value, 0, 2); }
         }
 
-        public eOrigen OrigenAsEnum {
+        public eOrigenFormadelCobro OrigenAsEnum {
             get { return _Origen; }
             set { _Origen = value; }
         }
 
         public string Origen {
-            set { _Origen = (eOrigen)LibConvert.DbValueToEnum(value); }
+            set { _Origen = (eOrigenFormadelCobro)LibConvert.DbValueToEnum(value); }
         }
 
         public string OrigenAsDB {
@@ -140,7 +140,7 @@ namespace Galac.Adm.Ccl.Venta {
             CodigoMoneda = string.Empty;
             NombreMoneda = string.Empty;
             CodigoTheFactory = string.Empty;
-            OrigenAsEnum = eOrigen.Sistema;
+            OrigenAsEnum = eOrigenFormadelCobro.Sistema;
             fldTimeStamp = 0;
         }
 

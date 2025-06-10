@@ -177,7 +177,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public eOrigen  Origen {
+        public eOrigenFormadelCobro  Origen {
             get {
                 return Model.OrigenAsEnum;
             }
@@ -195,9 +195,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public eOrigen[] ArrayOrigen {
+        public eOrigenFormadelCobro[] ArrayOrigen {
             get {
-                return LibEnumHelper<eOrigen>.GetValuesInArray();
+                return LibEnumHelper<eOrigenFormadelCobro>.GetValuesInArray();
             }
         }
 

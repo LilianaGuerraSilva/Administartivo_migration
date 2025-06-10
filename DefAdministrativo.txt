@@ -212,6 +212,7 @@ unStatusLoteDeInventario = (Vigente, Consumido, Anulado);//e,Componente=Inventar
 unOrigenLoteInv = (Factura, NotaDeCredito, NotaDeDebito, NotaDeEntrega, Produccion, NotaEntradaSalida, Compra, ConteoFisico);//e,Componente=Inventario
 unStatusDocOrigenLoteInv = (Vigente, Anulado);//e,Componente=Inventario
 UnOrigenFormadelCobro = (Sistema, Usuario);//e,Componente=Venta
+unFormaDeCobro = (Efectivo, Tarjeta, Cheque, Deposito, Anticipo, Transferencia, VueltoEfectivo, VueltoPM, TarjetaMS, Zelle, PagoMovil, TransferenciaMS, C2P, DepositoMS, CreditoElectronico, TarjetadeCredito, TarjetadeDebito, EfectivoDivisas, TransferenciaDivisas, VueltoEfectivoDivisas)
 
 
 
@@ -2632,7 +2633,7 @@ UnOrigenFormadelCobro = (Sistema, Usuario);//e,Componente=Venta
 	Consecutivo   			: LongInt;//u,o,a,sugestconsecutive
 	Codigo					: Str5;//o, g, "Código", sugestconsecutive, SEARCH
 	Nombre					: Str50;  //SEARCH
-	TipoDePago				: unTipoDeFormaDePago;//g
+	TipoDePago				: unFormaDeCobro;//g
 	CodigoCuentaBancaria 	: Str5;//"Cuenta Bancaria",=cuentaBancaria.Codigo
 	NombreCuentaBancaria 	: Str40;//Logical,=cuentaBancaria.Nombrecuenta
 	CodigoMoneda            : str4; //=Moneda.Codigo, HIDE

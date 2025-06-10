@@ -64,15 +64,15 @@ namespace Galac.Adm.Dal.Venta {
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT FormaDelCobro.ConsecutivoCompania, FormaDelCobro.Consecutivo, FormaDelCobro.Codigo, FormaDelCobro.Nombre");
-            SQL.AppendLine(", FormaDelCobro.TipoDePago, " + DbSchema + ".Gv_EnumTipoDeFormaDePago.StrValue AS TipoDePagoStr, FormaDelCobro.CodigoCuentaBancaria, FormaDelCobro.CodigoMoneda, FormaDelCobro.CodigoTheFactory, FormaDelCobro.Origen, " + DbSchema + ".Gv_EnumOrigen.StrValue AS OrigenStr");
+            SQL.AppendLine(", FormaDelCobro.TipoDePago, " + DbSchema + ".Gv_EnumFormaDeCobro.StrValue AS TipoDePagoStr, FormaDelCobro.CodigoCuentaBancaria, FormaDelCobro.CodigoMoneda, FormaDelCobro.CodigoTheFactory, FormaDelCobro.Origen, " + DbSchema + ".Gv_EnumOrigenFormadelCobro.StrValue AS OrigenStr");
             SQL.AppendLine(", FormaDelCobro.fldTimeStamp, CAST(FormaDelCobro.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".FormaDelCobro");
-            SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumTipoDeFormaDePago");
+            SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumFormaDeCobro");
             SQL.AppendLine("ON " + DbSchema + ".FormaDelCobro.TipoDePago COLLATE MODERN_SPANISH_CS_AS");
-            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumTipoDeFormaDePago.DbValue");
-            SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumOrigen");
+            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumFormaDeCobro.DbValue");
+            SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumOrigenFormadelCobro");
             SQL.AppendLine("ON " + DbSchema + ".FormaDelCobro.Origen COLLATE MODERN_SPANISH_CS_AS");
-            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumOrigen.DbValue");
+            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumOrigenFormadelCobro.DbValue");
             return SQL.ToString();
         }
 
@@ -374,8 +374,8 @@ namespace Galac.Adm.Dal.Venta {
         bool CrearVistas(){
             bool vResult = false;
             LibViews insVistas = new LibViews();
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDeFormaDePago", LibTpvCreator.SqlViewStandardEnum(typeof(eFormaDeCobro), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumOrigen", LibTpvCreator.SqlViewStandardEnum(typeof(eOrigen), InsSql), true, true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumFormaDeCobro", LibTpvCreator.SqlViewStandardEnum(typeof(eFormaDeCobro), InsSql), true, true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumOrigenFormadelCobro", LibTpvCreator.SqlViewStandardEnum(typeof(eOrigenFormadelCobro), InsSql), true, true);
             vResult = insVistas.Create(DbSchema + ".Gv_FormaDelCobro_B1", SqlViewB1(), true);
             insVistas.Dispose();
             return vResult;
@@ -425,8 +425,8 @@ namespace Galac.Adm.Dal.Venta {
             vResult = insSp.Drop(DbSchema + ".Gp_FormaDelCobroGetFk") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_FormaDelCobroSCH") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_FormaDelCobro_B1") && vResult;
-            vResult = insVista.Drop(DbSchema + ".Gv_EnumTipoDeFormaDePago") && vResult;
-            vResult = insVista.Drop(DbSchema + ".Gv_EnumOrigen") && vResult;
+            vResult = insVista.Drop(DbSchema + ".Gv_EnumFormaDeCobro") && vResult;
+            vResult = insVista.Drop(DbSchema + ".Gv_EnumOrigenFormadelCobro") && vResult;
             insSp.Dispose();
             insVista.Dispose();
             return vResult;
