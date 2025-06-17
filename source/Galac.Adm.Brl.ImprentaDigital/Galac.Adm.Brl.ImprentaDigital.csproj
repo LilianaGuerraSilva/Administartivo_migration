@@ -72,6 +72,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Cliente\Galac.Saw.Ccl.Cliente.csproj">
+      <Project>{186abef1-b1c6-4b23-a072-1b6d9bc633e8}</Project>
+      <Name>Galac.Saw.Ccl.Cliente</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.LibWebConector\Galac.Saw.LibWebConnector.csproj">
       <Project>{08f52bb0-7708-4326-b74c-ac49629c8647}</Project>
       <Name>Galac.Saw.LibWebConnector</Name>
@@ -95,10 +99,6 @@
     <ProjectReference Include="..\Galac.Saw.Brl.SttDef\Galac.Saw.Brl.SttDef.csproj">
       <Project>{d018cc29-3ff6-445d-9672-e12bddd873ac}</Project>
       <Name>Galac.Saw.Brl.SttDef</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Galac.Saw.Ccl.Cliente\Galac.Saw.Ccl.Cliente.csproj">
-      <Project>{186abef1-b1c6-4b23-a072-1b6d9bc633e8}</Project>
-      <Name>Galac.Saw.Ccl.Cliente</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
       <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>

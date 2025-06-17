@@ -388,10 +388,6 @@
       <Project>{a84d308c-d997-4550-800b-7c46e8cb02e3}</Project>
       <Name>Galac.Saw.SLev</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Galac.Saw.Uil.Cliente\Galac.Saw.Uil.Cliente.csproj">
-      <Project>{6adab614-4a1c-45df-9fd2-174416742b76}</Project>
-      <Name>Galac.Saw.Uil.Cliente</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Uil.Contabilizacion\Galac.Saw.Uil.Contabilizacion.csproj">
       <Project>{3361eca9-4ad8-4c3b-aa47-4703b4bdf1c2}</Project>
       <Name>Galac.Saw.Uil.Contabilizacion</Name>

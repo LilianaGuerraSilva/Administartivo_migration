@@ -40,6 +40,10 @@
     <Reference Include="Galac.Comun.Ccl.TablasGen">
       <HintPath>..\packages\Galac.Comun.Ccl.TablasGen.2.61.0\lib\Galac.Comun.Ccl.TablasGen.dll</HintPath>
     </Reference>
+    <Reference Include="Galac.Contab.Brl.WinCont, Version=2.61.3.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Galac.Contab.Brl.WinCont.2.61.3\lib\Galac.Contab.Brl.WinCont.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Ccl.WinCont, Version=2.61.3.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="LibGalac.Aos.Base">
       <HintPath>..\packages\LibGalac.Aos.Base.5.24.0\lib\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
@@ -70,11 +74,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsClienteNav.cs" />
+    <Compile Include="clsDireccionDeDespachoNav.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reportes\clsClienteRpt.cs" />
     <Compile Include="Reportes\clsClienteSql.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Brl.Vendedor\Galac.Adm.Brl.Vendedor.csproj">
+      <Project>{4144723b-6f39-4deb-a594-eba4116642fb}</Project>
+      <Name>Galac.Adm.Brl.Vendedor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Vendedor\Galac.Adm.Ccl.Vendedor.csproj">
+      <Project>{57734928-DFDD-4E96-AF01-A818BCD85E4E}</Project>
+      <Name>Galac.Adm.Ccl.Vendedor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Tablas\Galac.Saw.Brl.Tablas.csproj">
+      <Project>{893120cf-ed36-4227-bbfc-ef9e534b7f50}</Project>
+      <Name>Galac.Saw.Brl.Tablas</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Ccl.Cliente\Galac.Saw.Ccl.Cliente.csproj">
       <Project>{186abef1-b1c6-4b23-a072-1b6d9bc633e8}</Project>
       <Name>Galac.Saw.Ccl.Cliente</Name>

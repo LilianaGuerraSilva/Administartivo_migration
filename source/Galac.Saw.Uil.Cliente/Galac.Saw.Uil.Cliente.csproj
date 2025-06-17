@@ -70,6 +70,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -81,15 +82,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsClienteMenu.cs" />
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.0.AssemblyAttributes.cs" />
+    <Compile Include="obj\Debug\frmClienteInput.g.i.cs" />
+    <Compile Include="obj\Debug\GeneratedInternalTypeHelper.g.cs" />
+    <Compile Include="obj\Debug\GeneratedInternalTypeHelper.g.i.cs" />
+    <Compile Include="obj\Debug\Reportes\GSHistoricoDeCliente.g.i.cs" />
+    <Compile Include="obj\Debug\Views\GSClienteView.g.i.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Debug\Galac.Saw.Uil.Cliente.csproj.AssemblyReference.cache" />
+    <None Include="obj\Debug\Galac.Saw.Uil.Cliente_MarkupCompile.cache" />
+    <None Include="obj\Debug\Galac.Saw.Uil.Cliente_MarkupCompile.i.cache" />
+    <None Include="obj\Debug\Galac.Saw.Uil.Cliente_MarkupCompile.i.lref" />
+    <None Include="obj\Debug\Galac.Saw.Uil.Cliente_MarkupCompile.lref" />
     <AppDesigner Include="Properties\" />
     <Compile Include="Reportes\clsClienteInformesViewModel.cs" />
     <Compile Include="Reportes\clsHistoricoDeClienteViewModel.cs" />
     <Compile Include="Reportes\GSHistoricoDeCliente.xaml.cs">
       <DependentUpon>GSHistoricoDeCliente.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIMefClienteCliente.cs" />
     <Compile Include="ViewModel\ClienteMngViewModel.cs" />
     <Compile Include="ViewModel\ClienteViewModel.cs" />
     <Compile Include="ViewModel\clsFKViewModel.cs" />
@@ -139,6 +153,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="obj\Debug\Galac.Saw.Uil.Cliente.csproj.FileListAbsolute.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="obj\Debug\Themes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -13,7 +13,7 @@ using Galac.Saw.Uil.Cliente.Reportes;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 
 namespace Galac.Saw.Uil.Cliente {
-    public class clsClienteMenu: ILibMenu {
+    public class clsClienteMenu: ILibMenuMultiFile {
         #region Constructores
         public clsClienteMenu() {
         }
@@ -21,7 +21,35 @@ namespace Galac.Saw.Uil.Cliente {
         #region Metodos Generados
 
         #region Miembros de ILibMenuMultiFile
-        void ILibMenu.Ejecuta(eAccionSR valAction, int valUseInterop) {
+        void ILibMenuMultiFile.Ejecuta(eAccionSR valAction, int valUseInterop,  IDictionary<string, XmlDocument> refGlobalValues) {
+		
+			if (valAction == eAccionSR.Insertar) {
+                clsClienteIpl insCliente = new clsClienteIpl((LibXmlMemInfo)refGlobalValues[LibGlobalValues.NameAppXmlInfo], (LibXmlMFC)refGlobalValues[LibGlobalValues.NameMFCInfo]);
+                frmClienteInput insFrmInput = new frmClienteInput("Cliente", eAccionSR.Insertar, "");
+                insFrmInput.InitLookAndFeelAndSetValues(insCliente.ListCliente, insCliente);
+                if (valUseInterop ==0) {
+                    insFrmInput.Owner = System.Windows.Application.Current.MainWindow;
+                    insFrmInput.Show();
+                } else {
+                    insFrmInput.ShowDialog();
+                }
+            } else {
+                List<LibSearchDefaultValues> vFixedValues = new List<LibSearchDefaultValues>();
+                vFixedValues.Add(new LibSearchDefaultValues("Saw.Gv_Cliente_B1.ConsecutivoCompania", ((LibXmlMFC)refGlobalValues[LibGlobalValues.NameMFCInfo]).GetInt("Compania").ToString(), false, typeof(int)));
+                LibFrmSearch insFrmSearch = new LibFrmSearch("Cliente", new Galac.Saw.Uil.Cliente.Sch.GSClienteSch());
+                insFrmSearch.DbQuery = "Saw.Gp_ClienteSCH";
+                insFrmSearch.LeaveOpenOnSelect = true;
+                insFrmSearch.Entity = new clsClienteList((LibXmlMemInfo)refGlobalValues[LibGlobalValues.NameAppXmlInfo], (LibXmlMFC)refGlobalValues[LibGlobalValues.NameMFCInfo]);
+                insFrmSearch.CurrentAction = valAction;
+                insFrmSearch.FixedCriteria = vFixedValues;
+                if (valUseInterop ==0) {
+                    insFrmSearch.Owner = System.Windows.Application.Current.MainWindow;
+                    insFrmSearch.Show();
+                } else {
+                    insFrmSearch.ShowDialog();
+                }
+            }
+			
             if (valAction == eAccionSR.InformesPantalla) {
                 EjecutaInformesCliente();
             } else {

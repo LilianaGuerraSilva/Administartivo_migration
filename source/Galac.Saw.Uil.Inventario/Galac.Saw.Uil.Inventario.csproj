@@ -361,10 +361,6 @@
       <Project>{ad96dfba-cca7-445b-822e-d40c2fd13a48}</Project>
       <Name>Galac.Saw.Rpt.Inventario</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Galac.Saw.Uil.Cliente\Galac.Saw.Uil.Cliente.csproj">
-      <Project>{6adab614-4a1c-45df-9fd2-174416742b76}</Project>
-      <Name>Galac.Saw.Uil.Cliente</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

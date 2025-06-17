@@ -7,6 +7,7 @@ using Galac.Saw.Ccl.Inventario;
 using System.Collections.Generic;
 using Galac.Saw.LibWebConnector;
 using Galac.Saw.Ccl.Cliente;
+using Entity = Galac.Saw.Ccl.Cliente;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Cnf;
 using Newtonsoft.Json.Linq;
@@ -292,7 +293,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vJsonDoc;
         }
 
-        private string DarFormatoYObtenerTipoIdentficacion(Cliente valCliente, ref string refTipoIdentficacion) {
+        private string DarFormatoYObtenerTipoIdentficacion(Entity.Cliente valCliente, ref string refTipoIdentficacion) {
             string vPrefijo = LibString.Left(LibString.ToUpperWithoutAccents(valCliente.NumeroRIF), 1);
             string vNumeroRif = valCliente.NumeroRIF;
             if (LibString.Len(vNumeroRif) >= 10) {

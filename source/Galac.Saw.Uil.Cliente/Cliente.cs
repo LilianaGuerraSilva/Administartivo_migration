@@ -463,7 +463,7 @@ namespace Galac.Saw.Uil.Cliente {
             if (WorkWithRemoting) {
                 _Reglas = (ILibBusinessComponent)RegisterType();
             } else {
-                _Reglas = new Galac.Saw.Brl.Cliente.clsClienteNav();
+                _Reglas = (ILibBusinessComponent)new Galac.Saw.Brl.Cliente.clsClienteNav();
             }
         }
         #endregion //Inicializacion BRL - a modificar si Remoting

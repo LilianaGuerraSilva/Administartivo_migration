@@ -124,10 +124,6 @@
       <Project>{f563ea73-6e10-409a-8754-35cad6130055}</Project>
       <Name>Galac.Adm.Rpt.CAnticipo</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Galac.Saw.Uil.Cliente\Galac.Saw.Uil.Cliente.csproj">
-      <Project>{0a2d5a7c-1c0e-4817-955f-538d36e16885}</Project>
-      <Name>Galac.Saw.Uil.Cliente</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Uil.GestionCompras\Galac.Adm.Uil.GestionCompras.csproj">
       <Project>{ea2d5a75-1c0e-4817-955f-538da6e18889}</Project>
       <Name>Galac.Adm.Uil.GestionCompras</Name>

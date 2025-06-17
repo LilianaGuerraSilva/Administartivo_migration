@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -8,12 +9,13 @@ using System.Security.Permissions;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.DefGen;
+using LibGalac.Aos.UI.Cib;
 using Entity = Galac.Saw.Ccl.Cliente;
 
 namespace Galac.Saw.Uil.Cliente {
     public class clsClienteIpl: LibMROMF, ILibView {
         #region Variables
-        ILibBusinessComponentWithSearch<IList<Entity.Cliente>, IList<Entity.Cliente>> _Reglas;
+        ILibBusinessMasterComponent<IList<Entity.Cliente>, IList<Entity.Cliente>> _Reglas;
         IList<Entity.Cliente> _ListCliente;
         #endregion //Variables
         #region Propiedades
@@ -28,18 +30,20 @@ namespace Galac.Saw.Uil.Cliente {
         public clsClienteIpl(LibXmlMemInfo initAppMemoryInfo, LibXmlMFC initMfc):base(initAppMemoryInfo, initMfc) {
             ListCliente = new List<Entity.Cliente>();
             ListCliente.Add(new Entity.Cliente());
+			Clear(ListCliente[0]);
         }
         #endregion //Constructores
         #region Metodos Generados
         internal void Clear(Entity.Cliente refRecord) {
             refRecord.Clear();
             refRecord.ConsecutivoCompania = Mfc.GetInt("Compania");
+			refRecord.DetailDireccionDeDespacho.Clear();
         }
 
         #region Inicializacion BRL - a modificar si Remoting
         private void RegistraCliente() {
             if (WorkWithRemoting) {
-                _Reglas = (ILibBusinessComponentWithSearch<IList<Entity.Cliente>, IList<Entity.Cliente>>)RegisterType();
+                _Reglas = (ILibBusinessMasterComponent<IList<Entity.Cliente>, IList<Entity.Cliente>>)RegisterType();
             } else {
                 _Reglas = new Galac.Saw.Brl.Cliente.clsClienteNav();
             }
@@ -87,7 +91,7 @@ namespace Galac.Saw.Uil.Cliente {
                 RegistraCliente();
                 IList<Entity.Cliente> vBusinessObject = new List<Entity.Cliente>();
                 vBusinessObject.Add(refRecord);
-                vResult = _Reglas.DoAction(vBusinessObject, eAccionSR.Insertar, null).Success;
+                vResult = _Reglas.DoAction(vBusinessObject, eAccionSR.Insertar,null, true).Success;
             }
             return vResult;
         }
@@ -99,7 +103,7 @@ namespace Galac.Saw.Uil.Cliente {
                 RegistraCliente();
                 IList<Entity.Cliente> vBusinessObject = new List<Entity.Cliente>();
                 vBusinessObject.Add(refRecord);
-                vResult = _Reglas.DoAction(vBusinessObject, eAccionSR.Modificar, null).Success;
+                vResult = _Reglas.DoAction(vBusinessObject, eAccionSR.Modificar, null, true).Success;
             }
             return vResult;
         }
@@ -110,7 +114,7 @@ namespace Galac.Saw.Uil.Cliente {
             RegistraCliente();
             IList<Entity.Cliente> vBusinessObject = new List<Entity.Cliente>();
             vBusinessObject.Add(refRecord);
-            vResult = _Reglas.DoAction(vBusinessObject, eAccionSR.Eliminar, null).Success;
+            vResult = _Reglas.DoAction(vBusinessObject, eAccionSR.Eliminar, null, true).Success;
             return vResult;
         }
 
@@ -119,13 +123,13 @@ namespace Galac.Saw.Uil.Cliente {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("Codigo", valCodigo, 10);
-            ListCliente = _Reglas.GetData(eProcessMessageType.SpName, "ClienteGET", vParams.Get());
+            ListCliente = _Reglas.GetData(eProcessMessageType.SpName, "ClienteGET", vParams.Get(), true);
         }
 
         private string GenerarProximoCodigo() {
-            string vResult = "";
+            string vResult = string.Empty;
             RegistraCliente();
-            XElement vResulset = _Reglas.QueryInfo(eProcessMessageType.Message, "ProximoCodigo", Mfc.GetIntAsParam("Compania"));
+            XElement vResulset = _Reglas.QueryInfo(eProcessMessageType.Message, "ProximoCodigo", Mfc.GetIntAsParam("Compania"), false);
             vResult = LibXml.GetPropertyString(vResulset, "Codigo");
             return vResult;
         }
@@ -140,6 +144,8 @@ namespace Galac.Saw.Uil.Cliente {
             vResult = IsValidCiudad(valAction, refRecord.Ciudad, false) && vResult;
             vResult = IsValidZonaDeCobranza(valAction, refRecord.ZonaDeCobranza, false) && vResult;
             vResult = IsValidCodigoVendedor(valAction, refRecord.CodigoVendedor, false) && vResult;
+			vResult = IsValidConsecutivoVendedor(valAction, refRecord.ConsecutivoVendedor, false) && vResult;
+            vResult = IsValidNombreVendedor(valAction, refRecord.NombreVendedor, false) && vResult;
             vResult = IsValidCuentaContableCxC(valAction, refRecord.CuentaContableCxC, false) && vResult;
             vResult = IsValidCuentaContableIngresos(valAction, refRecord.CuentaContableIngresos, false) && vResult;
             vResult = IsValidCuentaContableAnticipo(valAction, refRecord.CuentaContableAnticipo, false) && vResult;
@@ -253,6 +259,38 @@ namespace Galac.Saw.Uil.Cliente {
             }
             return vResult;
         }
+		
+		 public bool IsValidNombreVendedor(eAccionSR valAction, string valNombreVendedor, bool valCleanInfoBeforeStart) {
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            if (valCleanInfoBeforeStart) {
+                ClearValidationInfo();
+            }	 
+            if (LibString.IsNullOrEmpty(valNombreVendedor, true)) {
+                BuildValidationInfo(MsgRequiredField("Nombre Vendedor"));
+                vResult = false;
+            }
+            return vResult;
+        }
+		
+		public bool IsValidConsecutivoVendedor(eAccionSR valAction, int valConsecutivoVendedor, bool valCleanInfoBeforeStart) {
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            if (valCleanInfoBeforeStart) {
+                ClearValidationInfo();
+            }
+            if (valConsecutivoVendedor == 0) {
+                BuildValidationInfo(MsgRequiredField("Consecutivo Vendedor"));
+                vResult = false;
+            }
+            return vResult;
+        }
+		
+		
 
         public bool IsValidCuentaContableCxC(eAccionSR valAction, string valCuentaContableCxC, bool valCleanInfoBeforeStart){
             bool vResult = true;
@@ -327,6 +365,17 @@ namespace Galac.Saw.Uil.Cliente {
                 vResult = false;
             }
             return vResult;
+        }
+
+        public void InitDetailForInsert() {
+            InitDetailDirDeDesForInsert();
+        }
+
+        void InitDetailDirDeDesForInsert() {
+            if (ListCliente[0].DetailDireccionDeDespacho == null) {
+                ListCliente[0].DetailDireccionDeDespacho = new ObservableCollection<DireccionDeDespacho>();
+            }
+            Clear(ListCliente[0]);
         }
         #endregion //Metodos Generados
 

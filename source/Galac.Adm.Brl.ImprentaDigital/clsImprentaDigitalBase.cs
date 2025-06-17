@@ -8,6 +8,7 @@ using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.Cliente;
+using Entity = Galac.Saw.Ccl.Cliente;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Saw.Ccl.SttDef;
 using Galac.Adm.Ccl.Vendedor;
@@ -36,7 +37,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public clsLoginUser LoginUser { get; set; }
         public string HoraAsignacion { get; set; }
         public DateTime FechaAsignacion { get; set; }
-        public Cliente ClienteImprentaDigital { get; set; }
+        public Entity.Cliente ClienteImprentaDigital { get; set; }
         public InfoAdicionalCliente InfoAdicionalClienteImprentaDigital { get; set; }
         public Vendedor VendedorImprentaDigital { get; set; }
         public FacturaRapida FacturaImprentaDigital { get; set; }

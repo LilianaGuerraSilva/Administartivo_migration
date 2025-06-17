@@ -16,7 +16,7 @@ namespace Galac.Saw.Uil.Cliente {
     public sealed class clsClienteList: LibUicMF, ILibDbSearchModule {
         #region Variables
         Entity.Cliente _Record;
-        ILibBusinessComponentWithSearch<IList<Entity.Cliente>, IList<Entity.Cliente>> _Reglas;
+        ILibBusinessMasterComponentWithSearch<IList<Entity.Cliente>, IList<Entity.Cliente>> _Reglas;
         #endregion //Variables
         #region Propiedades
         public Entity.Cliente Record {
@@ -34,7 +34,7 @@ namespace Galac.Saw.Uil.Cliente {
         #region Inicializacion BRL - a modificar si Remoting
         private void RegistraCliente() {
             if (WorkWithRemoting) {
-                _Reglas = (ILibBusinessComponentWithSearch<IList<Entity.Cliente>, IList<Entity.Cliente>>)RegisterType();
+                _Reglas = (ILibBusinessMasterComponentWithSearch<IList<Entity.Cliente>, IList<Entity.Cliente>>)RegisterType();
             } else {
                 _Reglas = new Galac.Saw.Brl.Cliente.clsClienteNav();
             }
@@ -54,7 +54,7 @@ namespace Galac.Saw.Uil.Cliente {
             LibGpParams vParams = new LibGpParams();
             int vConsecutivoCompania = insParser.GetInt(0, "ConsecutivoCompania",0);
             vParams.AddInInteger("ConsecutivoCompania", vConsecutivoCompania);
-            string vCodigo = insParser.GetString(0, "Codigo","");
+            string vCodigo = insParser.GetString(0, "Codigo",string.Empty);
             vParams.AddInString("Codigo", vCodigo, 10);
             insParser  = null;
             return vParams.Get();
@@ -66,7 +66,7 @@ namespace Galac.Saw.Uil.Cliente {
                 //do nothing;
             } else {
                 RegistraCliente();
-                IList<Entity.Cliente> vResulset = _Reglas.GetData(eProcessMessageType.SpName, "ClienteGET", GetPkParams(valXmlRow));
+                IList<Entity.Cliente> vResulset = _Reglas.GetData(eProcessMessageType.SpName, "ClienteGET", GetPkParams(valXmlRow), true);
                 if (vResulset != null && vResulset.Count > 0) {
                     if (_Reglas.CanBeChoosen(vResulset, valAction)) {
                         clsClienteIpl vRecord = new clsClienteIpl(AppMemoryInfo, Mfc);
@@ -108,37 +108,43 @@ namespace Galac.Saw.Uil.Cliente {
 
         public static bool ChooseCliente(System.Windows.Window refOwner, ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
             bool vResult = false;
-            vResult = LibFkRetrieval.ChooseRecord(refOwner, new Galac.Saw.Uil.Cliente.Controles.GSClienteSch(), ref refXmlDocument, valSearchCriteria, valFixedCriteria, "Cliente", new clsClienteList(null, null));
+            vResult = LibFkRetrieval.ChooseRecord(refOwner, new Galac.Saw.Uil.Cliente.Sch.GSClienteSch(), ref refXmlDocument, valSearchCriteria, valFixedCriteria, "Cliente", new clsClienteList(null, null));
             return vResult;
         }
 
         public static bool ChooseCiudad(System.Windows.Window refOwner, ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
             bool vResult = false;
-            //vResult = LibFkRetrieval.ChooseRecord(refOwner, new Galac.dbo.Uil.Ciudad.Controles.GSCiudadSch(), ref refXmlDocument, valSearchCriteria, valFixedCriteria, "Ciudad", new clsClienteList(null, null));
+            vResult = LibFkRetrieval.ChooseRecord(refOwner, new Galac.Comun.Uil.TablasGen.Sch.GSCiudadSch(), ref refXmlDocument, valSearchCriteria, valFixedCriteria, "Ciudad", new clsClienteList(null, null));
             return vResult;
         }
 
         public static bool ChooseZonaCobranza(System.Windows.Window refOwner, ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
             bool vResult = false;
-            //vResult = LibFkRetrieval.ChooseRecord(refOwner, new Galac.Saw.Uil.Tablas.Sch.GSZonaCobranzaSch(), ref refXmlDocument, valSearchCriteria, valFixedCriteria, "Zona Cobranza", new clsClienteList(null, null));
+            vResult = LibFkRetrieval.ChooseRecord(refOwner, new Galac.Comun.Uil.TablasGen.Sch.GSZonaCobranzaSch(), ref refXmlDocument, valSearchCriteria, valFixedCriteria, "Zona Cobranza", new clsClienteList(null, null));
             return vResult;
         }
 
         public static bool ChooseVendedor(System.Windows.Window refOwner, ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
             bool vResult = false;
-            //vResult = LibFkRetrieval.ChooseRecord(refOwner, new Galac.dbo.Uil.Vendedor.Controles.GSVendedorSch(), ref refXmlDocument, valSearchCriteria, valFixedCriteria, "Vendedor", new clsClienteList(null, null));
+            vResult = LibFkRetrieval.ChooseRecord(refOwner, new Galac.dbo.Uil.ComponenteNoEspecificado.Sch.GSVendedorSch(), ref refXmlDocument, valSearchCriteria, valFixedCriteria, "Vendedor", new clsClienteList(null, null));
             return vResult;
         }
 
         public static bool ChooseCuenta(System.Windows.Window refOwner, ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
             bool vResult = false;
-            //vResult = LibFkRetrieval.ChooseRecord(refOwner, new Galac.dbo.Uil.Cuenta.Controles.GSCuentaSch(), ref refXmlDocument, valSearchCriteria, valFixedCriteria, "Cuenta", new clsClienteList(null, null));
+            vResult = LibFkRetrieval.ChooseRecord(refOwner, new Galac.dbo.Uil.ComponenteNoEspecificado.Sch.GSCuentaSch(), ref refXmlDocument, valSearchCriteria, valFixedCriteria, "Cuenta", new clsClienteList(null, null));
             return vResult;
         }
 
         public static bool ChooseSectorDeNegocio(System.Windows.Window refOwner, ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
             bool vResult = false;
-            //vResult = LibFkRetrieval.ChooseRecord(refOwner, new Galac.dbo.Uil.SectorDeNegocio.Controles.GSSectorDeNegocioSch(), ref refXmlDocument, valSearchCriteria, valFixedCriteria, "Sector de Negocio", new clsClienteList(null, null));
+            vResult = LibFkRetrieval.ChooseRecord(refOwner, new Galac.Comun.Uil.TablasGen.Sch.GSSectorDeNegocioSch(), ref refXmlDocument, valSearchCriteria, valFixedCriteria, "Sector de Negocio", new clsClienteList(null, null));
+            return vResult;
+        }
+
+        public static bool ChooseCiudad(System.Windows.Window refOwner, ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
+            bool vResult = false;
+            vResult = LibFkRetrieval.ChooseRecord(refOwner, new Galac.Comun.Uil.TablasGen.Sch.GSCiudadSch(), ref refXmlDocument, valSearchCriteria, valFixedCriteria, "Ciudad", new clsClienteList(null, null));
             return vResult;
         }
         #endregion //Métodos para Escoger

@@ -6,3 +6,5 @@ obj
 bin/es-PE
 bin/*.*
 source/packages/*.*
+*.user
+*.htm

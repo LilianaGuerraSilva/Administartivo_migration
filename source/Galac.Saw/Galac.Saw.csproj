@@ -313,6 +313,14 @@
       <HintPath>..\packages\MaterialSkin.Net4.1.0.0\lib\net40\MaterialSkin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=5.0.414.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\EnLib50Src\Bin\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=5.0.414.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\EnLib50Src\Bin\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
     <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Microsoft Ribbon for WPF\V4.0\RibbonControlsLibrary.dll</HintPath>
@@ -737,10 +745,6 @@
     <ProjectReference Include="..\Galac.Saw.SLev\Galac.Saw.SLev.csproj">
       <Project>{a84d308c-d997-4550-800b-7c46e8cb02e3}</Project>
       <Name>Galac.Saw.SLev</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Galac.Saw.Uil.Cliente\Galac.Saw.Uil.Cliente.csproj">
-      <Project>{6adab614-4a1c-45df-9fd2-174416742b76}</Project>
-      <Name>Galac.Saw.Uil.Cliente</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Uil.Contabilizacion\Galac.Saw.Uil.Contabilizacion.csproj">
       <Project>{3361eca9-4ad8-4c3b-aa47-4703b4bdf1c2}</Project>

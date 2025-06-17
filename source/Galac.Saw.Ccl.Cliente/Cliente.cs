@@ -1,13 +1,13 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
-using Galac.Saw.Ccl.Cliente;
-using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Saw.Ccl.Cliente {
     [Serializable]
@@ -27,16 +27,20 @@ namespace Galac.Saw.Ccl.Cliente {
         private eStatusCliente _Status;
         private string _Contacto;
         private string _ZonaDeCobranza;
-        private int _ConsecutivoVendedor;
         private string _CodigoVendedor;
+        private int _ConsecutivoVendedor;
+        private string _NombreVendedor;
         private string _RazonInactividad;
         private string _Email;
         private bool _ActivarAvisoAlEscoger;
         private string _TextoDelAviso;
         private string _CuentaContableCxC;
+        private string _DescripcionCuentaContableCxC;
         private string _CuentaContableIngresos;
+        private string _DescripcionCuentaContableIngresos;
         private string _CuentaContableAnticipo;
-        private string _InfoGalac;
+        private string _DescripcionCuentaContableAnticipo;
+        private eInfoGalacModoEnvio _InfoGalac;
         private string _SectorDeNegocio;
         private string _CodigoLote;
         private eNivelDePrecio _NivelDePrecio;
@@ -47,12 +51,13 @@ namespace Galac.Saw.Ccl.Cliente {
         private bool _EsExtranjero;
         private DateTime _ClienteDesdeFecha;
         private string _AQueSeDedicaElCliente;
+        private string _NombreOperador;
         private eTipoDocumentoIdentificacion _TipoDocumentoIdentificacion;
         private eTipoDeContribuyente _TipoDeContribuyente;
         private string _CampoDefinible1;
-        private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
+		private ObservableCollection<DireccionDeDespacho> _DetailDireccionDeDespacho;
         XmlDocument _datos;
         #endregion //Variables
         #region Propiedades
@@ -61,6 +66,7 @@ namespace Galac.Saw.Ccl.Cliente {
             get { return _ConsecutivoCompania; }
             set { _ConsecutivoCompania = value; }
         }
+
         public int Consecutivo {
             get { return _Consecutivo; }
             set { _Consecutivo = value; }
@@ -73,7 +79,7 @@ namespace Galac.Saw.Ccl.Cliente {
 
         public string Nombre {
             get { return _Nombre; }
-            set { _Nombre = LibString.Mid(value, 0, 160); }
+            set { _Nombre = LibString.Mid(value, 0, 220); }
         }
 
         public string NumeroRIF {
@@ -137,15 +143,20 @@ namespace Galac.Saw.Ccl.Cliente {
             get { return _ZonaDeCobranza; }
             set { _ZonaDeCobranza = LibString.Mid(value, 0, 100); }
         }
-		
+
+        public string CodigoVendedor {
+            get { return _CodigoVendedor; }
+            set { _CodigoVendedor = LibString.Mid(value, 0, 5); }
+        }
+
         public int ConsecutivoVendedor {
             get { return _ConsecutivoVendedor; }
             set { _ConsecutivoVendedor = value; }
         }
 
-        public string CodigoVendedor {
-            get { return _CodigoVendedor; }
-            set { _CodigoVendedor = LibString.Mid(value, 0, 5); }
+        public string NombreVendedor {
+            get { return _NombreVendedor; }
+            set { _NombreVendedor = LibString.Mid(value, 0, 35); }
         }
 
         public string RazonInactividad {
@@ -178,9 +189,19 @@ namespace Galac.Saw.Ccl.Cliente {
             set { _CuentaContableCxC = LibString.Mid(value, 0, 30); }
         }
 
+        public string DescripcionCuentaContableCxC {
+            get { return _DescripcionCuentaContableCxC; }
+            set { _DescripcionCuentaContableCxC = LibString.Mid(value, 0, 40); }
+        }
+
         public string CuentaContableIngresos {
             get { return _CuentaContableIngresos; }
             set { _CuentaContableIngresos = LibString.Mid(value, 0, 30); }
+        }
+
+        public string DescripcionCuentaContableIngresos {
+            get { return _DescripcionCuentaContableIngresos; }
+            set { _DescripcionCuentaContableIngresos = LibString.Mid(value, 0, 40); }
         }
 
         public string CuentaContableAnticipo {
@@ -188,9 +209,26 @@ namespace Galac.Saw.Ccl.Cliente {
             set { _CuentaContableAnticipo = LibString.Mid(value, 0, 30); }
         }
 
-        public string InfoGalac {
+        public string DescripcionCuentaContableAnticipo {
+            get { return _DescripcionCuentaContableAnticipo; }
+            set { _DescripcionCuentaContableAnticipo = LibString.Mid(value, 0, 40); }
+        }
+
+        public eInfoGalacModoEnvio InfoGalacAsEnum {
             get { return _InfoGalac; }
-            set { _InfoGalac = LibString.Mid(value, 0, 1); }
+            set { _InfoGalac = value; }
+        }
+
+        public string InfoGalac {
+            set { _InfoGalac = (eInfoGalacModoEnvio)LibConvert.DbValueToEnum(value); }
+        }
+
+        public string InfoGalacAsDB {
+            get { return LibConvert.EnumToDbValue((int) _InfoGalac); }
+        }
+
+        public string InfoGalacAsString {
+            get { return LibEnumHelper.GetDescription(_InfoGalac); }
         }
 
         public string SectorDeNegocio {
@@ -277,6 +315,11 @@ namespace Galac.Saw.Ccl.Cliente {
             set { _AQueSeDedicaElCliente = LibString.Mid(value, 0, 100); }
         }
 
+        public string NombreOperador {
+            get { return _NombreOperador; }
+            set { _NombreOperador = LibString.Mid(value, 0, 10); }
+        }
+
         public eTipoDocumentoIdentificacion TipoDocumentoIdentificacionAsEnum {
             get { return _TipoDocumentoIdentificacion; }
             set { _TipoDocumentoIdentificacion = value; }
@@ -313,12 +356,7 @@ namespace Galac.Saw.Ccl.Cliente {
 
         public string CampoDefinible1 {
             get { return _CampoDefinible1; }
-            set { _CampoDefinible1 = LibString.Mid(value, 0, 20); }
-        }
-
-        public string NombreOperador {
-            get { return _NombreOperador; }
-            set { _NombreOperador = LibString.Mid(value, 0, 10); }
+            set { _CampoDefinible1 = LibString.Mid(value, 0, 60); }
         }
 
         public DateTime FechaUltimaModificacion {
@@ -331,6 +369,11 @@ namespace Galac.Saw.Ccl.Cliente {
             set { _fldTimeStamp = value; }
         }
 
+        public ObservableCollection<DireccionDeDespacho> DetailDireccionDeDespacho {
+            get { return _DetailDireccionDeDespacho; }
+            set { _DetailDireccionDeDespacho = value; }
+        }
+
         public XmlDocument Datos {
             get { return _datos; }
             set { _datos = value; }
@@ -339,6 +382,7 @@ namespace Galac.Saw.Ccl.Cliente {
         #region Constructores
 
         public Cliente() {
+            _DetailDireccionDeDespacho = new ObservableCollection<DireccionDeDespacho>();
             Clear();
         }
         #endregion //Constructores
@@ -363,8 +407,8 @@ namespace Galac.Saw.Ccl.Cliente {
             StatusAsEnum = eStatusCliente.Activo;
             Contacto = string.Empty;
             ZonaDeCobranza = string.Empty;
-            ConsecutivoVendedor = 0;
             CodigoVendedor = string.Empty;
+            ConsecutivoVendedor = 0;
             RazonInactividad = string.Empty;
             Email = string.Empty;
             ActivarAvisoAlEscogerAsBool = false;
@@ -372,7 +416,7 @@ namespace Galac.Saw.Ccl.Cliente {
             CuentaContableCxC = string.Empty;
             CuentaContableIngresos = string.Empty;
             CuentaContableAnticipo = string.Empty;
-            InfoGalac = string.Empty;
+            InfoGalacAsEnum = eInfoGalacModoEnvio.PorDefinir;
             SectorDeNegocio = string.Empty;
             CodigoLote = string.Empty;
             NivelDePrecioAsEnum = eNivelDePrecio.Precio1;
@@ -383,12 +427,13 @@ namespace Galac.Saw.Ccl.Cliente {
             EsExtranjeroAsBool = false;
             ClienteDesdeFecha = LibDate.Today();
             AQueSeDedicaElCliente = string.Empty;
+            NombreOperador = string.Empty;
             TipoDocumentoIdentificacionAsEnum = eTipoDocumentoIdentificacion.RUC;
             TipoDeContribuyenteAsEnum = eTipoDeContribuyente.Contribuyente;
             CampoDefinible1 = string.Empty;
-            NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
+            DetailDireccionDeDespacho.Clear();
         }
 
         public Cliente Clone() {
@@ -409,6 +454,7 @@ namespace Galac.Saw.Ccl.Cliente {
             vResult.ZonaDeCobranza = _ZonaDeCobranza;
             vResult.ConsecutivoVendedor = _ConsecutivoVendedor;
             vResult.CodigoVendedor = _CodigoVendedor;
+            vResult.NombreVendedor = _NombreVendedor;
             vResult.RazonInactividad = _RazonInactividad;
             vResult.Email = _Email;
             vResult.ActivarAvisoAlEscogerAsBool = _ActivarAvisoAlEscoger;
@@ -416,7 +462,7 @@ namespace Galac.Saw.Ccl.Cliente {
             vResult.CuentaContableCxC = _CuentaContableCxC;
             vResult.CuentaContableIngresos = _CuentaContableIngresos;
             vResult.CuentaContableAnticipo = _CuentaContableAnticipo;
-            vResult.InfoGalac = _InfoGalac;
+            vResult.InfoGalacAsEnum = _InfoGalac;
             vResult.SectorDeNegocio = _SectorDeNegocio;
             vResult.CodigoLote = _CodigoLote;
             vResult.NivelDePrecioAsEnum = _NivelDePrecio;
@@ -427,10 +473,10 @@ namespace Galac.Saw.Ccl.Cliente {
             vResult.EsExtranjeroAsBool = _EsExtranjero;
             vResult.ClienteDesdeFecha = _ClienteDesdeFecha;
             vResult.AQueSeDedicaElCliente = _AQueSeDedicaElCliente;
+            vResult.NombreOperador = _NombreOperador;
             vResult.TipoDocumentoIdentificacionAsEnum = _TipoDocumentoIdentificacion;
             vResult.TipoDeContribuyenteAsEnum = _TipoDeContribuyente;
             vResult.CampoDefinible1 = _CampoDefinible1;
-            vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
             return vResult;
@@ -439,20 +485,20 @@ namespace Galac.Saw.Ccl.Cliente {
         public override string ToString() {
            return "Consecutivo Compania = " + _ConsecutivoCompania.ToString() +
                "\nConsecutivo = " + _Consecutivo.ToString() +
-               "\nCódigo = " + _Codigo +
+               "\nC?digo = " + _Codigo +
                "\nNombre = " + _Nombre +
-               "\nN° R.I.F. = " + _NumeroRIF +
-               "\nN° N.I.T. = " + _NumeroNIT +
-               "\nDirección = " + _Direccion +
+               "\nN? R.I.F. = " + _NumeroRIF +
+               "\nN? N.I.T. = " + _NumeroNIT +
+               "\nDirecci?n = " + _Direccion +
                "\nCiudad = " + _Ciudad +
                "\nZona Postal = " + _ZonaPostal +
-               "\nTeléfonos = " + _Telefono +
-               "\nNº Fax = " + _FAX +
+               "\nTel?fonos = " + _Telefono +
+               "\nN? Fax = " + _FAX +
                "\nStatus = " + _Status.ToString() +
                "\nContacto = " + _Contacto +
                "\nZona De Cobranza = " + _ZonaDeCobranza +
-               "\nCódigo del Vendedor = " + _ConsecutivoVendedor.ToString() +
-               "\nCódigo del Vendedor = " + _CodigoVendedor +
+               "\nC?digo del Vendedor = " + _CodigoVendedor +
+               "\nNombre Vendedor = " + _NombreVendedor +
                "\nRazon Inactividad = " + _RazonInactividad +
                "\nEmail = " + _Email +
                "\nActivar Aviso Al Escoger = " + _ActivarAvisoAlEscoger +
@@ -460,7 +506,7 @@ namespace Galac.Saw.Ccl.Cliente {
                "\nCuenta Contable Cx C = " + _CuentaContableCxC +
                "\nCuenta Contable Ingresos = " + _CuentaContableIngresos +
                "\nCuenta Contable Anticipo = " + _CuentaContableAnticipo +
-               "\nInfo Galac = " + _InfoGalac +
+               "\nInfo Galac = " + _InfoGalac.ToString() +
                "\nSector De Negocio = " + _SectorDeNegocio +
                "\nCodigo Lote = " + _CodigoLote +
                "\nNivel De Precio = " + _NivelDePrecio.ToString() +
@@ -471,10 +517,10 @@ namespace Galac.Saw.Ccl.Cliente {
                "\nEs Extranjero = " + _EsExtranjero +
                "\nCliente Desde = " + _ClienteDesdeFecha.ToShortDateString() +
                "\nA Que Se Dedica El Cliente = " + _AQueSeDedicaElCliente +
+               "\nNombre Operador = " + _NombreOperador +
                "\nTipo Documento Identificacion = " + _TipoDocumentoIdentificacion.ToString() +
                "\nTipo De Contribuyente = " + _TipoDeContribuyente.ToString() +
                "\nCampo Definible 1 = " + _CampoDefinible1 +
-               "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }
         #endregion //Metodos Generados
