@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LibGalac.Aos.Dal;
+using LibGalac.Aos.Dal.Contracts;
 using Galac.Saw.Ccl.Cliente;
 
 namespace Galac.Saw.Dal.Cliente {
-    public class clsDireccionDeDespachoED: LibED {
+    [LibMefDalComponentMetadata(typeof(clsDireccionDeDespachoED))]
+    public class clsDireccionDeDespachoED: LibED, ILibMefDalComponent {
         #region Variables
         #endregion //Variables
         #region Propiedades
@@ -16,6 +18,24 @@ namespace Galac.Saw.Dal.Cliente {
         }
         #endregion //Constructores
         #region Metodos Generados
+
+        #region Miembros de ILibMefDalComponent
+        string ILibMefDalComponent.DbSchema {
+            get { return DbSchema; }
+        }
+
+        string ILibMefDalComponent.Name {
+            get { return GetType().Name; }
+        }
+
+        string ILibMefDalComponent.Table {
+            get { return "DireccionDeDespacho"; }
+        }
+
+        bool ILibMefDalComponent.InstallTable() {
+            return InstalarTabla();
+        }
+        #endregion
         #region Queries
 
         private string SqlCreateTable() {
@@ -50,10 +70,10 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("SELECT DireccionDeDespacho.ConsecutivoCompania, DireccionDeDespacho.CodigoCliente, DireccionDeDespacho.ConsecutivoDireccion, DireccionDeDespacho.PersonaContacto");
             SQL.AppendLine(", DireccionDeDespacho.Direccion, DireccionDeDespacho.Ciudad, DireccionDeDespacho.ZonaPostal");
             SQL.AppendLine(", DireccionDeDespacho.fldTimeStamp, CAST(DireccionDeDespacho.fldTimeStamp AS bigint) AS fldTimeStampBigint");
-            SQL.AppendLine("FROM " + DbSchema + ".DireccionDeDespacho");
-            SQL.AppendLine("INNER JOIN Saw.Cliente ON  " + DbSchema + ".DireccionDeDespacho.CodigoCliente = Saw.Cliente.codigo");
-            SQL.AppendLine("      AND " + DbSchema + ".DireccionDeDespacho.ConsecutivoCompania = Saw.Cliente.ConsecutivoCompania");
-            SQL.AppendLine("INNER JOIN Comun.Ciudad ON  " + DbSchema + ".DireccionDeDespacho.Ciudad = Comun.Ciudad.NombreCiudad");
+            SQL.AppendLine("FROM dbo.DireccionDeDespacho");
+            SQL.AppendLine("INNER JOIN dbo.Cliente ON dbo.DireccionDeDespacho.CodigoCliente = dbo.Cliente.codigo");
+            SQL.AppendLine("      AND dbo.DireccionDeDespacho.ConsecutivoCompania = dbo.Cliente.ConsecutivoCompania");
+            SQL.AppendLine("INNER JOIN Comun.Ciudad ON dbo.DireccionDeDespacho.Ciudad = Comun.Ciudad.NombreCiudad");
             return SQL.ToString();
         }
 
@@ -126,16 +146,16 @@ namespace Galac.Saw.Dal.Cliente {
             //SQL.AppendLine("--DECLARE @CanBeChanged bit");
             SQL.AppendLine("   SET @ReturnValue = -1");
             SQL.AppendLine("   SET @ValidationMsg = ''");
-            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".DireccionDeDespacho WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoCliente = @CodigoCliente AND ConsecutivoDireccion = @ConsecutivoDireccion)");
+            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM dbo.DireccionDeDespacho WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoCliente = @CodigoCliente AND ConsecutivoDireccion = @ConsecutivoDireccion)");
             SQL.AppendLine("   BEGIN");
-            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".DireccionDeDespacho WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoCliente = @CodigoCliente AND ConsecutivoDireccion = @ConsecutivoDireccion");
+            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM dbo.DireccionDeDespacho WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoCliente = @CodigoCliente AND ConsecutivoDireccion = @ConsecutivoDireccion");
             SQL.AppendLine("      IF (CAST(@CurrentTimeStamp AS bigint) = @TimeStampAsInt)");
             SQL.AppendLine("      BEGIN");
             SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeChanged bit; EXEC @CanBeChanged = " + DbSchema + ".Gp_DireccionDeDespachoCanBeUpdated @ConsecutivoCompania,@CodigoCliente,@ConsecutivoDireccion, @CurrentTimeStamp, @ValidationMsg out");
             //SQL.AppendLine("--IF @CanBeChanged = 1 --True");
             //SQL.AppendLine("--BEGIN");
             SQL.AppendLine("         BEGIN TRAN");
-            SQL.AppendLine("         UPDATE " + DbSchema + ".DireccionDeDespacho");
+            SQL.AppendLine("         UPDATE dbo.DireccionDeDespacho");
             SQL.AppendLine("            SET PersonaContacto = @PersonaContacto,");
             SQL.AppendLine("               Direccion = @Direccion,");
             SQL.AppendLine("               Ciudad = @Ciudad,");
@@ -191,16 +211,16 @@ namespace Galac.Saw.Dal.Cliente {
             //SQL.AppendLine("--DECLARE @CanBeDeleted bit");
             SQL.AppendLine("   SET @ReturnValue = -1");
             SQL.AppendLine("   SET @ValidationMsg = ''");
-            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".DireccionDeDespacho WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoCliente = @CodigoCliente AND ConsecutivoDireccion = @ConsecutivoDireccion)");
+            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM dbo.DireccionDeDespacho WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoCliente = @CodigoCliente AND ConsecutivoDireccion = @ConsecutivoDireccion)");
             SQL.AppendLine("   BEGIN");
-            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".DireccionDeDespacho WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoCliente = @CodigoCliente AND ConsecutivoDireccion = @ConsecutivoDireccion");
+            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM dbo.DireccionDeDespacho WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoCliente = @CodigoCliente AND ConsecutivoDireccion = @ConsecutivoDireccion");
             SQL.AppendLine("      IF (CAST(@CurrentTimeStamp AS bigint) = @TimeStampAsInt)");
             SQL.AppendLine("      BEGIN");
             SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeDeleted bit; EXEC @CanBeDeleted = " + DbSchema + ".Gp_DireccionDeDespachoCanBeDeleted @ConsecutivoCompania,@CodigoCliente,@ConsecutivoDireccion, @CurrentTimeStamp, @ValidationMsg out");
             //SQL.AppendLine("--IF @CanBeDeleted = 1 --True");
             //SQL.AppendLine("--BEGIN");
             SQL.AppendLine("         BEGIN TRAN");
-            SQL.AppendLine("         DELETE FROM " + DbSchema + ".DireccionDeDespacho");
+            SQL.AppendLine("         DELETE FROM dbo.DireccionDeDespacho");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
             SQL.AppendLine("               AND ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("               AND CodigoCliente = @CodigoCliente");
@@ -255,7 +275,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("         ZonaPostal,");
             SQL.AppendLine("         CAST(fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         fldTimeStamp");
-            SQL.AppendLine("      FROM " + DbSchema + ".DireccionDeDespacho");
+            SQL.AppendLine("      FROM dbo.DireccionDeDespacho");
             SQL.AppendLine("      WHERE DireccionDeDespacho.ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("         AND DireccionDeDespacho.CodigoCliente = @CodigoCliente");
             SQL.AppendLine("         AND DireccionDeDespacho.ConsecutivoDireccion = @ConsecutivoDireccion");
@@ -327,7 +347,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("	    EXEC Saw.Gp_DireccionDeDespachoDelDet @ConsecutivoCompania = @ConsecutivoCompania, @CodigoCliente = @CodigoCliente");
 		    SQL.AppendLine("	    DECLARE @hdoc " + InsSql.NumericTypeForDb(10, 0));
             SQL.AppendLine("	    EXEC sp_xml_preparedocument @hdoc OUTPUT, @XmlDataDetail");
-		    SQL.AppendLine("	    INSERT INTO Saw.DireccionDeDespacho(");
+		    SQL.AppendLine("	    INSERT INTO dbo.DireccionDeDespacho(");
 			SQL.AppendLine("	        ConsecutivoCompania,");
 			SQL.AppendLine("	        CodigoCliente,");
 			SQL.AppendLine("	        ConsecutivoDireccion,");
@@ -443,7 +463,7 @@ namespace Galac.Saw.Dal.Cliente {
 
         public bool InstalarVistasYSps() {
             bool vResult = false;
-            if (insDbo.Exists(DbSchema + ".DireccionDeDespacho", eDboType.Tabla)) {
+            if (insDbo.Exists("dbo.DireccionDeDespacho", eDboType.Tabla)) {
                 CrearVistas();
                 CrearProcedimientos();
                 vResult = true;

@@ -54,7 +54,7 @@ namespace Galac.Saw.Brl.Cliente {
                                           ZonaDeCobranza = vRecord.Element("ZonaDeCobranza").Value, 
                                           ConsecutivoVendedor = LibConvert.ToInt(vRecord.Element("ConsecutivoVendedor")), 
                                           CodigoVendedor = vRecord.Element("CodigoVendedor").Value, 
-                                          NombreVendedor = vRecord.Element("NombreVendedor").Value, 
+                                          //NombreVendedor = vRecord.Element("NombreVendedor").Value, 
                                           SeccionAdvertencias = vRecord.Element("SeccionAdvertencias").Value, 
                                           RazonInactividad = vRecord.Element("RazonInactividad").Value, 
                                           Email = vRecord.Element("Email").Value, 

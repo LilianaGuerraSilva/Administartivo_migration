@@ -8,8 +8,10 @@
 	<UilComponent Name="UIMefVentaCajaApertura" Module="Administrativo" SubModule="Factura / Cotización / Contrato"/>
 	<UilComponent Name="UIMefVehiculoVehiculo" Module="Administrativo" SubModule="Factura / Cotización / Contrato"/>
 	  
+	<UilComponent Name="UIMefClienteCliente" Module="Administrativo" SubModule="Cliente"/>
 
-	<UilComponent Name="UIMefVendedor" Module="Administrativo" SubModule="CxC / Cobranzas / Vendedor" />
+	  
+	  <UilComponent Name="UIMefVendedor" Module="Administrativo" SubModule="CxC / Cobranzas / Vendedor" />
 	<UilComponent Name="UIMefCAnticipoAnticipo" Module="Administrativo" SubModule="CxC / Cobranzas / Vendedor" />
 
 	<UilComponent Name="UIMefGestionComprasProveedor" Module="Administrativo" SubModule="CxP / Pagos / Proveedores"/>

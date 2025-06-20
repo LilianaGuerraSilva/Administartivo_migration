@@ -29,7 +29,7 @@ namespace Galac.Saw.Ccl.Cliente {
         private string _ZonaDeCobranza;
         private string _CodigoVendedor;
         private int _ConsecutivoVendedor;
-        private string _NombreVendedor;
+        //private string _NombreVendedor;
         private string _RazonInactividad;
         private string _Email;
         private bool _ActivarAvisoAlEscoger;
@@ -154,10 +154,10 @@ namespace Galac.Saw.Ccl.Cliente {
             set { _ConsecutivoVendedor = value; }
         }
 
-        public string NombreVendedor {
-            get { return _NombreVendedor; }
-            set { _NombreVendedor = LibString.Mid(value, 0, 35); }
-        }
+        //public string NombreVendedor {
+            //get { return _NombreVendedor; }
+            //set { _NombreVendedor = LibString.Mid(value, 0, 35); }
+        //}
 
         public string RazonInactividad {
             get { return _RazonInactividad; }
@@ -454,7 +454,7 @@ namespace Galac.Saw.Ccl.Cliente {
             vResult.ZonaDeCobranza = _ZonaDeCobranza;
             vResult.ConsecutivoVendedor = _ConsecutivoVendedor;
             vResult.CodigoVendedor = _CodigoVendedor;
-            vResult.NombreVendedor = _NombreVendedor;
+            //vResult.NombreVendedor = _NombreVendedor;
             vResult.RazonInactividad = _RazonInactividad;
             vResult.Email = _Email;
             vResult.ActivarAvisoAlEscogerAsBool = _ActivarAvisoAlEscoger;
@@ -498,7 +498,7 @@ namespace Galac.Saw.Ccl.Cliente {
                "\nContacto = " + _Contacto +
                "\nZona De Cobranza = " + _ZonaDeCobranza +
                "\nC?digo del Vendedor = " + _CodigoVendedor +
-               "\nNombre Vendedor = " + _NombreVendedor +
+               //"\nNombre Vendedor = " + _NombreVendedor +
                "\nRazon Inactividad = " + _RazonInactividad +
                "\nEmail = " + _Email +
                "\nActivar Aviso Al Escoger = " + _ActivarAvisoAlEscoger +

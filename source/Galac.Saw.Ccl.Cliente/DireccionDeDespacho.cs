@@ -8,7 +8,7 @@ using LibGalac.Aos.Base;
 
 namespace Galac.Saw.Ccl.Cliente {
     [Serializable]
-    public class DireccionDeDespacho: IEquatable<DireccionDeDespacho>, INotifyPropertyChanged {
+    public class DireccionDeDespacho: IEquatable<DireccionDeDespacho>, INotifyPropertyChanged, ICloneable{
         #region Variables
         private int _ConsecutivoCompania;
         private string _CodigoCliente;
@@ -85,7 +85,8 @@ namespace Galac.Saw.Ccl.Cliente {
             ZonaPostal = string.Empty;
         }
 
-        public DireccionDeDespacho Clone() {
+        //Tipo de retorno original: DireccionDeDespacho, modificado a object, Cristian
+        public object Clone() {
             DireccionDeDespacho vResult = new DireccionDeDespacho();
             vResult.ConsecutivoCompania = _ConsecutivoCompania;
             vResult.CodigoCliente = _CodigoCliente;

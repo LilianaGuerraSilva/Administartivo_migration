@@ -10,6 +10,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -28,146 +29,255 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Name="lblCodigo" Content="Código" Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSTextBoxWpf Grid.Row="0" Grid.Column="1" Name="txtCodigo" nsWpf:LibFocusManager.IsFocused="True" nsWpf:LibFocusManager.FocusedPropertyName="Codigo" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="10" Width="120" IsEnabled="{Binding Path=IsEnabled}"
                                     Text="{Binding Path=Codigo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
         <Label Grid.Row="1" Grid.Column="0" Name="lblNombre" Content="Nombre" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="1" Name="txtNombre" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="80" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+        <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="1" Name="txtNombre" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="220" Width="120" Height="45" VerticalScrollBarVisibility="Auto" IsReadOnly="{Binding Path=IsReadOnly}"
                                     Text="{Binding Path=Nombre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="2" Grid.Column="0" Name="lblNumeroRIF" Content="N° R.I.F." Style="{StaticResource LabelPrompt}" />
+        <Label Grid.Row="2" Grid.Column="0" Name="lblNumeroRIF" Content="Nº R.I.F." Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSTextBoxWpf Grid.Row="2" Grid.Column="1" Name="txtNumeroRIF" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="20" Width="120" IsEnabled="{Binding Path=IsEnabled}"
                                     Text="{Binding Path=NumeroRIF, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="3" Grid.Column="0" Name="lblNumeroNIT" Content="N° N.I.T." Style="{StaticResource LabelPrompt}" />
+        <Label Grid.Row="3" Grid.Column="0" Name="lblNumeroNIT" Content="Nº N.I.T." Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSTextBoxWpf Grid.Row="3" Grid.Column="1" Name="txtNumeroNIT" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="12" Width="120" IsEnabled="{Binding Path=IsEnabled}"
                                     Text="{Binding Path=NumeroNIT, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="4" Grid.Column="0" Name="lblDireccion" Content="Dirección" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextAreaWpf Grid.Row="4" Grid.Column="1" Name="txtDireccion" Style="{StaticResource TextBoxInputStyle}" MaxLength="255" Width="120" Height="100" VerticalScrollBarVisibility="Auto" IsReadOnly="{Binding Path=IsReadOnly}"
-                                    Text="{Binding Path=Direccion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="5" Grid.Column="0" Name="lblCiudad" Content="Ciudad" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection Grid.Row="5" Grid.Column="1" Name="txtCiudad" Height="23" Margin="3" HorizontalAlignment="Left" Width="300" IsEnabled="{Binding Path=IsEnabled}"
-                                        DisplayMemberPath="NombreCiudad"
-                                        Model="{Binding Path=ConexionCiudad, Mode=TwoWay}"
-                                        ConnectionValue="{Binding Path=Ciudad, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                                        SearchCommand="{Binding Path=ChooseCiudadCommand}" />
-        <Label Grid.Row="6" Grid.Column="0" Name="lblZonaPostal" Content="Zona Postal" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf Grid.Row="6" Grid.Column="1" Name="txtZonaPostal" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="7" Width="120" IsEnabled="{Binding Path=IsEnabled}"
-                                    Text="{Binding Path=ZonaPostal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="7" Grid.Column="0" Name="lblTelefono" Content="Teléfonos" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf Grid.Row="7" Grid.Column="1" Name="txtTelefono" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="40" Width="120" IsEnabled="{Binding Path=IsEnabled}"
-                                    Text="{Binding Path=Telefono, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="8" Grid.Column="0" Name="lblFAX" Content="Nº Fax" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf Grid.Row="8" Grid.Column="1" Name="txtFAX" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="25" Width="120" IsEnabled="{Binding Path=IsEnabled}"
-                                    Text="{Binding Path=FAX, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="9" Grid.Column="0" Name="lblStatus" Content="Status" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf Grid.Row="9" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbStatus" Width="120"
+        <Label Grid.Row="4" Grid.Column="0" Name="lblStatus" Content="Status" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf Grid.Row="4" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbStatus" Width="120"
                 IsSynchronizedWithCurrentItem="True"
                 ItemsSource="{Binding Path=ArrayStatusCliente}"
                 SelectedItem="{Binding Path=Status, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                 IsEnabled="{Binding Path=IsEnabled}" />
-        <Label Grid.Row="10" Grid.Column="0" Name="lblContacto" Content="Contacto" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf Grid.Row="10" Grid.Column="1" Name="txtContacto" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="35" Width="120" IsEnabled="{Binding Path=IsEnabled}"
-                                    Text="{Binding Path=Contacto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="11" Grid.Column="0" Name="lblZonaDeCobranza" Content="Zona De Cobranza" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection Grid.Row="11" Grid.Column="1" Name="txtZonaDeCobranza" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
-                                        DisplayMemberPath="nombre"
-                                        Model="{Binding Path=ConexionZonaDeCobranza, Mode=TwoWay}"
-                                        ConnectionValue="{Binding Path=ZonaDeCobranza, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                                        SearchCommand="{Binding Path=ChooseZonaDeCobranzaCommand}" />
-        <Label Grid.Row="12" Grid.Column="0" Name="lblCodigoVendedor" Content="Código del Vendedor" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection Grid.Row="12" Grid.Column="1" Name="txtCodigoVendedor" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
-                                        DisplayMemberPath="codigo"
-                                        Model="{Binding Path=ConexionCodigoVendedor, Mode=TwoWay}"
-                                        ConnectionValue="{Binding Path=CodigoVendedor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                                        SearchCommand="{Binding Path=ChooseCodigoVendedorCommand}" />
-        <Label Grid.Row="13" Grid.Column="0" Name="lblRazonInactividad" Content="Razon Inactividad" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf Grid.Row="13" Grid.Column="1" Name="txtRazonInactividad" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="35" Width="120" IsEnabled="{Binding Path=IsEnabled}"
-                                    Text="{Binding Path=RazonInactividad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="14" Grid.Column="0" Name="lblEmail" Content="Email" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf Grid.Row="14" Grid.Column="1" Name="txtEmail" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="100" Width="120" IsEnabled="{Binding Path=IsEnabled}"
-                                    Text="{Binding Path=Email, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="0" Grid.Column="2" Name="lblActivarAvisoAlEscoger" Content="Activar Aviso Al Escoger" Style="{StaticResource LabelPrompt}" />
-        <CheckBox Grid.Row="0" Grid.Column="3" Name="chkActivarAvisoAlEscoger" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=ActivarAvisoAlEscoger}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
-        <Label Grid.Row="1" Grid.Column="2" Name="lblTextoDelAviso" Content="Texto Del Aviso" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="3" Name="txtTextoDelAviso" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="150" Width="120" Height="45" VerticalScrollBarVisibility="Auto" IsReadOnly="{Binding Path=IsReadOnly}"
-                                    Text="{Binding Path=TextoDelAviso, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="2" Grid.Column="2" Name="lblCuentaContableCxC" Content="Cuenta Contable Cx C" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection Grid.Row="2" Grid.Column="3" Name="txtCuentaContableCxC" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
-                                        DisplayMemberPath="codigo"
-                                        Model="{Binding Path=ConexionCuentaContableCxC, Mode=TwoWay}"
-                                        ConnectionValue="{Binding Path=CuentaContableCxC, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                                        SearchCommand="{Binding Path=ChooseCuentaContableCxCCommand}" />
-        <Label Grid.Row="3" Grid.Column="2" Name="lblCuentaContableIngresos" Content="Cuenta Contable Ingresos" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection Grid.Row="3" Grid.Column="3" Name="txtCuentaContableIngresos" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
-                                        DisplayMemberPath="codigo"
-                                        Model="{Binding Path=ConexionCuentaContableIngresos, Mode=TwoWay}"
-                                        ConnectionValue="{Binding Path=CuentaContableIngresos, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                                        SearchCommand="{Binding Path=ChooseCuentaContableIngresosCommand}" />
-        <Label Grid.Row="4" Grid.Column="2" Name="lblCuentaContableAnticipo" Content="Cuenta Contable Anticipo" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection Grid.Row="4" Grid.Column="3" Name="txtCuentaContableAnticipo" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
-                                        DisplayMemberPath="codigo"
-                                        Model="{Binding Path=ConexionCuentaContableAnticipo, Mode=TwoWay}"
-                                        ConnectionValue="{Binding Path=CuentaContableAnticipo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                                        SearchCommand="{Binding Path=ChooseCuentaContableAnticipoCommand}" />
-        <Label Grid.Row="5" Grid.Column="2" Name="lblInfoGalac" Content="Info Galac" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf Grid.Row="5" Grid.Column="3" Name="txtInfoGalac" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="1" Width="120" IsEnabled="{Binding Path=IsEnabled}"
-                                    Text="{Binding Path=InfoGalac, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="6" Grid.Column="2" Name="lblSectorDeNegocio" Content="Sector De Negocio" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection Grid.Row="6" Grid.Column="3" Name="txtSectorDeNegocio" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
-                                        DisplayMemberPath="Descripcion"
-                                        Model="{Binding Path=ConexionSectorDeNegocio, Mode=TwoWay}"
-                                        ConnectionValue="{Binding Path=SectorDeNegocio, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                                        SearchCommand="{Binding Path=ChooseSectorDeNegocioCommand}" />
-        <Label Grid.Row="7" Grid.Column="2" Name="lblCodigoLote" Content="Codigo Lote" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf Grid.Row="7" Grid.Column="3" Name="txtCodigoLote" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="10" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+        <Label Grid.Row="5" Grid.Column="0" Name="lblInfoGalac" Content="Info Galac" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf Grid.Row="5" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbInfoGalac" Width="120"
+                IsSynchronizedWithCurrentItem="True"
+                ItemsSource="{Binding Path=ArrayInfoGalacModoEnvio}"
+                SelectedItem="{Binding Path=InfoGalac, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding Path=IsEnabled}" />
+        <Label Grid.Row="6" Grid.Column="0" Name="lblCodigoLote" Content="Codigo Lote" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf Grid.Row="6" Grid.Column="1" Name="txtCodigoLote" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="10" Width="120" IsEnabled="{Binding Path=IsEnabled}"
                                     Text="{Binding Path=CodigoLote, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="8" Grid.Column="2" Name="lblNivelDePrecio" Content="Nivel De Precio" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf Grid.Row="8" Grid.Column="3" Style="{StaticResource ComboBoxStyle}" Name="cmbNivelDePrecio" Width="120"
-                IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding Path=ArrayNivelDePrecio}"
-                SelectedItem="{Binding Path=NivelDePrecio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding Path=IsEnabled}" />
-        <Label Grid.Row="9" Grid.Column="2" Name="lblOrigen" Content="Origen" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf Grid.Row="9" Grid.Column="3" Style="{StaticResource ComboBoxStyle}" Name="cmbOrigen" Width="120"
-                IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding Path=ArrayOrigenFacturacionOManual}"
-                SelectedItem="{Binding Path=Origen, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding Path=IsEnabled}" />
-        <Label Grid.Row="10" Grid.Column="2" Name="lblDiaCumpleanos" Content="Dia Cumpleanos" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSNumericBoxWpf Grid.Row="10" Grid.Column="3" Name="txtDiaCumpleanos" Style="{StaticResource TextBoxInputStyle}" InputDataType="UInteger" MaxLength="11" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+        <Label Grid.Row="7" Grid.Column="0" Name="lblDiaCumpleanos" Content="Dia Cumpleanos" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSNumericBoxWpf Grid.Row="7" Grid.Column="1" Name="txtDiaCumpleanos" Style="{StaticResource TextBoxInputStyle}" InputDataType="UInteger" MaxLength="11" Width="120" IsEnabled="{Binding Path=IsEnabled}"
                                     Value="{Binding Path=DiaCumpleanos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="11" Grid.Column="2" Name="lblMesCumpleanos" Content="Mes Cumpleanos" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSNumericBoxWpf Grid.Row="11" Grid.Column="3" Name="txtMesCumpleanos" Style="{StaticResource TextBoxInputStyle}" InputDataType="UInteger" MaxLength="11" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+        <Label Grid.Row="0" Grid.Column="2" Name="lblMesCumpleanos" Content="Mes Cumpleanos" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSNumericBoxWpf Grid.Row="0" Grid.Column="3" Name="txtMesCumpleanos" Style="{StaticResource TextBoxInputStyle}" InputDataType="UInteger" MaxLength="11" Width="120" IsEnabled="{Binding Path=IsEnabled}"
                                     Value="{Binding Path=MesCumpleanos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="12" Grid.Column="2" Name="lblCorrespondenciaXEnviar" Content="Correspondencia XEnviar" Style="{StaticResource LabelPrompt}" />
-        <CheckBox Grid.Row="12" Grid.Column="3" Name="chkCorrespondenciaXEnviar" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=CorrespondenciaXEnviar}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
-        <Label Grid.Row="13" Grid.Column="2" Name="lblEsExtranjero" Content="Es Extranjero" Style="{StaticResource LabelPrompt}" />
-        <CheckBox Grid.Row="13" Grid.Column="3" Name="chkEsExtranjero" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=EsExtranjero}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
-        <Label Grid.Row="14" Grid.Column="2" Name="lblClienteDesdeFecha" Content="Cliente Desde" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSDatePickerWpf Grid.Row="14" Grid.Column="3" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpClienteDesdeFecha"
+        <Label Grid.Row="1" Grid.Column="2" Name="lblCorrespondenciaXEnviar" Content="Correspondencia XEnviar" Style="{StaticResource LabelPrompt}" />
+        <CheckBox Grid.Row="1" Grid.Column="3" Name="chkCorrespondenciaXEnviar" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=CorrespondenciaXEnviar}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+        <Label Grid.Row="2" Grid.Column="2" Name="lblEsExtranjero" Content="Es Extranjero" Style="{StaticResource LabelPrompt}" />
+        <CheckBox Grid.Row="2" Grid.Column="3" Name="chkEsExtranjero" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=EsExtranjero}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+        <Label Grid.Row="3" Grid.Column="2" Name="lblClienteDesdeFecha" Content="Cliente Desde" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf Grid.Row="3" Grid.Column="3" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpClienteDesdeFecha"
                                        SelectedDate="{Binding Path=ClienteDesdeFecha, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsEnabled}"/>
-        <Label Grid.Row="0" Grid.Column="4" Name="lblAQueSeDedicaElCliente" Content="A Que Se Dedica El Cliente" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf Grid.Row="0" Grid.Column="5" Name="txtAQueSeDedicaElCliente" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="100" Width="120" Height="45" VerticalScrollBarVisibility="Auto" IsReadOnly="{Binding Path=IsReadOnly}"
+        <Label Grid.Row="4" Grid.Column="2" Name="lblAQueSeDedicaElCliente" Content="A Que Se Dedica El Cliente" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf Grid.Row="4" Grid.Column="3" Name="txtAQueSeDedicaElCliente" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="100" Width="120" Height="45" VerticalScrollBarVisibility="Auto" IsReadOnly="{Binding Path=IsReadOnly}"
                                     Text="{Binding Path=AQueSeDedicaElCliente, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="1" Grid.Column="4" Name="lblTipoDocumentoIdentificacion" Content="Tipo Documento Identificacion" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf Grid.Row="1" Grid.Column="5" Style="{StaticResource ComboBoxStyle}" Name="cmbTipoDocumentoIdentificacion" Width="120"
+        <Label Grid.Row="5" Grid.Column="2" Name="lblTipoDocumentoIdentificacion" Content="Tipo Documento Identificacion" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf Grid.Row="5" Grid.Column="3" Style="{StaticResource ComboBoxStyle}" Name="cmbTipoDocumentoIdentificacion" Width="120"
                 IsSynchronizedWithCurrentItem="True"
                 ItemsSource="{Binding Path=ArrayTipoDocumentoIdentificacion}"
                 SelectedItem="{Binding Path=TipoDocumentoIdentificacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                 IsEnabled="{Binding Path=IsEnabled}" />
-        <Label Grid.Row="2" Grid.Column="4" Name="lblTipoDeContribuyente" Content="Tipo De Contribuyente" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf Grid.Row="2" Grid.Column="5" Style="{StaticResource ComboBoxStyle}" Name="cmbTipoDeContribuyente" Width="120"
+        <Label Grid.Row="6" Grid.Column="2" Name="lblTipoDeContribuyente" Content="Tipo De Contribuyente" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf Grid.Row="6" Grid.Column="3" Style="{StaticResource ComboBoxStyle}" Name="cmbTipoDeContribuyente" Width="120"
                 IsSynchronizedWithCurrentItem="True"
                 ItemsSource="{Binding Path=ArrayTipoDeContribuyente}"
                 SelectedItem="{Binding Path=TipoDeContribuyente, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                 IsEnabled="{Binding Path=IsEnabled}" />
+        <Label Grid.Row="7" Grid.Column="2" Name="lblCampoDefinible1" Content="Campo Definible 1" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf Grid.Row="7" Grid.Column="3" Name="txtCampoDefinible1" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="60" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                    Text="{Binding Path=CampoDefinible1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+        <ScrollViewer Grid.Row="7" Grid.ColumnSpan="6" VerticalScrollBarVisibility="Auto" Margin="3" Height="200">
+        <TabControl Grid.Row="7" Grid.Column ="0" Grid.ColumnSpan="6" Margin="3" Name="tbcCliente">
+            <TabItem Header="Datos Generales" Name="tbiSeccionGenerales">
+                <Grid Name="gtSeccionGenerales">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Name="lblContacto" Content="Contacto" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf Grid.Row="0" Grid.Column="1" Name="txtContacto" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="35" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                    Text="{Binding Path=Contacto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+        <Label Grid.Row="1" Grid.Column="0" Name="lblTelefono" Content="Teléfonos" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="1" Name="txtTelefono" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="40" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                    Text="{Binding Path=Telefono, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+        <Label Grid.Row="2" Grid.Column="0" Name="lblFAX" Content="Nº Fax" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf Grid.Row="2" Grid.Column="1" Name="txtFAX" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="25" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                    Text="{Binding Path=FAX, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+        <Label Grid.Row="3" Grid.Column="0" Name="lblEmail" Content="e-mail" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf Grid.Row="3" Grid.Column="1" Name="txtEmail" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="100" Width="120" Height="45" VerticalScrollBarVisibility="Auto" IsReadOnly="{Binding Path=IsReadOnly}"
+                                    Text="{Binding Path=Email, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+        <Label Grid.Row="4" Grid.Column="0" Name="lblZonaDeCobranza" Content="Zona de Cobranza" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection Grid.Row="4" Grid.Column="1" Name="txtZonaDeCobranza" Height="23" Margin="3" HorizontalAlignment="Left" Width="300" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="Nombre"
+                                        Model="{Binding Path=ConexionZonaDeCobranza, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=ZonaDeCobranza, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseZonaDeCobranzaCommand}" />
+        <Label Grid.Row="5" Grid.Column="0" Name="lblSectorDeNegocio" Content="Sector De Negocio" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection Grid.Row="5" Grid.Column="1" Name="txtSectorDeNegocio" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="Descripcion"
+                                        Model="{Binding Path=ConexionSectorDeNegocio, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=SectorDeNegocio, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseSectorDeNegocioCommand}" />
+        <Label Grid.Row="6" Grid.Column="0" Name="lblNivelDePrecio" Content="Nivel de Precio para el Cliente" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf Grid.Row="6" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbNivelDePrecio" Width="120"
+                IsSynchronizedWithCurrentItem="True"
+                ItemsSource="{Binding Path=ArrayNivelDePrecio}"
+                SelectedItem="{Binding Path=NivelDePrecio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding Path=IsEnabled}" />
+        <Label Grid.Row="7" Grid.Column="0" Name="lblDireccion" Content="Dirección" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextAreaWpf Grid.Row="7" Grid.Column="1" Name="txtDireccion" Style="{StaticResource TextBoxInputStyle}" MaxLength="255" Width="120" Height="100" VerticalScrollBarVisibility="Auto" IsReadOnly="{Binding Path=IsReadOnly}"
+                                    Text="{Binding Path=Direccion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+        <Label Grid.Row="0" Grid.Column="2" Name="lblCiudad" Content="Ciudad" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection Grid.Row="0" Grid.Column="3" Name="txtCiudad" Height="23" Margin="3" HorizontalAlignment="Left" Width="300" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="NombreCiudad"
+                                        Model="{Binding Path=ConexionCiudad, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=Ciudad, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseCiudadCommand}" />
+        <Label Grid.Row="1" Grid.Column="2" Name="lblZonaPostal" Content="Zona Postal" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="3" Name="txtZonaPostal" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="7" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                    Text="{Binding Path=ZonaPostal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+        <Label Grid.Row="2" Grid.Column="2" Name="lblCodigoVendedor" Content="Código del Vendedor" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection Grid.Row="2" Grid.Column="3" Name="txtCodigoVendedor" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="Codigo"
+                                        Model="{Binding Path=ConexionCodigoVendedor, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=CodigoVendedor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseCodigoVendedorCommand}" />
+        <Label Grid.Row="3" Grid.Column="2" Name="lblNombreVendedor" Content="Nombre Vendedor" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection Grid.Row="3" Grid.Column="3" Name="txtNombreVendedor" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="Nombre"
+                                        Model="{Binding Path=ConexionNombreVendedor, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=NombreVendedor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseNombreVendedorCommand}" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Advertencias" Name="tbiSeccionAdvertencias">
+                <Grid Name="gtSeccionAdvertencias">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Name="lblRazonInactividad" Content="Razón de la restricción o la inactividad" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf Grid.Row="0" Grid.Column="1" Name="txtRazonInactividad" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="35" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                    Text="{Binding Path=RazonInactividad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+        <Label Grid.Row="1" Grid.Column="0" Name="lblActivarAvisoAlEscoger" Content="Activar el aviso al escoger" Style="{StaticResource LabelPrompt}" />
+        <CheckBox Grid.Row="1" Grid.Column="1" Name="chkActivarAvisoAlEscoger" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=ActivarAvisoAlEscoger}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+        <Label Grid.Row="2" Grid.Column="0" Name="lblTextoDelAviso" Content="Texto del aviso" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf Grid.Row="2" Grid.Column="1" Name="txtTextoDelAviso" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="150" Width="120" Height="45" VerticalScrollBarVisibility="Auto" IsReadOnly="{Binding Path=IsReadOnly}"
+                                    Text="{Binding Path=TextoDelAviso, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Dir. de Despacho" Name="tbiSeccionDirDespacho">
+                <Grid Name="gtSeccionDirDespacho">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <ContentControl x:Name="dDireccionDeDespacho" Grid.Row="0" Grid.Column="0" Content="{Binding Path=DetailDireccionDeDespacho.SelectedItem}" Focusable="False"/>
+                    <Border Height="25" Grid.Row="1" Background="Transparent" BorderBrush="LightGray" BorderThickness="0,0,0,1">
+                        <StackPanel Orientation="Horizontal">
+                            <Button nsWpf:LibKeyboardListener.FocusTarget="{Binding ElementName=dDireccionDeDespacho}" Command="{Binding Path=DetailDireccionDeDespacho.CreateCommand}" ToolTip="Nuevo" Style="{StaticResource MenuButtonStyle}" IsEnabled="{Binding Path=IsEnabled}" >
+                                <Image Source="/LibGalac.Aos.UI.WpfRD;component/Images/add.png" Focusable="False" />
+                            </Button>
+                            <Button Command="{Binding Path=DetailDireccionDeDespacho.DeleteCommand}" ToolTip="Eliminar" Style="{StaticResource MenuButtonStyle}" IsEnabled="{Binding Path=IsEnabled}" >
+                                <Image Source="/LibGalac.Aos.UI.WpfRD;component/Images/delete.png" Focusable="False" />
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                    <nsWpfControls:GSDataGrid Grid.Row="2" Style="{StaticResource GSDataGridStyle}" MinHeight="200" MinWidth="250"
+                                              KeyboardNavigation.IsTabStop="False"
+                                              IsSynchronizedWithCurrentItem="True"
+                                              Focusable="False"
+                                              IsReadOnly="True"
+                                              ItemsSource="{Binding Path=DetailDireccionDeDespacho.Items}"
+                                              SelectedItem="{Binding Path=DetailDireccionDeDespacho.SelectedItem, Mode=OneWayToSource}"
+                                              ColumnsMap="{Binding Path=DetailDireccionDeDespacho.VisibleColumns}">
+                    </nsWpfControls:GSDataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Reglas de Contabilización" Name="tbiSeccionReglasContables">
+                <Grid Name="gtSeccionReglasContables">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Name="lblCuentaContableCxC" Content="CxC Cliente" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection Grid.Row="0" Grid.Column="1" Name="txtCuentaContableCxC" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="Codigo"
+                                        Model="{Binding Path=ConexionCuentaContableCxC, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=CuentaContableCxC, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseCuentaContableCxCCommand}" />
+        <Label Grid.Row="1" Grid.Column="0" Name="lblDescripcionCuentaContableCxC" Content="Descripcion Cuenta Contable Cx C" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection Grid.Row="1" Grid.Column="1" Name="txtDescripcionCuentaContableCxC" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="Descripcion"
+                                        Model="{Binding Path=ConexionDescripcionCuentaContableCxC, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=DescripcionCuentaContableCxC, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseDescripcionCuentaContableCxCCommand}" />
+        <Label Grid.Row="2" Grid.Column="0" Name="lblCuentaContableIngresos" Content="Ingresos" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection Grid.Row="2" Grid.Column="1" Name="txtCuentaContableIngresos" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="Codigo"
+                                        Model="{Binding Path=ConexionCuentaContableIngresos, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=CuentaContableIngresos, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseCuentaContableIngresosCommand}" />
+        <Label Grid.Row="3" Grid.Column="0" Name="lblDescripcionCuentaContableIngresos" Content="Descripcion Cuenta Contable Ingresos" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection Grid.Row="3" Grid.Column="1" Name="txtDescripcionCuentaContableIngresos" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="Descripcion"
+                                        Model="{Binding Path=ConexionDescripcionCuentaContableIngresos, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=DescripcionCuentaContableIngresos, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseDescripcionCuentaContableIngresosCommand}" />
+        <Label Grid.Row="4" Grid.Column="0" Name="lblCuentaContableAnticipo" Content="Anticipos" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection Grid.Row="4" Grid.Column="1" Name="txtCuentaContableAnticipo" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="Codigo"
+                                        Model="{Binding Path=ConexionCuentaContableAnticipo, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=CuentaContableAnticipo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseCuentaContableAnticipoCommand}" />
+        <Label Grid.Row="5" Grid.Column="0" Name="lblDescripcionCuentaContableAnticipo" Content="Descripcion Cuenta Contable Anticipo" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection Grid.Row="5" Grid.Column="1" Name="txtDescripcionCuentaContableAnticipo" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="Descripcion"
+                                        Model="{Binding Path=ConexionDescripcionCuentaContableAnticipo, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=DescripcionCuentaContableAnticipo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseDescripcionCuentaContableAnticipoCommand}" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>

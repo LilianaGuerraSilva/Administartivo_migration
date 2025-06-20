@@ -59,7 +59,7 @@ namespace Galac.Saw.Brl.Cliente {
             bool vResult = false;
             ILibPdn vPdnModule;
             switch (valModule) {
-                case "Cliente":
+                case "Cliente":                      
                     vResult = ((ILibPdn)this).GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
                     break;
                 case "Zona Cobranza":
@@ -174,9 +174,9 @@ namespace Galac.Saw.Brl.Cliente {
                                       }).Distinct();
 
             foreach (Entity.Cliente vItem in refData) {
-                vItem.NombreVendedor = vInfoConexionVendedor.Descendants("GpResult")
-                    .Where(p => p.Element("Codigo").Value == vItem.CodigoVendedor)
-                    .Select(p => p.Element("Nombre").Value).FirstOrDefault();
+                //vItem.NombreVendedor = vInfoConexionVendedor.Descendants("GpResult")
+                    //.Where(p => p.Element("Codigo").Value == vItem.CodigoVendedor)
+                    //.Select(p => p.Element("Nombre").Value).FirstOrDefault();
                 vItem.DescripcionCuentaContableCxC = vInfoConexionCuenta.Descendants("GpResult")
                     .Where(p => p.Element("Codigo").Value == vItem.CuentaContableCxC)
                     .Select(p => p.Element("Descripcion").Value).FirstOrDefault();
@@ -225,7 +225,6 @@ namespace Galac.Saw.Brl.Cliente {
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInXml("XmlData", valXElement);
             vResult = vParams.Get();
             return vResult;
         }
@@ -271,7 +270,6 @@ namespace Galac.Saw.Brl.Cliente {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
-            vParams.AddInXml("XmlData", valXElement);
             vResult = vParams.Get();
             return vResult;
         }
@@ -297,7 +295,6 @@ namespace Galac.Saw.Brl.Cliente {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
-            vParams.AddInXml("XmlData", valXElement);
             vResult = vParams.Get();
             return vResult;
         }
@@ -315,7 +312,7 @@ namespace Galac.Saw.Brl.Cliente {
         private XElement FilterClienteByDistinctVendedor(Entity.Cliente valMaster) {
             XElement vXElement = new XElement("GpData",
                 new XElement("GpResult",
-                    new XElement("CodigoVendedor", valMaster.CodigoVendedor)));
+                    new XElement("Consecutivo", valMaster.ConsecutivoVendedor)));
             return vXElement;
         }
 
@@ -508,7 +505,7 @@ namespace Galac.Saw.Brl.Cliente {
                                           ZonaPostal = vRecord.Element("ZonaPostal").Value, 
                                           CodigoVendedor = vRecord.Element("CodigoVendedor").Value, 
                                           ConsecutivoVendedor = LibConvert.ToInt(vRecord.Element("ConsecutivoVendedor")), 
-                                          NombreVendedor = vRecord.Element("NombreVendedor").Value, 
+                                         // NombreVendedor = vRecord.Element("NombreVendedor").Value, 
                                           SeccionAdvertencias = vRecord.Element("SeccionAdvertencias").Value, 
                                           RazonInactividad = vRecord.Element("RazonInactividad").Value, 
                                           ActivarAvisoAlEscoger = vRecord.Element("ActivarAvisoAlEscoger").Value, 

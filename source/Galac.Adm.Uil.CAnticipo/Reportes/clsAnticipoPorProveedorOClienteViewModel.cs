@@ -311,8 +311,8 @@ namespace Galac.Adm.Uil.CAnticipo.Reportes {
                     LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Gv_Cliente_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                     ConexionCodigoCliente = ChooseRecord<FkClienteViewModel>("Cliente", vDefaultCriteria, vFixedCriteria, string.Empty);
                     if (ConexionCodigoCliente != null) {
-                        CodigoClienteProveedor = ConexionCodigoCliente.Codigo;
-                        NombreClientProveedor = ConexionCodigoCliente.Nombre;
+                        //CodigoClienteProveedor = ConexionCodigoCliente.Codigo;
+                        //NombreClientProveedor = ConexionCodigoCliente.Nombre;
                     } else {
                         CodigoClienteProveedor = string.Empty;
                         NombreClientProveedor = string.Empty;

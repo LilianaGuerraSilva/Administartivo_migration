@@ -14,21 +14,18 @@ using System.Windows.Shapes;
 
 namespace Galac.Saw.Uil.Cliente.Views {
     /// <summary>
-    /// Interaction logic for GSClienteView.xaml
+    /// Interaction logic for GSDireccionDeDespachoView.xaml
     /// </summary>
-    public partial class GSClienteView: UserControl {
+    public partial class GSDireccionDeDespachoView: UserControl {
         #region Constructores
 
-        public GSClienteView() {
+        public GSDireccionDeDespachoView() {
             InitializeComponent();
         }
-
         #endregion //Constructores
 
-        private void cmbTipoDocumentoIdentificacion_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 
-        }
-    } //End of class GSClienteView.xaml
+    } //End of class GSDireccionDeDespachoView.xaml
 
 } //End of namespace Galac.Saw.Uil.Cliente
 

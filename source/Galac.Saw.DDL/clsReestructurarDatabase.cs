@@ -132,7 +132,7 @@ namespace Galac.Saw.DDL {
             vResult = vResult && new Galac.Comun.Dal.TablasGen.clsMunicipioED().InstalarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.TablasGen.clsMunicipioCiudadED().InstalarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.TablasGen.clsMonedaED().InstalarVistasYSps();
-            vResult = vResult && new Galac.Comun.Dal.TablasLey.clsValorUTED().InstalarVistasYSps();
+           // vResult = vResult && new Galac.Comun.Dal.TablasLey.clsValorUTED().InstalarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Banco.clsCuentaBancariaED().InstalarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.Impuesto.clsClasificadorActividadEconomicaED().InstalarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.Impuesto.clsFormatosImpMunicipalesED().InstalarVistasYSps();

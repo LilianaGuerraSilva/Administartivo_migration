@@ -375,7 +375,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 string vSql = SqlDatosDeCliente(ref vParam);
                 XElement vResult = LibBusiness.ExecuteSelect(vSql, vParam, "", 0);
                 if (vResult != null && vResult.HasElements) {
-                    ClienteImprentaDigital = new Cliente();
+                    ClienteImprentaDigital = new Entity.Cliente();
                     ClienteImprentaDigital.Codigo = LibXml.GetPropertyString(vResult, "Codigo");
                     ClienteImprentaDigital.Nombre = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Nombre"));
                     ClienteImprentaDigital.NumeroRIF = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroRif"));

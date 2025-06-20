@@ -128,9 +128,17 @@
       <Project>{ea2d5a75-1c0e-4817-955f-538da6e18889}</Project>
       <Name>Galac.Adm.Uil.GestionCompras</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Cliente\Galac.Saw.Brl.Cliente.csproj">
+      <Project>{78d48369-e4e8-4c92-8f1d-ce3369911509}</Project>
+      <Name>Galac.Saw.Brl.Cliente</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
       <Project>{f145674a-e0b8-4ba2-90e7-fbf8ad5ad186}</Project>
       <Name>Galac.Saw.Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.Cliente\Galac.Saw.Uil.Cliente.csproj">
+      <Project>{6adab614-4a1c-45df-9fd2-174416742b76}</Project>
+      <Name>Galac.Saw.Uil.Cliente</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

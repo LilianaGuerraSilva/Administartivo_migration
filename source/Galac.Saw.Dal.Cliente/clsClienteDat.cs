@@ -58,7 +58,7 @@ namespace Galac.Saw.Dal.Cliente {
             vParams.AddInString("ZonaDeCobranza", valRecord.ZonaDeCobranza, 100);
             vParams.AddInInteger("ConsecutivoVendedor", valRecord.ConsecutivoVendedor);
             vParams.AddInString("CodigoVendedor", valRecord.CodigoVendedor, 5);
-            vParams.AddInString("NombreVendedor", valRecord.NombreVendedor, 35);
+            //vParams.AddInString("NombreVendedor", valRecord.NombreVendedor, 35);
             vParams.AddInString("RazonInactividad", valRecord.RazonInactividad, 35);
             vParams.AddInString("Email", valRecord.Email, 100);
             vParams.AddInBoolean("ActivarAvisoAlEscoger", valRecord.ActivarAvisoAlEscogerAsBool);
@@ -328,7 +328,7 @@ namespace Galac.Saw.Dal.Cliente {
             switch (valType) {
                 case eProcessMessageType.Message:
                     if (valProcessMessage.Equals("ProximoCodigo")) {
-                        vResult = LibXml.ValueToXElement(insDb.NextStrConsecutive(DbSchema + ".Cliente", "Codigo", valParameters.ToString(), true, 10, true), "Codigo");
+                       vResult = LibXml.ValueToXElement(insDb.NextStrConsecutive("dbo.Cliente", "Codigo", valParameters, true, 10), "Codigo");
                     }
                     break;
                 case eProcessMessageType.SpName:
@@ -613,7 +613,7 @@ namespace Galac.Saw.Dal.Cliente {
                 vResult = false;
             } else {
                 LibDatabase insDb = new LibDatabase();
-                if (!insDb.ExistsValue("Comun.ZonaCobranza", "Nombre", insDb.InsSql.ToSqlValue(valZonaDeCobranza), true)) {
+                if (!insDb.ExistsValue("Saw.ZonaCobranza", "Nombre", insDb.InsSql.ToSqlValue(valZonaDeCobranza), true)) {
                     BuildValidationInfo("El valor asignado al campo Zona de Cobranza no existe, escoga nuevamente.");
                     vResult = false;
                 }
@@ -670,7 +670,7 @@ namespace Galac.Saw.Dal.Cliente {
                 vResult = false;
             } else {
                 LibDatabase insDb = new LibDatabase();
-                if (!insDb.ExistsValue("dbo.Vendedor", "Codigo", insDb.InsSql.ToSqlValue(valCodigoVendedor), true)) {
+                if (!insDb.ExistsValue("Adm.Vendedor", "Codigo", insDb.InsSql.ToSqlValue(valCodigoVendedor), true)) {
                     BuildValidationInfo("El valor asignado al campo C?digo del Vendedor no existe, escoga nuevamente.");
                     vResult = false;
                 }
@@ -765,7 +765,7 @@ namespace Galac.Saw.Dal.Cliente {
             vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
             vRecordBusqueda.Codigo = valCodigo;
             LibDatabase insDb = new LibDatabase(clsCkn.ConfigKeyForDbService);
-            vResult = insDb.ExistsRecord(DbSchema + ".Cliente", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
+            vResult = insDb.ExistsRecord("dbo.Cliente", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
         }
@@ -774,7 +774,7 @@ namespace Galac.Saw.Dal.Cliente {
             bool vResult = false;
             valRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
             LibDatabase insDb = new LibDatabase(clsCkn.ConfigKeyForDbService);
-            vResult = insDb.ExistsRecord(DbSchema + ".Cliente", "ConsecutivoCompania", ParametrosClave(valRecordBusqueda, false, false));
+            vResult = insDb.ExistsRecord("dbo.Cliente", "ConsecutivoCompania", ParametrosClave(valRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
         }

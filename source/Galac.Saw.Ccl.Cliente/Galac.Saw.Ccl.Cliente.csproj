@@ -60,6 +60,7 @@
     <Compile Include="IClienteInformes.cs" />
     <Compile Include="IClientePdn.cs" />
     <Compile Include="IFkClienteViewModel.cs" />
+    <Compile Include="IFkDireccionDeDespachoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

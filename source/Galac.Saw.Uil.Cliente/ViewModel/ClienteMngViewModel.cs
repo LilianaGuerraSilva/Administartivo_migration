@@ -19,18 +19,12 @@ using Entity = Galac.Saw.Ccl.Cliente;
 
 namespace Galac.Saw.Uil.Cliente.ViewModel {
 
-    public class ClienteMngViewModel : LibMngViewModelMfc<ClienteViewModel, Entity.Cliente> {
+    public class ClienteMngViewModel : LibMngMasterViewModelMfc<ClienteViewModel, Entity.Cliente> {
         #region Propiedades
 
         public override string ModuleName {
             get { return "Cliente"; }
         }
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-
-        public LibXmlMemInfo AppMemoryInfo { get; set; }
-        */
-        #endregion //Codigo Ejemplo
         #endregion //Propiedades
         #region Constructores
 
@@ -41,7 +35,6 @@ namespace Galac.Saw.Uil.Cliente.ViewModel {
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
             OrderByDirection = "DESC";
-            AppMemoryInfo = LibGlobalValues.Instance.GetAppMemInfo();
         */
         #endregion //Codigo Ejemplo
         }
@@ -60,7 +53,7 @@ namespace Galac.Saw.Uil.Cliente.ViewModel {
             return LibSearchCriteria.CreateCriteria("Gv_Cliente_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
         }
 
-        protected override ILibBusinessComponentWithSearch<IList<Entity.Cliente>, IList<Entity.Cliente>> GetBusinessComponent() {
+        protected override ILibBusinessMasterComponentWithSearch<IList<Entity.Cliente>, IList<Entity.Cliente>> GetBusinessComponent() {
             return new clsClienteNav();
         }
 
@@ -84,10 +77,81 @@ namespace Galac.Saw.Uil.Cliente.ViewModel {
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+        #region Codigo Ejemplo
+        /* Codigo de Ejemplo
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());
+        */
+        #endregion //Codigo Ejemplo
             }
         }
         #endregion //Metodos Generados
-       
+        #region Codigo Ejemplo
+        /* Codigo de Ejemplo
+        //para cambiar el mecanismo de activacion de los botones de operaciones CRUD, debes sobreescribirla y ajustarla las necesidades de tu negocio:
+
+        protected override bool CanExecuteCreateCommand() {
+            return CanCreate;
+        }
+
+        protected override bool CanExecuteUpdateCommand() {
+            return CanUpdate && CurrentItem != null;
+        }
+
+        protected override bool CanExecuteDeleteCommand() {
+            return CanDelete && CurrentItem != null;
+        }
+
+        protected override bool CanExecuteReadCommand() {
+            return CanRead && CurrentItem != null;
+        }
+        //para agregar una nueva accion en el Ribbon, debes agregar este conjunto de métodos (6 en total) y modificar las inicializaciones.
+        //Por favor recuerda autodocumentar, el codigo es de ejemplo para que te sirva de guía, no código final:
+
+        protected override void ExecuteCommandsRaiseCanExecuteChanged() {
+            base.ExecuteCommandsRaiseCanExecuteChanged();
+            SUPROCESOPARTICULARCommand.RaiseCanExecuteChanged();
+        }
+
+        ANYRELATEDViewModel CreateNewElementForSUPROCESOPARTICULAR(Cliente valModel, eAccionSR valAction) {
+            var vNewModel = valModel;
+            return new ANYRELATEDViewModel(vNewModel, valAction);
+        }
+
+        public RelayCommand SUPROCESOPARTICULARCommand {
+            get;
+            private set;
+        }
+
+        private LibRibbonGroupData CreateSUPROCESOPARTICULARRibbonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("SU PROCESO PARTICULAR");
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "LO QUE SE LEE EN EL RIBBON",
+                Command = SUPROCESOPARTICULARCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/edit.png", UriKind.Relative),
+                ToolTipDescription = "LO QUE SE LEE AL PASAR EL MOUSE SOBRE EL NUEVO BOTON.",
+                ToolTipTitle = "TITULO PARA EL TOOLTIP"
+            });
+            return vResult;
+        }
+
+        private bool CanExecuteSUPROCESOPARTICULARCommand() {
+            return CurrentItem != null
+                && LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Su nivel de permiso asociado");
+        }
+
+        private void ExecuteSUPROCESOPARTICULARCommand() {
+            try {
+                ANYRELATEDViewModel vViewModel = CreateNewElementForSUPROCESOPARTICULAR(CurrentItem.GetModel(), eAccionSR.Cerrar);
+                vViewModel.InitializeViewModel(eAccionSR.SUACCION);
+                LibMessages.EditViewModel.ShowEditor(vViewModel);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+            }
+        }
+        */
+        #endregion //Codigo Ejemplo
 
 
     } //End of class ClienteMngViewModel
