@@ -28,6 +28,18 @@ namespace Galac.Saw.Uil.Cliente.Views {
         private void cmbTipoDocumentoIdentificacion_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 
         }
+
+        private void tbcCliente_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+
+        }
+
+        private void tbcCliente_SelectionChanged_1(object sender, SelectionChangedEventArgs e) {
+
+        }
+
+        private void tbcCliente_SelectionChanged_2(object sender, SelectionChangedEventArgs e) {
+
+        }
     } //End of class GSClienteView.xaml
 
 } //End of namespace Galac.Saw.Uil.Cliente

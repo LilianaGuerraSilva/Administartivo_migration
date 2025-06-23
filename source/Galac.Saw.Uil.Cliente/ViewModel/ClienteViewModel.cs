@@ -410,7 +410,7 @@ namespace Galac.Saw.Uil.Cliente.ViewModel {
             }
         }
 
-        //[LibRequired(ErrorMessage = "El campo Descripcion Cuenta Contable Cx C es requerido.")]
+        [LibRequired(ErrorMessage = "El campo Descripcion Cuenta Contable Cx C es requerido.")]
         public string  DescripcionCuentaContableCxC {
             get {
                 return Model.DescripcionCuentaContableCxC;
@@ -443,7 +443,7 @@ namespace Galac.Saw.Uil.Cliente.ViewModel {
             }
         }
 
-        //[LibRequired(ErrorMessage = "El campo Descripcion Cuenta Contable Ingresos es requerido.")]
+        [LibRequired(ErrorMessage = "El campo Descripcion Cuenta Contable Ingresos es requerido.")]
         public string  DescripcionCuentaContableIngresos {
             get {
                 return Model.DescripcionCuentaContableIngresos;
@@ -476,7 +476,7 @@ namespace Galac.Saw.Uil.Cliente.ViewModel {
             }
         }
 
-        //[LibRequired(ErrorMessage = "El campo Descripcion Cuenta Contable Anticipo es requerido.")]
+        [LibRequired(ErrorMessage = "El campo Descripcion Cuenta Contable Anticipo es requerido.")]
         public string  DescripcionCuentaContableAnticipo {
             get {
                 return Model.DescripcionCuentaContableAnticipo;
