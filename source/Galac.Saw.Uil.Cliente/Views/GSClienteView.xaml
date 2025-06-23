@@ -123,7 +123,8 @@
         <nsWpfControls:GSTextBoxWpf Grid.Row="3" Grid.Column="1" Name="txtEmail" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="100" Width="120" Height="45" VerticalScrollBarVisibility="Auto" IsReadOnly="{Binding Path=IsReadOnly}"
                                     Text="{Binding Path=Email, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
         <Label Grid.Row="4" Grid.Column="0" Name="lblZonaDeCobranza" Content="Zona de Cobranza" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection Grid.Row="4" Grid.Column="1" Name="txtZonaDeCobranza" Height="23" Margin="3" HorizontalAlignment="Left" Width="300" IsEnabled="{Binding Path=IsEnabled}"
+        
+                    <nsWpfControls:GSSeekConnection Grid.Row="4" Grid.Column="1" Name="txtZonaDeCobranza" Height="23" Margin="3" HorizontalAlignment="Left" Width="300" IsEnabled="{Binding Path=IsEnabled}"
                                         DisplayMemberPath="Nombre"
                                         Model="{Binding Path=ConexionZonaDeCobranza, Mode=TwoWay}"
                                         ConnectionValue="{Binding Path=ZonaDeCobranza, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
