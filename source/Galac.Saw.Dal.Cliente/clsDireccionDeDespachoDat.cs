@@ -30,7 +30,7 @@ namespace Galac.Saw.Dal.Cliente {
         #region Constructores
 
         public clsDireccionDeDespachoDat() {
-            DbSchema = "Saw";
+            DbSchema = "dbo";
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -233,7 +233,7 @@ namespace Galac.Saw.Dal.Cliente {
             IList<DireccionDeDespacho> vDetail = null;
             foreach (Entity.Cliente vItemMaster in refMaster) {
                 vItemMaster.DetailDireccionDeDespacho = new ObservableCollection<DireccionDeDespacho>();
-                vDetail = new LibDatabase().LoadFromSp<DireccionDeDespacho>("Saw.Gp_DireccionDeDespachoSelDet", ParametrosDetail(vItemMaster), CmdTimeOut);
+                vDetail = new LibDatabase().LoadFromSp<DireccionDeDespacho>("dbo.Gp_DireccionDeDespachoSelDet", ParametrosDetail(vItemMaster), CmdTimeOut);
                 foreach (DireccionDeDespacho vItemDetail in vDetail) {
                     vItemMaster.DetailDireccionDeDespacho.Add(vItemDetail);
                 }

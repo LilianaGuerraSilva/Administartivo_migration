@@ -12,6 +12,7 @@ using Galac.Saw.Ccl.Cliente;
 using LibGalac.Aos.Base.Dal;
 using System.Xml.Linq;
 using Galac.Saw.Lib;
+using Galac.Contab.Ccl.WinCont;
 
 namespace Galac.Saw.Brl.Cliente {
     public partial class clsClienteNav : LibBaseNavMaster<IList<Entity.Cliente>, IList<Entity.Cliente>>, ILibPdn, IClientePdn, ILookupDataService {
@@ -88,7 +89,7 @@ namespace Galac.Saw.Brl.Cliente {
         }
 		protected override void FillWithForeignInfo(ref IList<Entity.Cliente> refData) {
             FillWithForeignInfoCliente(ref refData);
-            FillWithForeignInfoDireccionDeDespacho(ref refData);
+            //FillWithForeignInfoDireccionDeDespacho(ref refData);
         }
         #endregion Cliente
 
@@ -122,48 +123,12 @@ namespace Galac.Saw.Brl.Cliente {
             var vListVendedor = (from vRecord in vInfoConexionVendedor.Descendants("GpResult")
                                       select new {
                                           ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),
+                                          Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo")),
                                           Codigo = vRecord.Element("Codigo").Value, 
                                           Nombre = vRecord.Element("Nombre").Value, 
-                                          RIF = vRecord.Element("RIF").Value, 
-                                          StatusVendedor = vRecord.Element("StatusVendedor").Value, 
-                                          Direccion = vRecord.Element("Direccion").Value, 
-                                          Ciudad = vRecord.Element("Ciudad").Value, 
-                                          ZonaPostal = vRecord.Element("ZonaPostal").Value, 
-                                          Telefono = vRecord.Element("Telefono").Value, 
-                                          Fax = vRecord.Element("Fax").Value, 
-                                          email = vRecord.Element("email").Value, 
-                                          Notas = vRecord.Element("Notas").Value, 
-                                          Comisiones = vRecord.Element("Comisiones").Value, 
-                                          ComisionPorVenta = LibConvert.ToDec(vRecord.Element("ComisionPorVenta")), 
-                                          ComisionPorCobro = LibConvert.ToDec(vRecord.Element("ComisionPorCobro")), 
-                                          TopeInicialVenta1 = LibConvert.ToDec(vRecord.Element("TopeInicialVenta1")), 
-                                          TopeFinalVenta1 = LibConvert.ToDec(vRecord.Element("TopeFinalVenta1")), 
-                                          PorcentajeVentas1 = LibConvert.ToDec(vRecord.Element("PorcentajeVentas1")), 
-                                          TopeFinalVenta2 = LibConvert.ToDec(vRecord.Element("TopeFinalVenta2")), 
-                                          PorcentajeVentas2 = LibConvert.ToDec(vRecord.Element("PorcentajeVentas2")), 
-                                          TopeFinalVenta3 = LibConvert.ToDec(vRecord.Element("TopeFinalVenta3")), 
-                                          PorcentajeVentas3 = LibConvert.ToDec(vRecord.Element("PorcentajeVentas3")), 
-                                          TopeFinalVenta4 = LibConvert.ToDec(vRecord.Element("TopeFinalVenta4")), 
-                                          PorcentajeVentas4 = LibConvert.ToDec(vRecord.Element("PorcentajeVentas4")), 
-                                          TopeFinalVenta5 = LibConvert.ToDec(vRecord.Element("TopeFinalVenta5")), 
-                                          PorcentajeVentas5 = LibConvert.ToDec(vRecord.Element("PorcentajeVentas5")), 
-                                          TopeInicialCobranza1 = LibConvert.ToDec(vRecord.Element("TopeInicialCobranza1")), 
-                                          TopeFinalCobranza1 = LibConvert.ToDec(vRecord.Element("TopeFinalCobranza1")), 
-                                          PorcentajeCobranza1 = LibConvert.ToDec(vRecord.Element("PorcentajeCobranza1")), 
-                                          TopeFinalCobranza2 = LibConvert.ToDec(vRecord.Element("TopeFinalCobranza2")), 
-                                          PorcentajeCobranza2 = LibConvert.ToDec(vRecord.Element("PorcentajeCobranza2")), 
-                                          TopeFinalCobranza3 = LibConvert.ToDec(vRecord.Element("TopeFinalCobranza3")), 
-                                          PorcentajeCobranza3 = LibConvert.ToDec(vRecord.Element("PorcentajeCobranza3")), 
-                                          TopeFinalCobranza4 = LibConvert.ToDec(vRecord.Element("TopeFinalCobranza4")), 
-                                          PorcentajeCobranza4 = LibConvert.ToDec(vRecord.Element("PorcentajeCobranza4")), 
-                                          TopeFinalCobranza5 = LibConvert.ToDec(vRecord.Element("TopeFinalCobranza5")), 
-                                          PorcentajeCobranza5 = LibConvert.ToDec(vRecord.Element("PorcentajeCobranza5")), 
-                                          UsaComisionPorVenta = vRecord.Element("UsaComisionPorVenta").Value, 
-                                          UsaComisionPorCobranza = vRecord.Element("UsaComisionPorCobranza").Value, 
-                                          TipoDocumentoIdentificacion = vRecord.Element("TipoDocumentoIdentificacion").Value, 
-                                          SeccionComisionesLinea = vRecord.Element("SeccionComisionesLinea").Value, 
-                                          RutaDeComercializacion = vRecord.Element("RutaDeComercializacion").Value
+                                         
                                       }).Distinct();
+
             XElement vInfoConexionCuenta = FindInfoCuenta(refData);
             var vListCuenta = (from vRecord in vInfoConexionCuenta.Descendants("GpResult")
                                       select new {
@@ -174,9 +139,6 @@ namespace Galac.Saw.Brl.Cliente {
                                       }).Distinct();
 
             foreach (Entity.Cliente vItem in refData) {
-                //vItem.NombreVendedor = vInfoConexionVendedor.Descendants("GpResult")
-                    //.Where(p => p.Element("Codigo").Value == vItem.CodigoVendedor)
-                    //.Select(p => p.Element("Nombre").Value).FirstOrDefault();
                 vItem.DescripcionCuentaContableCxC = vInfoConexionCuenta.Descendants("GpResult")
                     .Where(p => p.Element("Codigo").Value == vItem.CuentaContableCxC)
                     .Select(p => p.Element("Descripcion").Value).FirstOrDefault();
@@ -186,6 +148,10 @@ namespace Galac.Saw.Brl.Cliente {
                 vItem.DescripcionCuentaContableAnticipo = vInfoConexionCuenta.Descendants("GpResult")
                     .Where(p => p.Element("Codigo").Value == vItem.CuentaContableCxC)
                     .Select(p => p.Element("Descripcion").Value).FirstOrDefault();
+                vItem.CodigoVendedor = vListVendedor
+                    .Where(p => p.Consecutivo == vItem.ConsecutivoVendedor)
+                    .Select(p => p.Codigo).FirstOrDefault();
+
             }
         }	
 		
@@ -327,13 +293,15 @@ namespace Galac.Saw.Brl.Cliente {
         }
 
         private XElement FindInfoCuenta(IList<Entity.Cliente> valData) {
+            ICuentaPdn insCuenta = new Galac.Contab.Brl.WinCont.clsCuentaNav();
             XElement vXElement = new XElement("GpData");
             foreach(Entity.Cliente vItem in valData) {
-                vXElement.Add(FilterClienteByDistinctCuenta(vItem).Descendants("GpResult"));
+                XElement vXElementResult = insCuenta.BuscarCuenta(vItem.ConsecutivoCompania, LibGlobalValues.Instance.GetMfcInfo().GetInt("Periodo"),vItem.CuentaContableCxC);
+                if (vXElementResult != null) {
+                    vXElement.Add(vXElementResult.Descendants());
+                }
             }
-            ILibPdn insCuenta = new Galac.Contab.Brl.WinCont.clsCuentaNav();
-            XElement vXElementResult = insCuenta.GetFk("Cliente", ParametersGetFKCuentaForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
-            return vXElementResult;
+            return vXElement;
         }
 
         private XElement FilterClienteByDistinctCuenta(Entity.Cliente valMaster) {
@@ -374,9 +342,9 @@ namespace Galac.Saw.Brl.Cliente {
             vParam.AppendLine(" ConsecutivoCompania = " + vQAdvSQL.ToSqlValue(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")));
             vParam.AppendLine(" AND  Codigo NOT IN (" + vQAdvSQL.ToSqlValue("RD_Cliente") + ", " + vQAdvSQL.ToSqlValue("000000000A") + ")");
 
-            LibGalac.Aos.Dal.LibDatabase insDb = new LibGalac.Aos.Dal.LibDatabase(clsCkn.ConfigKeyForDbService);
+            LibGalac.Aos.Dal.LibDatabase insDb = new LibGalac.Aos.Dal.LibDatabase(Galac.Saw.Ccl.Cliente.clsCkn.ConfigKeyForDbService);
             vCliente.Codigo = insDb.NextStrConsecutive("Cliente", "Codigo", new QAdvSql("").SqlIntValueWithAnd("", "ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")) + " AND Codigo <> '000000000A' AND codigo <> 'RD_Cliente'", true, 10);
-            //vCliente.ConsecutivoVendedor = BuscarConsecutivoVendedor(vCliente.CodigoVendedor);
+            vCliente.ConsecutivoVendedor = BuscarConsecutivoVendedor(vCliente.CodigoVendedor);
             if (ExisteElCodigoDeCliente(vCliente.Codigo)) {
                 vCliente.Codigo = GeneraCodigoClienteRapidoSinCast();
             }
@@ -480,82 +448,82 @@ namespace Galac.Saw.Brl.Cliente {
             }
             return vResult;
         }
-		
-		        private void FillWithForeignInfoDireccionDeDespacho(ref IList<Entity.Cliente> refData) {
+
+        private void FillWithForeignInfoDireccionDeDespacho(ref IList<Entity.Cliente> refData) {
             XElement vInfoConexionCliente = FindInfoCliente(refData);
             var vListCliente = (from vRecord in vInfoConexionCliente.Descendants("GpResult")
-                                      select new {
-                                          ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),
-                                          Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo")), 
-                                          Codigo = vRecord.Element("Codigo").Value, 
-                                          Nombre = vRecord.Element("Nombre").Value, 
-                                          NumeroRIF = vRecord.Element("NumeroRIF").Value, 
-                                          NumeroNIT = vRecord.Element("NumeroNIT").Value, 
-                                          Status = vRecord.Element("Status").Value, 
-                                          SeccionGenerales = vRecord.Element("SeccionGenerales").Value, 
-                                          Contacto = vRecord.Element("Contacto").Value, 
-                                          Telefono = vRecord.Element("Telefono").Value, 
-                                          FAX = vRecord.Element("FAX").Value, 
-                                          Email = vRecord.Element("Email").Value, 
-                                          ZonaDeCobranza = vRecord.Element("ZonaDeCobranza").Value, 
-                                          SectorDeNegocio = vRecord.Element("SectorDeNegocio").Value, 
-                                          NivelDePrecio = vRecord.Element("NivelDePrecio").Value, 
-                                          Direccion = vRecord.Element("Direccion").Value, 
-                                          Ciudad = vRecord.Element("Ciudad").Value, 
-                                          ZonaPostal = vRecord.Element("ZonaPostal").Value, 
-                                          CodigoVendedor = vRecord.Element("CodigoVendedor").Value, 
-                                          ConsecutivoVendedor = LibConvert.ToInt(vRecord.Element("ConsecutivoVendedor")), 
-                                         // NombreVendedor = vRecord.Element("NombreVendedor").Value, 
-                                          SeccionAdvertencias = vRecord.Element("SeccionAdvertencias").Value, 
-                                          RazonInactividad = vRecord.Element("RazonInactividad").Value, 
-                                          ActivarAvisoAlEscoger = vRecord.Element("ActivarAvisoAlEscoger").Value, 
-                                          TextoDelAviso = vRecord.Element("TextoDelAviso").Value, 
-                                          SeccionDirDespacho = vRecord.Element("SeccionDirDespacho").Value, 
-                                          SeccionReglasContables = vRecord.Element("SeccionReglasContables").Value, 
-                                          CuentaContableCxC = vRecord.Element("CuentaContableCxC").Value, 
-                                          DescripcionCuentaContableCxC = vRecord.Element("DescripcionCuentaContableCxC").Value, 
-                                          CuentaContableIngresos = vRecord.Element("CuentaContableIngresos").Value, 
-                                          DescripcionCuentaContableIngresos = vRecord.Element("DescripcionCuentaContableIngresos").Value, 
-                                          CuentaContableAnticipo = vRecord.Element("CuentaContableAnticipo").Value, 
-                                          DescripcionCuentaContableAnticipo = vRecord.Element("DescripcionCuentaContableAnticipo").Value, 
-                                          InfoGalac = vRecord.Element("InfoGalac").Value, 
-                                          CodigoLote = vRecord.Element("CodigoLote").Value, 
-                                          Origen = vRecord.Element("Origen").Value, 
-                                          DiaCumpleanos = LibConvert.ToInt(vRecord.Element("DiaCumpleanos")), 
-                                          MesCumpleanos = LibConvert.ToInt(vRecord.Element("MesCumpleanos")), 
-                                          CorrespondenciaXEnviar = vRecord.Element("CorrespondenciaXEnviar").Value, 
-                                          EsExtranjero = vRecord.Element("EsExtranjero").Value, 
-                                          ClienteDesdeFecha = vRecord.Element("ClienteDesdeFecha").Value, 
-                                          AQueSeDedicaElCliente = vRecord.Element("AQueSeDedicaElCliente").Value, 
-                                          TipoDocumentoIdentificacion = vRecord.Element("TipoDocumentoIdentificacion").Value, 
-                                          TipoDeContribuyente = vRecord.Element("TipoDeContribuyente").Value, 
-                                          CampoDefinible1 = vRecord.Element("CampoDefinible1").Value
-                                      }).Distinct();
+                                select new {
+                                    ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),
+                                    Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo")),
+                                    Codigo = vRecord.Element("Codigo").Value,
+                                    Nombre = vRecord.Element("Nombre").Value,
+                                    NumeroRIF = vRecord.Element("NumeroRIF").Value,
+                                    NumeroNIT = vRecord.Element("NumeroNIT").Value,
+                                    Status = vRecord.Element("Status").Value,
+                                    SeccionGenerales = vRecord.Element("SeccionGenerales").Value,
+                                    Contacto = vRecord.Element("Contacto").Value,
+                                    Telefono = vRecord.Element("Telefono").Value,
+                                    FAX = vRecord.Element("FAX").Value,
+                                    Email = vRecord.Element("Email").Value,
+                                    ZonaDeCobranza = vRecord.Element("ZonaDeCobranza").Value,
+                                    SectorDeNegocio = vRecord.Element("SectorDeNegocio").Value,
+                                    NivelDePrecio = vRecord.Element("NivelDePrecio").Value,
+                                    Direccion = vRecord.Element("Direccion").Value,
+                                    Ciudad = vRecord.Element("Ciudad").Value,
+                                    ZonaPostal = vRecord.Element("ZonaPostal").Value,
+                                    CodigoVendedor = vRecord.Element("CodigoVendedor").Value,
+                                    ConsecutivoVendedor = LibConvert.ToInt(vRecord.Element("ConsecutivoVendedor")),
+                                    // NombreVendedor = vRecord.Element("NombreVendedor").Value, 
+                                    SeccionAdvertencias = vRecord.Element("SeccionAdvertencias").Value,
+                                    RazonInactividad = vRecord.Element("RazonInactividad").Value,
+                                    ActivarAvisoAlEscoger = vRecord.Element("ActivarAvisoAlEscoger").Value,
+                                    TextoDelAviso = vRecord.Element("TextoDelAviso").Value,
+                                    SeccionDirDespacho = vRecord.Element("SeccionDirDespacho").Value,
+                                    SeccionReglasContables = vRecord.Element("SeccionReglasContables").Value,
+                                    CuentaContableCxC = vRecord.Element("CuentaContableCxC").Value,
+                                    DescripcionCuentaContableCxC = vRecord.Element("DescripcionCuentaContableCxC").Value,
+                                    CuentaContableIngresos = vRecord.Element("CuentaContableIngresos").Value,
+                                    DescripcionCuentaContableIngresos = vRecord.Element("DescripcionCuentaContableIngresos").Value,
+                                    CuentaContableAnticipo = vRecord.Element("CuentaContableAnticipo").Value,
+                                    DescripcionCuentaContableAnticipo = vRecord.Element("DescripcionCuentaContableAnticipo").Value,
+                                    InfoGalac = vRecord.Element("InfoGalac").Value,
+                                    CodigoLote = vRecord.Element("CodigoLote").Value,
+                                    Origen = vRecord.Element("Origen").Value,
+                                    DiaCumpleanos = LibConvert.ToInt(vRecord.Element("DiaCumpleanos")),
+                                    MesCumpleanos = LibConvert.ToInt(vRecord.Element("MesCumpleanos")),
+                                    CorrespondenciaXEnviar = vRecord.Element("CorrespondenciaXEnviar").Value,
+                                    EsExtranjero = vRecord.Element("EsExtranjero").Value,
+                                    ClienteDesdeFecha = vRecord.Element("ClienteDesdeFecha").Value,
+                                    AQueSeDedicaElCliente = vRecord.Element("AQueSeDedicaElCliente").Value,
+                                    TipoDocumentoIdentificacion = vRecord.Element("TipoDocumentoIdentificacion").Value,
+                                    TipoDeContribuyente = vRecord.Element("TipoDeContribuyente").Value,
+                                    CampoDefinible1 = vRecord.Element("CampoDefinible1").Value
+                                }).Distinct();
             XElement vInfoConexionCiudad = FindInfoCiudad(refData);
             var vListCiudad = (from vRecord in vInfoConexionCiudad.Descendants("GpResult")
-                                      select new {
-                                          NombreCiudad = vRecord.Element("NombreCiudad").Value, 
-                                          fldOrigen = vRecord.Element("fldOrigen").Value
-                                      }).Distinct();
-            foreach(Entity.Cliente vItem in refData) {
-                vItem.DetailDireccionDeDespacho = 
+                               select new {
+                                   NombreCiudad = vRecord.Element("NombreCiudad").Value,
+                                   fldOrigen = vRecord.Element("fldOrigen").Value
+                               }).Distinct();
+            foreach (Entity.Cliente vItem in refData) {
+                vItem.DetailDireccionDeDespacho =
                     new System.Collections.ObjectModel.ObservableCollection<DireccionDeDespacho>((
                         from vDetail in vItem.DetailDireccionDeDespacho
                         join vCliente in vListCliente
-                        on new {codigo = vDetail.CodigoCliente, ConsecutivoCompania = vDetail.ConsecutivoCompania}
+                        on new { codigo = vDetail.CodigoCliente, ConsecutivoCompania = vDetail.ConsecutivoCompania }
                         equals
-                        new { codigo = vCliente.Codigo, ConsecutivoCompania = vCliente.ConsecutivoCompania}
+                        new { codigo = vCliente.Codigo, ConsecutivoCompania = vCliente.ConsecutivoCompania }
                         join vCiudad in vListCiudad
-                        on new {NombreCiudad = vDetail.Ciudad}
+                        on new { NombreCiudad = vDetail.Ciudad }
                         equals
-                        new { NombreCiudad = vCiudad.NombreCiudad}
+                        new { NombreCiudad = vCiudad.NombreCiudad }
                         select new DireccionDeDespacho {
-                            ConsecutivoCompania = vDetail.ConsecutivoCompania, 
-                            CodigoCliente = vDetail.CodigoCliente, 
-                            ConsecutivoDireccion = vDetail.ConsecutivoDireccion, 
-                            PersonaContacto = vDetail.PersonaContacto, 
-                            Direccion = vDetail.Direccion, 
-                            Ciudad = vDetail.Ciudad, 
+                            ConsecutivoCompania = vDetail.ConsecutivoCompania,
+                            CodigoCliente = vDetail.CodigoCliente,
+                            ConsecutivoDireccion = vDetail.ConsecutivoDireccion,
+                            PersonaContacto = vDetail.PersonaContacto,
+                            Direccion = vDetail.Direccion,
+                            Ciudad = vDetail.Ciudad,
                             ZonaPostal = vDetail.ZonaPostal
                         }).ToList<DireccionDeDespacho>());
             }
@@ -633,7 +601,7 @@ namespace Galac.Saw.Brl.Cliente {
             vParams.AddInInteger("Consecutivo", valConsecutivo);
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("SELECT * FROM Saw.Cliente");
+            SQL.AppendLine("SELECT * FROM dbo.Cliente");
             SQL.AppendLine("WHERE Consecutivo = @Consecutivo");
             SQL.AppendLine("AND ConsecutivoCompania = @ConsecutivoCompania");
             return LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", -1);

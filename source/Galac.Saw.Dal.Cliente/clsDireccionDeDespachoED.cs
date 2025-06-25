@@ -14,7 +14,7 @@ namespace Galac.Saw.Dal.Cliente {
         #endregion //Propiedades
         #region Constructores
         public clsDireccionDeDespachoED(): base(){
-            DbSchema = "Saw";
+            DbSchema = "dbo";
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -52,11 +52,11 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("CONSTRAINT p_DireccionDeDespacho PRIMARY KEY CLUSTERED");
             SQL.AppendLine("(ConsecutivoCompania ASC, CodigoCliente ASC, ConsecutivoDireccion ASC)");
             SQL.AppendLine(",CONSTRAINT fk_DireccionDeDespachoCliente FOREIGN KEY (ConsecutivoCompania, CodigoCliente)");
-            SQL.AppendLine("REFERENCES Saw.Cliente(ConsecutivoCompania, Codigo)");
+            SQL.AppendLine("REFERENCES dbo.Cliente(ConsecutivoCompania, Codigo)");
             SQL.AppendLine("ON DELETE CASCADE");
             SQL.AppendLine("ON UPDATE CASCADE");
             SQL.AppendLine(", CONSTRAINT fk_DireccionDeDespachoCliente FOREIGN KEY (ConsecutivoCompania, CodigoCliente)");
-            SQL.AppendLine("REFERENCES Saw.Cliente(ConsecutivoCompania, codigo)");
+            SQL.AppendLine("REFERENCES dbo.Cliente(ConsecutivoCompania, codigo)");
             SQL.AppendLine("ON UPDATE CASCADE");
             SQL.AppendLine(", CONSTRAINT fk_DireccionDeDespachoCiudad FOREIGN KEY (Ciudad)");
             SQL.AppendLine("REFERENCES Comun.Ciudad(NombreCiudad)");
@@ -344,7 +344,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("	DECLARE @ReturnValue  " + InsSql.NumericTypeForDb(10, 0));
 	        SQL.AppendLine("	IF EXISTS(SELECT ConsecutivoCompania FROM dbo.Compania WHERE ConsecutivoCompania = @ConsecutivoCompania)");
 	        SQL.AppendLine("	    BEGIN");
-            SQL.AppendLine("	    EXEC Saw.Gp_DireccionDeDespachoDelDet @ConsecutivoCompania = @ConsecutivoCompania, @CodigoCliente = @CodigoCliente");
+            SQL.AppendLine("	    EXEC dbo.Gp_DireccionDeDespachoDelDet @ConsecutivoCompania = @ConsecutivoCompania, @CodigoCliente = @CodigoCliente");
 		    SQL.AppendLine("	    DECLARE @hdoc " + InsSql.NumericTypeForDb(10, 0));
             SQL.AppendLine("	    EXEC sp_xml_preparedocument @hdoc OUTPUT, @XmlDataDetail");
 		    SQL.AppendLine("	    INSERT INTO dbo.DireccionDeDespacho(");
@@ -411,8 +411,8 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("      " + DbSchema + ".Gv_DireccionDeDespacho_B1.CodigoCliente,");
             SQL.AppendLine("      " + DbSchema + ".Gv_DireccionDeDespacho_B1.ConsecutivoDireccion");
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_DireccionDeDespacho_B1");
-            SQL.AppendLine("      INNER JOIN Saw.Gv_Cliente_B1 ON  " + DbSchema + ".Gv_DireccionDeDespacho_B1.CodigoCliente = Saw.Gv_Cliente_B1.codigo");
-            SQL.AppendLine("      AND " + DbSchema + ".Gv_DireccionDeDespacho_B1.ConsecutivoCompania = Saw.Gv_Cliente_B1.ConsecutivoCompania");
+            SQL.AppendLine("      INNER JOIN dbo.Gv_Cliente_B1 ON  " + DbSchema + ".Gv_DireccionDeDespacho_B1.CodigoCliente = dbo.Gv_Cliente_B1.codigo");
+            SQL.AppendLine("      AND " + DbSchema + ".Gv_DireccionDeDespacho_B1.ConsecutivoCompania = dbo.Gv_Cliente_B1.ConsecutivoCompania");
             SQL.AppendLine("      INNER JOIN Comun.Gv_Ciudad_B1 ON  " + DbSchema + ".Gv_DireccionDeDespacho_B1.Ciudad = Comun.Gv_Ciudad_B1.NombreCiudad");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
             SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");

@@ -31,7 +31,7 @@ namespace Galac.Saw.Dal.Cliente {
         #region Constructores
 
         public clsClienteDat() {
-            DbSchema = "Saw";
+            DbSchema = "dbo";
             insTrn = new LibTrn();
         }
         #endregion //Constructores
@@ -45,7 +45,7 @@ namespace Galac.Saw.Dal.Cliente {
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
             vParams.AddInString("Codigo", valRecord.Codigo, 10);
-            vParams.AddInString("Nombre", valRecord.Nombre, 220);
+            vParams.AddInString("Nombre", valRecord.Nombre, 80);
             vParams.AddInString("NumeroRIF", valRecord.NumeroRIF, 20);
             vParams.AddInString("NumeroNIT", valRecord.NumeroNIT, 12);
             vParams.AddInString("Direccion", valRecord.Direccion, 255);
@@ -58,7 +58,6 @@ namespace Galac.Saw.Dal.Cliente {
             vParams.AddInString("ZonaDeCobranza", valRecord.ZonaDeCobranza, 100);
             vParams.AddInInteger("ConsecutivoVendedor", valRecord.ConsecutivoVendedor);
             vParams.AddInString("CodigoVendedor", valRecord.CodigoVendedor, 5);
-            //vParams.AddInString("NombreVendedor", valRecord.NombreVendedor, 35);
             vParams.AddInString("RazonInactividad", valRecord.RazonInactividad, 35);
             vParams.AddInString("Email", valRecord.Email, 100);
             vParams.AddInBoolean("ActivarAvisoAlEscoger", valRecord.ActivarAvisoAlEscogerAsBool);
@@ -96,7 +95,7 @@ namespace Galac.Saw.Dal.Cliente {
                 vParams.AddReturn();
             }
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
-            vParams.AddInString("Codigo", valRecord.Codigo, 10);
+            //vParams.AddInString("Codigo", valRecord.Codigo, 10);
             vParams.AddInString("NumeroRIF", valRecord.NumeroRIF, 20);
             if (valIncludeTimestamp) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
@@ -157,7 +156,7 @@ namespace Galac.Saw.Dal.Cliente {
                 if (insDB.ExistsValueOnMultifile("dbo.NotaDeEntradaSalida", "CodigoCliente", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Codigo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
                     vSbInfo.AppendLine("Nota de Entrada/Salida");
                 }
-                if (insDB.ExistsValueOnMultifile("Saw.DireccionDeDespacho", "CodigoCliente", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Codigo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
+                if (insDB.ExistsValueOnMultifile("dbo.DireccionDeDespacho", "CodigoCliente", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Codigo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
                     vSbInfo.AppendLine("Direccion De Despacho");
                 }
                 if (insDB.ExistsValueOnMultifile("dbo.Despacho", "CodigoCliente", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Codigo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
@@ -283,16 +282,15 @@ namespace Galac.Saw.Dal.Cliente {
         [PrincipalPermission(SecurityAction.Demand, Role = "Compañía.Insertar")]
         LibResponse ILibDataMasterComponent<IList<Entity.Cliente>, IList<Entity.Cliente>>.Insert(IList<Entity.Cliente> refRecord, bool valUseDetail) {
             LibResponse vResult = new LibResponse();
-			try{
+            try {
                 string vErrMsg = "";
                 CurrentRecord = refRecord[0];
-			    insTrn.StartTransaction();
+                insTrn.StartTransaction();
                 if (ExecuteProcessBeforeInsert()) {
-			
-				    if (ValidateMasterDetail(eAccionSR.Insertar, CurrentRecord, valUseDetail)) {
+                    if (ValidateMasterDetail(eAccionSR.Insertar, CurrentRecord, valUseDetail)) {
                         if (insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "ClienteINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar))) {
                             if (valUseDetail) {
-						        vResult.Success = true;
+                                vResult.Success = true;
                                 InsertDetail(CurrentRecord);
                             } else {
                                 vResult.Success = true;
@@ -302,20 +300,10 @@ namespace Galac.Saw.Dal.Cliente {
                             }
                         }
                     }
-					
-                    if (Validate(eAccionSR.Insertar, out vErrMsg)) {
-                        LibDatabase insDb = new LibDatabase(clsCkn.ConfigKeyForDbService);
-                        CurrentRecord.Consecutivo = insDb.NextLngConsecutive(DbSchema + ".Cliente", "Consecutivo", ParametrosProximoConsecutivo(CurrentRecord));
-                        vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "ClienteINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar));
-                        insDb.Dispose();
-                    } else {
-                        throw new GalacValidationException(vErrMsg);
-                    }
                 }
                 insTrn.CommitTransaction();
                 return vResult;
-			    
-        }finally {
+            } finally {
                 if (!vResult.Success) {
                     insTrn.RollBackTransaction();
                 }
@@ -448,8 +436,7 @@ namespace Galac.Saw.Dal.Cliente {
         protected override bool Validate(eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
             ClearValidationInfo();
-            vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Codigo);
-            vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
+            vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Codigo);            
             vResult = IsValidCodigo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Codigo) && vResult;
             vResult = IsValidNombre(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Nombre) && vResult;
             vResult = IsValidNumeroRIF(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.NumeroRIF) && vResult;
@@ -459,9 +446,9 @@ namespace Galac.Saw.Dal.Cliente {
             vResult = IsValidCodigoVendedor(valAction, CurrentRecord.CodigoVendedor) && vResult;
 			vResult = IsValidConsecutivoVendedor(valAction, CurrentRecord.ConsecutivoVendedor) && vResult;
             //vResult = IsValidNombreVendedor(valAction, CurrentRecord.NombreVendedor) && vResult;
-            vResult = IsValidCuentaContableCxC(valAction, CurrentRecord.CuentaContableCxC) && vResult;
-            vResult = IsValidCuentaContableIngresos(valAction, CurrentRecord.CuentaContableIngresos) && vResult;
-            vResult = IsValidCuentaContableAnticipo(valAction, CurrentRecord.CuentaContableAnticipo) && vResult;
+            //vResult = IsValidCuentaContableCxC(valAction, CurrentRecord.CuentaContableCxC) && vResult;
+            //vResult = IsValidCuentaContableIngresos(valAction, CurrentRecord.CuentaContableIngresos) && vResult;
+            //vResult = IsValidCuentaContableAnticipo(valAction, CurrentRecord.CuentaContableAnticipo) && vResult;
             vResult = IsValidSectorDeNegocio(valAction, CurrentRecord.SectorDeNegocio) && vResult;
             vResult = IsValidClienteDesdeFecha(valAction, CurrentRecord.ClienteDesdeFecha) && vResult;
             outErrorMessage = Information.ToString();
@@ -813,9 +800,7 @@ namespace Galac.Saw.Dal.Cliente {
             foreach (DireccionDeDespacho vDetail in valRecord.DetailDireccionDeDespacho) {
                 bool vLineHasError = true;
                 //agregar validaciones
-                if (LibString.IsNullOrEmpty(vDetail.CodigoCliente)) {
-                    vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado el C?digo del Cliente.");
-                } else if (LibString.IsNullOrEmpty(vDetail.Ciudad)) {
+                if (LibString.IsNullOrEmpty(vDetail.Ciudad)) {
                     vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado el Ciudad.");
                 } else {
                     vLineHasError = false;
@@ -852,7 +837,12 @@ namespace Galac.Saw.Dal.Cliente {
         #endregion ////Miembros de ILibDataRpt
         #endregion //Metodos Generados
 
-
+        protected override bool ExecuteProcessBeforeInsert() {
+            StringBuilder vParametro = ParametrosProximoConsecutivo(CurrentRecord);
+            LibDataScope insDb = new LibDataScope();
+            CurrentRecord.Consecutivo = insDb.NextLngConsecutive("dbo.Cliente", "Consecutivo", vParametro);
+            return base.ExecuteProcessBeforeInsert();
+        }
     } //End of class clsClienteDat
 
 } //End of namespace Galac.Saw.Dal.Clientes

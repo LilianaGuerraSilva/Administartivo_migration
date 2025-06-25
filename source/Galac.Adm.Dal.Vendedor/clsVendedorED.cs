@@ -602,6 +602,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("   SELECT ");
             SQL.AppendLine("      " + DbSchema + ".Vendedor.ConsecutivoCompania,");
             SQL.AppendLine("      " + DbSchema + ".Vendedor.Consecutivo,");
+            SQL.AppendLine("      " + DbSchema + ".Vendedor.Codigo,");
             SQL.AppendLine("      " + DbSchema + ".Vendedor.Nombre,");
             SQL.AppendLine("      " + DbSchema + ".Vendedor.RIF,");
             SQL.AppendLine("      " + DbSchema + ".Vendedor.StatusVendedor,");
