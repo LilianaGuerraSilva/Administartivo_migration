@@ -16,7 +16,8 @@ namespace Galac.Saw.Ccl.Cliente {
         XElement ClientePorDefecto(int valConcecutivoCompania);
         object ConsultaCampoClientePorCodigo(string valCampo, string valCodigo, int valConsecutivoCompania);
         LibResponse InsertClienteForExternalRecord(string valNombre, string valNumeroRIF, string valDireccion, string valTelefono, ref string refCodigo, eTipoDocumentoIdentificacion valTipoDocumentoIdentificacion);
-
+        bool BuscarClienteResumenDiario();
+        bool InsertarClienteResumenDiario();
 
     } //End of class IClientePdn
 

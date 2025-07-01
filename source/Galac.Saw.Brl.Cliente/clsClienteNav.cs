@@ -99,8 +99,7 @@ namespace Galac.Saw.Brl.Cliente {
                     new XElement("ConsecutivoCompania", valEntidad.ConsecutivoCompania),
                     new XElement("Codigo", valEntidad.Codigo)));
             return vXElement;
-        }
-		
+        }		
         private void FillWithForeignInfoCliente(ref IList<Entity.Cliente> refData) {
             XElement vInfoConexionZonaCobranza = FindInfoZonaCobranza(refData);
             var vListZonaCobranza = (from vRecord in vInfoConexionZonaCobranza.Descendants("GpResult")
@@ -154,9 +153,7 @@ namespace Galac.Saw.Brl.Cliente {
 
             }
         }	
-		
-		
-        private XElement FindInfoZonaCobranza(IList<Entity.Cliente> valData) {
+		private XElement FindInfoZonaCobranza(IList<Entity.Cliente> valData) {
             XElement vXElement = new XElement("GpData");
             foreach(Entity.Cliente vItem in valData) {
                 vXElement.Add(FilterClienteByDistinctZonaCobranza(vItem).Descendants("GpResult"));
@@ -165,17 +162,12 @@ namespace Galac.Saw.Brl.Cliente {
             XElement vXElementResult = insZonaCobranza.GetFk("Cliente", ParametersGetFKZonaCobranzaForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
             return vXElementResult;
         }
-		
-		
 		private XElement FilterClienteByDistinctZonaCobranza(Entity.Cliente valMaster) {
             XElement vXElement = new XElement("GpData",
                 new XElement("GpResult",
                     new XElement("ZonaDeCobranza", valMaster.ZonaDeCobranza)));
             return vXElement;
-        }
-		
-		
-
+        }		
         Entity.Cliente ClientePorDefecto(int valConcecutivoCompania) {
             Entity.Cliente insCliente = new Entity.Cliente();
             insCliente.Codigo = "000000000A";
@@ -185,8 +177,7 @@ namespace Galac.Saw.Brl.Cliente {
         XElement IClientePdn.ClientePorDefecto(int valConcecutivoCompania) {
             return ClienteToXml(ClientePorDefecto(valConcecutivoCompania));
         }
-		
-        private StringBuilder ParametersGetFKZonaCobranzaForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
+	    private StringBuilder ParametersGetFKZonaCobranzaForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
@@ -194,8 +185,6 @@ namespace Galac.Saw.Brl.Cliente {
             vResult = vParams.Get();
             return vResult;
         }
-
-
         object IClientePdn.ConsultaCampoClientePorCodigo(string valCampo, string valCodigo, int valConsecutivoCompania) {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
@@ -204,7 +193,6 @@ namespace Galac.Saw.Brl.Cliente {
             Galac.Saw.Ccl.Cliente.Cliente cl1 = ListCliente[0];
             return cl1.GetType().GetProperty(valCampo).GetValue(cl1, null);
         }
-
         private int BuscarConsecutivoVendedor(string valCodigoVendedor) {
             int vResult = 1;
             string vSql = "SELECT Consecutivo FROM ADM.Vendedor WHERE Codigo =" + new QAdvSql("").ToSqlValue(valCodigoVendedor);
@@ -214,7 +202,6 @@ namespace Galac.Saw.Brl.Cliente {
             }
             return vResult;
         }
-		
 		 private XElement FindInfoSectorDeNegocio(IList<Entity.Cliente> valData) {
             XElement vXElement = new XElement("GpData");
             foreach(Entity.Cliente vItem in valData) {
@@ -224,14 +211,12 @@ namespace Galac.Saw.Brl.Cliente {
             XElement vXElementResult = insSectorDeNegocio.GetFk("Cliente", ParametersGetFKSectorDeNegocioForXmlSubSet(vXElement));
             return vXElementResult;
         }
-
         private XElement FilterClienteByDistinctSectorDeNegocio(Entity.Cliente valMaster) {
             XElement vXElement = new XElement("GpData",
                 new XElement("GpResult",
                     new XElement("SectorDeNegocio", valMaster.SectorDeNegocio)));
             return vXElement;
         }
-
         private StringBuilder ParametersGetFKSectorDeNegocioForXmlSubSet(XElement valXElement) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
@@ -239,7 +224,6 @@ namespace Galac.Saw.Brl.Cliente {
             vResult = vParams.Get();
             return vResult;
         }
-
         private XElement FindInfoCiudad(IList<Entity.Cliente> valData) {
             XElement vXElement = new XElement("GpData");
             foreach(Entity.Cliente vItem in valData) {
@@ -249,14 +233,12 @@ namespace Galac.Saw.Brl.Cliente {
             XElement vXElementResult = insCiudad.GetFk("Cliente", ParametersGetFKCiudadForXmlSubSet(vXElement));
             return vXElementResult;
         }
-
         private XElement FilterClienteByDistinctCiudad(Entity.Cliente valMaster) {
             XElement vXElement = new XElement("GpData",
                 new XElement("GpResult",
                     new XElement("Ciudad", valMaster.Ciudad)));
             return vXElement;
         }
-
         private StringBuilder ParametersGetFKCiudadForXmlSubSet(XElement valXElement) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
@@ -264,7 +246,6 @@ namespace Galac.Saw.Brl.Cliente {
             vResult = vParams.Get();
             return vResult;
         }
-
         private XElement FindInfoVendedor(IList<Entity.Cliente> valData) {
             XElement vXElement = new XElement("GpData");
             foreach(Entity.Cliente vItem in valData) {
@@ -274,14 +255,12 @@ namespace Galac.Saw.Brl.Cliente {
             XElement vXElementResult = insVendedor.GetFk("Cliente", ParametersGetFKVendedorForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
             return vXElementResult;
         }
-
         private XElement FilterClienteByDistinctVendedor(Entity.Cliente valMaster) {
             XElement vXElement = new XElement("GpData",
                 new XElement("GpResult",
                     new XElement("Consecutivo", valMaster.ConsecutivoVendedor)));
             return vXElement;
         }
-
         private StringBuilder ParametersGetFKVendedorForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
@@ -291,7 +270,6 @@ namespace Galac.Saw.Brl.Cliente {
             vResult = vParams.Get();
             return vResult;
         }
-
         private XElement FindInfoCuenta(IList<Entity.Cliente> valData) {
             ICuentaPdn insCuenta = new Galac.Contab.Brl.WinCont.clsCuentaNav();
             XElement vXElement = new XElement("GpData");
@@ -303,14 +281,12 @@ namespace Galac.Saw.Brl.Cliente {
             }
             return vXElement;
         }
-
         private XElement FilterClienteByDistinctCuenta(Entity.Cliente valMaster) {
             XElement vXElement = new XElement("GpData",
                 new XElement("GpResult",
                     new XElement("CuentaContableCxC", valMaster.CuentaContableCxC)));
             return vXElement;
         }
-
         private StringBuilder ParametersGetFKCuentaForXmlSubSet(int valConsecutivoPeriodo, XElement valXElement) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
@@ -320,7 +296,6 @@ namespace Galac.Saw.Brl.Cliente {
             vResult = vParams.Get();
             return vResult;
         }
-
         LibResponse IClientePdn.InsertClienteForExternalRecord(string valNombre, string valNumeroRIF, string valDireccion, string valTelefono, ref string refCodigo, eTipoDocumentoIdentificacion valTipoDocumentoIdentificacion) {
             Entity.Cliente vCliente = new Entity.Cliente();
             //llenar los campos que voy a insertar
@@ -358,8 +333,6 @@ namespace Galac.Saw.Brl.Cliente {
             vList.Add(vCliente);
             return _Db.Insert(vList, false);
         }
-
-
         bool ExisteElCodigoDeCliente(string valCodigo) {
             LibGpParams vParams = new LibGpParams();
             QAdvSql insQAdvSql = new QAdvSql("");
@@ -379,7 +352,6 @@ namespace Galac.Saw.Brl.Cliente {
             }
             return vResult;
         }
-
         string GeneraCodigoClienteRapidoSinCast() {
             LibGpParams vParams = new LibGpParams();
             QAdvSql insQAdvSql = new QAdvSql("");
@@ -414,7 +386,6 @@ namespace Galac.Saw.Brl.Cliente {
             }
             return vResult;
         }
-
         string GeneraCodigoClienteRapidoConCast() {
             LibGpParams vParams = new LibGpParams();
             StringBuilder vSql = new StringBuilder();
@@ -448,7 +419,6 @@ namespace Galac.Saw.Brl.Cliente {
             }
             return vResult;
         }
-
         private void FillWithForeignInfoDireccionDeDespacho(ref IList<Entity.Cliente> refData) {
             XElement vInfoConexionCliente = FindInfoCliente(refData);
             var vListCliente = (from vRecord in vInfoConexionCliente.Descendants("GpResult")
@@ -528,7 +498,6 @@ namespace Galac.Saw.Brl.Cliente {
                         }).ToList<DireccionDeDespacho>());
             }
         }
-
         private XElement FindInfoCliente(IList<Entity.Cliente> valData) {
             XElement vXElement = new XElement("GpData");
             foreach(Entity.Cliente vItem in valData) {
@@ -538,7 +507,6 @@ namespace Galac.Saw.Brl.Cliente {
             XElement vXElementResult = insCliente.GetFk("Cliente", ParametersGetFKClienteForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
             return vXElementResult;
         }
-
         private XElement FilterDireccionDeDespachoByDistinctCliente(Entity.Cliente valMaster) {
             XElement vXElement = new XElement("GpData",
                 from vEntity in valMaster.DetailDireccionDeDespacho.Distinct()
@@ -546,8 +514,6 @@ namespace Galac.Saw.Brl.Cliente {
                     new XElement("CodigoCliente", vEntity.CodigoCliente)));
             return vXElement;
         }
-
-
         public string ObtenerEmailCliente(int valConsecutivoCompania, string valCodigoCliente) {
             string vResult = string.Empty;
             StringBuilder vSql = new StringBuilder();
@@ -560,7 +526,6 @@ namespace Galac.Saw.Brl.Cliente {
             vResult = xResult.Value;
             return vResult;
         }
-		
 		private StringBuilder ParametersGetFKClienteForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
@@ -570,7 +535,6 @@ namespace Galac.Saw.Brl.Cliente {
             vResult = vParams.Get();
             return vResult;
         }
-
         public XElement GetDataPageByCode(string valCodeFilter,int companyCode,int valPage)
         {
             if (valCodeFilter == null) valCodeFilter = string.Empty;
@@ -583,7 +547,6 @@ namespace Galac.Saw.Brl.Cliente {
             XElement xRecord = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", 0);
             return xRecord;
         }
-
         public XElement GetDataPageByDescription(string valDescriptionFilter, int companyCode,int valPage)
         {
             StringBuilder SQL = new StringBuilder();
@@ -595,7 +558,6 @@ namespace Galac.Saw.Brl.Cliente {
             XElement xRecord = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", 0);
             return xRecord;
         }
-
         XElement IClientePdn.FindByConsecutivo(int valConsecutivoCompania, int valConsecutivo) {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("Consecutivo", valConsecutivo);
@@ -606,6 +568,53 @@ namespace Galac.Saw.Brl.Cliente {
             SQL.AppendLine("AND ConsecutivoCompania = @ConsecutivoCompania");
             return LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", -1);
         }
+        bool IClientePdn.BuscarClienteResumenDiario() {
+            /*bool result = ExisteElCodigoDeCliente("RD_Cliente");
+            return result;*/
+
+            return ExisteElCodigoDeCliente("RD_Cliente");
+        }
+
+        bool IClientePdn.InsertarClienteResumenDiario() {
+            Entity.Cliente vCliente = new Entity.Cliente();
+            //llenar los campos que voy a insertar
+            vCliente.Nombre = "Resumen Diario de Ventas - Cliente";
+            vCliente.NumeroRIF = "";
+            vCliente.Direccion = "";
+            vCliente.Telefono = "";
+            vCliente.ClienteDesdeFecha = LibDate.Today();
+            vCliente.CodigoVendedor = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "CodigoGenericoVendedor");
+            vCliente.SectorDeNegocio = "No Asignado";
+            vCliente.StatusAsEnum = eStatusCliente.Activo;
+            vCliente.Ciudad = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "Ciudad");
+            vCliente.ZonaDeCobranza = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "Ciudad");
+            vCliente.TipoDocumentoIdentificacion = "";
+
+            RegisterClient();
+            QAdvSql vQAdvSQL = new QAdvSql("");
+            StringBuilder vParam = new StringBuilder();
+
+            vParam.AppendLine(" ConsecutivoCompania = " + vQAdvSQL.ToSqlValue(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")));
+            vParam.AppendLine(" AND  Codigo NOT IN (" + vQAdvSQL.ToSqlValue("RD_Cliente") + ", " + vQAdvSQL.ToSqlValue("000000000A") + ")");
+
+            LibGalac.Aos.Dal.LibDatabase insDb = new LibGalac.Aos.Dal.LibDatabase(Galac.Saw.Ccl.Cliente.clsCkn.ConfigKeyForDbService);
+            vCliente.Codigo = insDb.NextStrConsecutive("Cliente", "Codigo", new QAdvSql("").SqlIntValueWithAnd("", "ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")) + " AND Codigo <> '000000000A' AND codigo <> 'RD_Cliente'", true, 10);
+            vCliente.ConsecutivoVendedor = BuscarConsecutivoVendedor(vCliente.CodigoVendedor);
+            if (ExisteElCodigoDeCliente(vCliente.Codigo)) {
+                vCliente.Codigo = GeneraCodigoClienteRapidoSinCast();
+            }
+            if (ExisteElCodigoDeCliente(vCliente.Codigo)) {
+                vCliente.Codigo = GeneraCodigoClienteRapidoConCast();
+            }
+           
+            List<Entity.Cliente> vList = new List<Entity.Cliente>();
+            vList.Add(vCliente);
+            _Db.Insert(vList, false);
+
+            return true;
+        }
+       
+
     } //End of class clsClienteNav
 
 } //End of namespace Galac.Saw.Brl.Clientes

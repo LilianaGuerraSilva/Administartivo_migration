@@ -25,6 +25,14 @@ namespace Galac.Saw.Uil.Cliente.ViewModel {
         public override string ModuleName {
             get { return "Cliente"; }
         }
+
+        public RelayCommand InsertarClienteResumenDiarioCommand {
+            get;
+            private set;
+        }
+
+        private const string ModuleNameOriginal = "Cliente";
+
         #endregion //Propiedades
         #region Constructores
 
@@ -67,21 +75,13 @@ namespace Galac.Saw.Uil.Cliente.ViewModel {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            SUPROCESOPARTICULARCommand = new RelayCommand(ExecuteSUPROCESOPARTICULARCommand, CanExecuteSUPROCESOPARTICULARCommand);
-        */
-        #endregion //Codigo Ejemplo
+            InsertarClienteResumenDiarioCommand = new RelayCommand(ExecuteInsertarClienteResumenDiarioCommand, CanExecuteInsertarClienteResumenDiarioCommand);
         }
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-                RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());
-        */
-        #endregion //Codigo Ejemplo
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateOtrasAccionesRibbonGroup());
             }
         }
         #endregion //Metodos Generados
@@ -153,6 +153,55 @@ namespace Galac.Saw.Uil.Cliente.ViewModel {
         */
         #endregion //Codigo Ejemplo
 
+        private void CreaTabDeClienteResumen() {
+            LibRibbonGroupData vRibbonGroupData = new LibRibbonGroupData("Cliente");
+            vRibbonGroupData.ControlDataCollection.Add(CreateRibbonButtonData("Insertar Cliente de Resumen Diario", InsertarClienteResumenDiarioCommand, new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/edit.png", UriKind.Relative), "Cliente Resumen", "Cliente Resumen"));
+        }
+
+
+        private bool CanExecuteInsertarClienteResumenDiarioCommand() {
+            return LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Insertar");
+        }
+
+        private void ExecuteInsertarClienteResumenDiarioCommand() {
+            try {
+                /* Metodo valida cliente existe sino crea
+                 * brl 2 metodos 
+                 *   buscar cliente resumen
+                 *   insertar cliente resumen
+                 *  ccl interfaz de los metodos
+                 *       buscarClienteResumen
+                 */
+                //ClienteViewModel clienteVM = new ClienteViewModel();
+                //clienteVM.ExecuteInsertarClienteResumenDiario();
+
+                IClientePdn vCliente = new clsClienteNav();
+                //if (vCliente.BuscarClienteResumenDiario(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"))) {
+                if (vCliente.BuscarClienteResumenDiario()) {
+
+                    LibMessages.MessageBox.Information(this, $"El Cliente de resumen diario ya existe .", ModuleName);
+                } else {
+                    vCliente.InsertarClienteResumenDiario();
+                }
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+            }
+        }
+
+        private LibRibbonGroupData CreateOtrasAccionesRibbonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("Otras Acciones");
+           
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Insertar Cliente de Resumen Diario",
+                Command = InsertarClienteResumenDiarioCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/specializedUpdate.png", UriKind.Relative),
+                ToolTipDescription = "Insertar Cliente de Resumen Diario",
+                ToolTipTitle = "Cliente",
+            });
+            return vResult;
+        }
 
     } //End of class ClienteMngViewModel
 

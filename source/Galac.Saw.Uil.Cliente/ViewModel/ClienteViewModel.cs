@@ -1377,7 +1377,20 @@ namespace Galac.Saw.Uil.Cliente.ViewModel {
             return vResult;
         }
         #endregion //Metodos Generados
-
+        private void ExecuteInsertarClienteResumenDiario() {
+            try {
+                IClientePdn vCliente = new clsClienteNav();
+               //if (vCliente.BuscarClienteResumenDiario(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"))) {
+                if (vCliente.BuscarClienteResumenDiario()){
+                    
+                    LibMessages.MessageBox.Information(this, $"El Cliente de resumen diario ya existe .", ModuleName);
+                } else {
+                    vCliente.InsertarClienteResumenDiario();
+                }
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
 
     } //End of class ClienteViewModel
 
