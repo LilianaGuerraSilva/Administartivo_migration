@@ -19,7 +19,17 @@ namespace Galac.Saw.Brl.Cliente {
         #region Variables
         #endregion //Variables
         #region Propiedades
-        #endregion //Propiedades
+        private string Ciudad {
+            get {
+                LibGpParams vParams = new LibGpParams();
+                vParams.AddInInteger("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+
+                StringBuilder vSQL = new StringBuilder();
+                vSQL.AppendLine("SELECT Ciudad FROM dbo.COMPANIA WHERE ConsecutivoCompania = @ConsecutivoCompania");
+                return (string)LibBusiness.ExecuteSelect(vSQL.ToString(), vParams.Get(), "", 0);
+            }
+        }
+        #endregion //Propiedades      
         #region Constructores
 
         public clsClienteNav() {
@@ -577,69 +587,73 @@ namespace Galac.Saw.Brl.Cliente {
         bool IClientePdn.InsertarClienteResumenDiario() {
             StringBuilder vSQL = new StringBuilder();
             bool vResult = false;
-            LibGpParams vParams = new LibGpParams();
-
-            vParams.AddInDateTime("FechaDeVigencia", valFechaVigencia);
-            vParams.AddInString("CodigoMoneda", valMoneda, 4);
-            vParams.AddInString("Nombre", valNombre, 80);
-            vParams.AddInDecimal("CambioAbolivares", valCambioAbolivares, 4);
-            vParams.AddInString("NombreOperador", ((CustomIdentity)System.Threading.Thread.CurrentPrincipal.Identity).Login, 10);
-            vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
-            vParams.AddInInteger("ConsucutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
-            //SET PARAMETROS
-            //SET SQL
+            LibGpParams pCliente = new LibGpParams();
+            pCliente = SetParamCliente();
+            //CREATE SQL SqlInsertarClienteResumen()
             //EXEC SQL
-            vResult = LibBusiness.ExecuteUpdateOrDelete(SqlInsertarClienteResumen(), vParams.Get(), "", 0) > 0;
+            vResult = LibBusiness.ExecuteUpdateOrDelete(SqlInsertarClienteResumen(), pCliente.Get(), "", 0) > 0;
             return vResult;
         }
 
+        private LibGpParams SetParamCliente() {
+
+            // Setea el consecutivo de la tabla cliente
+            LibGalac.Aos.Dal.LibDatabase insDb = new LibGalac.Aos.Dal.LibDatabase(Galac.Saw.Ccl.Cliente.clsCkn.ConfigKeyForDbService);
+            LibGpParams vParams = new LibGpParams();
+
+            vParams.AddInInteger("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+            vParams.AddInString("Consecutivo", insDb.NextStrConsecutive("Cliente", "Codigo", new QAdvSql("").SqlIntValueWithAnd("", "ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")) + " AND Codigo <> '000000000A' AND codigo <> 'RD_Cliente'", true, 10),10);
+            vParams.AddInString("Codigo ", "RD_Cliente", 10);
+            vParams.AddInString("Nombre", "Resumen Diario de Ventas - Cliente",60);
+            //vParams.AddInString("Ciudad", LibGlobalValues.Instance.GetMfcInfo().GetStr("Ciudad"),50);
+            //vParams.AddInString("Ciudad", insDb.NextStrConsecutive("COMPANIA", "Ciudad", new QAdvSql("").SqlIntValueWithAnd("", "Ciudad", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")), false, 10), 50);
+            vParams.AddInString("Ciudad",Ciudad,50);
+            vParams.AddInEnum("Status", (int)eStatusCliente.Activo);
+            vParams.AddInString("ZonaDeCobranza",Ciudad,50);
+            vParams.AddInString("CodigoVendedor", "00001", 5);
+            vParams.AddInInteger("ConsecutivoVendedor", 1);
+            vParams.AddInString("NumeroRif", "", 20);
+            vParams.AddInString("ActivarAvisoAlEscoger", "N", 1);
+            vParams.AddInString("CorrespondenciaXenviar", "N", 1);
+            vParams.AddInString("EsExtranjero", "N", 1);
+            vParams.AddInString("NombreOperador", ((CustomIdentity)System.Threading.Thread.CurrentPrincipal.Identity).Login, 10);
+            vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
+            vParams.AddInString("Contacto", "",35);
+            vParams.AddInString("Email", "",100);
+            vParams.AddInString("Telefono", "",40);
+            vParams.AddInString("DiaCumpleanos", "",1);
+            vParams.AddInString("MesCumpleanos", "",1);
+            vParams.AddInString("Fax", "",25);
+            vParams.AddInString("Direccion", "",255);
+            vParams.AddInString("ZonaPostal", "",7);
+            vParams.AddInString("sectorDeNegocio", "No Asignado",20);
+            vParams.AddInEnum("Origen", (int)eOrigenFacturacionOManual.Factura);
+            vParams.AddInEnum("nivelDePrecio", (int)eNivelDePrecio.Precio1);
+            vParams.AddInEnum("TipoDeContribuyente", (int)eTipoDeContribuyente.Contribuyente);
+            vParams.AddInString("CuentaContableCxc", "",30);
+            vParams.AddInString("CuentaContableIngresos", "", 30);
+            vParams.AddInString("CuentaContableAnticipo", "", 30);
+
+            return vParams;
+        }
 
         private string SqlInsertarClienteResumen() {
 
-            /* Cosntruyo el query  con la estructura 
-             *  vSQL.AppendLine("INSERT INTO dbo.Cambio (campo1,campo2,campo...n) values(@param1,@param2,@param...n))*/
             StringBuilder vSQL = new StringBuilder();
 
-            vSQL.AppendLine("INSERT INTO dbo.cliente @ConsecutivoCompania" );
-            vSQL.AppendLine()
-   Sql = Sql & "Consecutivo, "
-   Sql = Sql & "Codigo, Nombre, "
-   Sql = Sql & "Ciudad, Status, "
-   Sql = Sql & "ZonaDeCobranza, CodigoVendedor, ConsecutivoVendedor, "
-   Sql = Sql & "NumeroRif, ActivarAvisoAlEscoger, "
-   Sql = Sql & "CorrespondenciaXenviar, "
-   Sql = Sql & "EsExtranjero, "
-   Sql = Sql & "NombreOperador, FechaUltimaModificacion, "
-   Sql = Sql & "Contacto, Email, "
-   Sql = Sql & "Telefono, DiaCumpleanos, "
-   Sql = Sql & "MesCumpleanos, "
-   Sql = Sql & "Fax, Direccion, "
-   Sql = Sql & "ZonaPostal,"
-   Sql = Sql & "sectorDeNegocio,"
-   Sql = Sql & "Origen,"
-   Sql = Sql & "nivelDePrecio,"
-   Sql = Sql & "TipoDeContribuyente,"
-   Sql = Sql & "CuentaContableCxc,"
-   Sql = Sql & "CuentaContableIngresos,"
-   Sql = Sql & "CuentaContableAnticipo"
-   Sql = Sql & " ) VALUES (" & valConsecutivoCompania & ", " & fGenerateNextConsecutivo() & ", "
-   Sql = Sql & gUtilSQL.fSimpleSqlValue(valCodigo) & ", " & gUtilSQL.fSimpleSqlValue(valNombre) & ", "
-   Sql = Sql & gUtilSQL.fSimpleSqlValue(gProyCompaniaActual.GetCiudad) & ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCliente.eSC_ACTIVO) & ", "
-   Sql = Sql & gUtilSQL.fSimpleSqlValue(gProyCompaniaActual.GetCiudad) & ", " & gUtilSQL.fSimpleSqlValue("00001") & ", 1, "
-   Sql = Sql & gUtilSQL.fSimpleSqlValue(valNumeroRIF) & ", " & gUtilSQL.fBooleanToSqlValue(False) & ", " & gUtilSQL.fBooleanToSqlValue(False) & ", "
-   Sql = Sql & gUtilSQL.fBooleanToSqlValue(False) & ", "
-   Sql = Sql & gUtilSQL.fSimpleSqlValue(gProyUsuarioActual.GetNombreDelUsuario) & ", " & gUtilSQL.fDateToSQLValue(gUtilDate.getFechaDeHoy) & ", "
-   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & ", " & gUtilSQL.fSimpleSqlValue("") & ", "
-   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & ", " & 0 & ", "
-   Sql = Sql & 0 & ", "
-   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & ", " & gUtilSQL.fSimpleSqlValue("") & ", "
-   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & ", "
-   Sql = Sql & gUtilSQL.fSimpleSqlValue("No Asignado") & ", "
-   Sql = Sql & gUtilSQL.fSimpleSqlValue("0") & ", "
-   Sql = Sql & gUtilSQL.fSimpleSqlValue("0") & ", "
-   Sql = Sql & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeContribuyente.eTD_NOCONTRIBUYENTE) & ", "
-   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & ", " & gUtilSQL.fSimpleSqlValue("") & ", " & gUtilSQL.fSimpleSqlValue("")
-   Sql = Sql & ")"
+            vSQL.AppendLine(" INSERT INTO dbo.Cliente(" +
+                "ConsecutivoCompania,Consecutivo,Codigo,Nombre,Ciudad,Status,ZonaDeCobranza,CodigoVe," +
+                "NumeroRif,ActivarAvisoA,CorrespondenciaXenviar,EsExtranjero,NombreOperador," +
+                "FechaUltimaModificacion,Contacto,Email,Telefono,DiaCumpleanos,MesCumpleanos,Fax," +
+                "Direccion,ZonaPostal,sectorDeNegocio,Origen,nivelDePrecio,TipoDeContribuyente," +
+                "CuentaContableCxc,CuentaContableIngresos,CuentaContableAnticipo)" +
+                "VALUES(@ConsecutivoCompania,@Consecutivo,@Codigo,@Nombre,@Ciudad,@Status," +
+                "@ZonaDeCobranza,@CodigoVe,@NumeroRif,@ActivarAvisoA,@CorrespondenciaXenviar," +
+                "@EsExtranjero,@NombreOperador,@FechaUltimaModificacion,@Contacto,@Email,@Telefono," +
+                "@DiaCumpleanos,@MesCumpleanos, @Fax,@Direccion,@ZonaPostal,@sectorDeNegocio,@Origen," +
+                "@nivelDePrecio,@TipoDeContribuyente,@CuentaContableCxc,@CuentaContableIngresos," +
+                "@CuentaContableAnticipo)");
+
             return vSQL.ToString();
         }
 
