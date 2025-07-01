@@ -178,7 +178,6 @@ namespace Galac.Saw.Uil.Cliente.ViewModel {
                 IClientePdn vCliente = new clsClienteNav();
                 //if (vCliente.BuscarClienteResumenDiario(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"))) {
                 if (vCliente.BuscarClienteResumenDiario()) {
-
                     LibMessages.MessageBox.Information(this, $"El Cliente de resumen diario ya existe .", ModuleName);
                 } else {
                     vCliente.InsertarClienteResumenDiario();

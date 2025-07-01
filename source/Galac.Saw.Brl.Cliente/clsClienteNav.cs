@@ -574,49 +574,117 @@ namespace Galac.Saw.Brl.Cliente {
 
             return ExisteElCodigoDeCliente("RD_Cliente");
         }
-
         bool IClientePdn.InsertarClienteResumenDiario() {
-            Entity.Cliente vCliente = new Entity.Cliente();
-            //llenar los campos que voy a insertar
-            vCliente.Nombre = "Resumen Diario de Ventas - Cliente";
-            vCliente.NumeroRIF = "";
-            vCliente.Direccion = "";
-            vCliente.Telefono = "";
-            vCliente.ClienteDesdeFecha = LibDate.Today();
-            vCliente.CodigoVendedor = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "CodigoGenericoVendedor");
-            vCliente.SectorDeNegocio = "No Asignado";
-            vCliente.StatusAsEnum = eStatusCliente.Activo;
-            vCliente.Ciudad = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "Ciudad");
-            vCliente.ZonaDeCobranza = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "Ciudad");
-            vCliente.TipoDocumentoIdentificacion = "";
+            StringBuilder vSQL = new StringBuilder();
+            bool vResult = false;
+            LibGpParams vParams = new LibGpParams();
 
-            RegisterClient();
-            QAdvSql vQAdvSQL = new QAdvSql("");
-            StringBuilder vParam = new StringBuilder();
-
-            vParam.AppendLine(" ConsecutivoCompania = " + vQAdvSQL.ToSqlValue(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")));
-            vParam.AppendLine(" AND  Codigo NOT IN (" + vQAdvSQL.ToSqlValue("RD_Cliente") + ", " + vQAdvSQL.ToSqlValue("000000000A") + ")");
-
-            LibGalac.Aos.Dal.LibDatabase insDb = new LibGalac.Aos.Dal.LibDatabase(Galac.Saw.Ccl.Cliente.clsCkn.ConfigKeyForDbService);
-            vCliente.Codigo = insDb.NextStrConsecutive("Cliente", "Codigo", new QAdvSql("").SqlIntValueWithAnd("", "ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")) + " AND Codigo <> '000000000A' AND codigo <> 'RD_Cliente'", true, 10);
-            vCliente.ConsecutivoVendedor = BuscarConsecutivoVendedor(vCliente.CodigoVendedor);
-            if (ExisteElCodigoDeCliente(vCliente.Codigo)) {
-                vCliente.Codigo = GeneraCodigoClienteRapidoSinCast();
-            }
-            if (ExisteElCodigoDeCliente(vCliente.Codigo)) {
-                vCliente.Codigo = GeneraCodigoClienteRapidoConCast();
-            }
-           
-            List<Entity.Cliente> vList = new List<Entity.Cliente>();
-            vList.Add(vCliente);
-            _Db.Insert(vList, false);
-
-            return true;
+            vParams.AddInDateTime("FechaDeVigencia", valFechaVigencia);
+            vParams.AddInString("CodigoMoneda", valMoneda, 4);
+            vParams.AddInString("Nombre", valNombre, 80);
+            vParams.AddInDecimal("CambioAbolivares", valCambioAbolivares, 4);
+            vParams.AddInString("NombreOperador", ((CustomIdentity)System.Threading.Thread.CurrentPrincipal.Identity).Login, 10);
+            vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
+            vParams.AddInInteger("ConsucutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+            //SET PARAMETROS
+            //SET SQL
+            //EXEC SQL
+            vResult = LibBusiness.ExecuteUpdateOrDelete(SqlInsertarClienteResumen(), vParams.Get(), "", 0) > 0;
+            return vResult;
         }
-       
 
-    } //End of class clsClienteNav
 
-} //End of namespace Galac.Saw.Brl.Clientes
+        private string SqlInsertarClienteResumen() {
+
+            /* Cosntruyo el query  con la estructura 
+             *  vSQL.AppendLine("INSERT INTO dbo.Cambio (campo1,campo2,campo...n) values(@param1,@param2,@param...n))*/
+            StringBuilder vSQL = new StringBuilder();
+
+            vSQL.AppendLine("INSERT INTO dbo.cliente @ConsecutivoCompania" );
+            vSQL.AppendLine()
+   Sql = Sql & "Consecutivo, "
+   Sql = Sql & "Codigo, Nombre, "
+   Sql = Sql & "Ciudad, Status, "
+   Sql = Sql & "ZonaDeCobranza, CodigoVendedor, ConsecutivoVendedor, "
+   Sql = Sql & "NumeroRif, ActivarAvisoAlEscoger, "
+   Sql = Sql & "CorrespondenciaXenviar, "
+   Sql = Sql & "EsExtranjero, "
+   Sql = Sql & "NombreOperador, FechaUltimaModificacion, "
+   Sql = Sql & "Contacto, Email, "
+   Sql = Sql & "Telefono, DiaCumpleanos, "
+   Sql = Sql & "MesCumpleanos, "
+   Sql = Sql & "Fax, Direccion, "
+   Sql = Sql & "ZonaPostal,"
+   Sql = Sql & "sectorDeNegocio,"
+   Sql = Sql & "Origen,"
+   Sql = Sql & "nivelDePrecio,"
+   Sql = Sql & "TipoDeContribuyente,"
+   Sql = Sql & "CuentaContableCxc,"
+   Sql = Sql & "CuentaContableIngresos,"
+   Sql = Sql & "CuentaContableAnticipo"
+   Sql = Sql & " ) VALUES (" & valConsecutivoCompania & ", " & fGenerateNextConsecutivo() & ", "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue(valCodigo) & ", " & gUtilSQL.fSimpleSqlValue(valNombre) & ", "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue(gProyCompaniaActual.GetCiudad) & ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCliente.eSC_ACTIVO) & ", "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue(gProyCompaniaActual.GetCiudad) & ", " & gUtilSQL.fSimpleSqlValue("00001") & ", 1, "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue(valNumeroRIF) & ", " & gUtilSQL.fBooleanToSqlValue(False) & ", " & gUtilSQL.fBooleanToSqlValue(False) & ", "
+   Sql = Sql & gUtilSQL.fBooleanToSqlValue(False) & ", "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue(gProyUsuarioActual.GetNombreDelUsuario) & ", " & gUtilSQL.fDateToSQLValue(gUtilDate.getFechaDeHoy) & ", "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & ", " & gUtilSQL.fSimpleSqlValue("") & ", "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & ", " & 0 & ", "
+   Sql = Sql & 0 & ", "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & ", " & gUtilSQL.fSimpleSqlValue("") & ", "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & ", "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("No Asignado") & ", "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("0") & ", "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("0") & ", "
+   Sql = Sql & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeContribuyente.eTD_NOCONTRIBUYENTE) & ", "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("") & ", " & gUtilSQL.fSimpleSqlValue("") & ", " & gUtilSQL.fSimpleSqlValue("")
+   Sql = Sql & ")"
+            return vSQL.ToString();
+        }
+
+        /*  bool IClientePdn.InsertarClienteResumenDiario() {
+              Entity.Cliente vCliente = new Entity.Cliente();
+              //llenar los campos que voy a insertar
+              vCliente.Nombre = "Resumen Diario de Ventas - Cliente";
+              vCliente.NumeroRIF = "";
+              vCliente.Direccion = "";
+              vCliente.Telefono = "";
+              vCliente.ClienteDesdeFecha = LibDate.Today();
+              vCliente.CodigoVendedor = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "CodigoGenericoVendedor");
+              vCliente.SectorDeNegocio = "No Asignado";
+              vCliente.StatusAsEnum = eStatusCliente.Activo;
+              vCliente.Ciudad = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "Ciudad");
+              vCliente.ZonaDeCobranza = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "Ciudad");
+              vCliente.TipoDocumentoIdentificacion = "";
+
+              RegisterClient();
+              QAdvSql vQAdvSQL = new QAdvSql("");
+              StringBuilder vParam = new StringBuilder();
+
+              vParam.AppendLine(" ConsecutivoCompania = " + vQAdvSQL.ToSqlValue(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")));
+              vParam.AppendLine(" AND  Codigo NOT IN (" + vQAdvSQL.ToSqlValue("RD_Cliente") + ", " + vQAdvSQL.ToSqlValue("000000000A") + ")");
+
+              LibGalac.Aos.Dal.LibDatabase insDb = new LibGalac.Aos.Dal.LibDatabase(Galac.Saw.Ccl.Cliente.clsCkn.ConfigKeyForDbService);
+              vCliente.Codigo = insDb.NextStrConsecutive("Cliente", "Codigo", new QAdvSql("").SqlIntValueWithAnd("", "ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")) + " AND Codigo <> '000000000A' AND codigo <> 'RD_Cliente'", true, 10);
+              vCliente.ConsecutivoVendedor = BuscarConsecutivoVendedor(vCliente.CodigoVendedor);
+              if (ExisteElCodigoDeCliente(vCliente.Codigo)) {
+                  vCliente.Codigo = GeneraCodigoClienteRapidoSinCast();
+              }
+              if (ExisteElCodigoDeCliente(vCliente.Codigo)) {
+                  vCliente.Codigo = GeneraCodigoClienteRapidoConCast();
+              }
+
+              List<Entity.Cliente> vList = new List<Entity.Cliente>();
+              vList.Add(vCliente);
+              _Db.Insert(vList, false);
+
+              return true;
+          }*/
+
+
+        } //End of class clsClienteNav
+
+    } //End of namespace Galac.Saw.Brl.Clientes
 
 
